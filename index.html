@@ -301,7 +301,7 @@ $('today').innerHTML='Hoje, '+DAYS[dow]+', rezamos os <strong>'+todaySet.name+'<
   $('saint-date').textContent=DAYS[dow]+', '+now.getDate()+' de '+MONTHS[now.getMonth()];
   const sm=parseInt(shownKey.slice(0,2),10)-1,sd=parseInt(shownKey.slice(3),10);
   const img=entry.image
-    ? '<figure class="photo"><img src="'+esc(entry.image.src)+'" alt="'+esc(entry.image.alt||entry.name)+'"><figcaption>'+esc(entry.image.credit||'')+'</figcaption></figure>'
+    ? '<figure class="photo"><img src="'+esc(entry.image.src)+'" alt="'+esc(entry.image.alt||entry.name)+'" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest(\'figure\').hidden=true"><figcaption>'+(entry.image.pageUrl?'<a href="'+esc(entry.image.pageUrl)+'" target="_blank" rel="noopener">'+esc(entry.image.credit||'Fonte da imagem')+'</a>':esc(entry.image.credit||''))+(entry.image.license?' · '+esc(entry.image.license):'')+'</figcaption></figure>'
     : '<div class="frame" role="img" aria-label="Espaço reservado para a imagem de '+esc(entry.name)+'"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="30" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="40" cy="40" r="24" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/></svg><span>Imagem a definir</span></div>';
   const ps=a=>a.map(p=>'<p>'+esc(p)+'</p>').join('');
   const notice=fallback?'<p class="notice">O santo deste dia ainda não foi cadastrado. Aqui está o último, de '+sd+' de '+MONTHS[sm]+'.</p>':'';
