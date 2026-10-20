@@ -1,0 +1,377 @@
+<title>Santo Terço</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+/* Layout: coluna única e estreita, leitura de oração. Cabeçalho fixo, héroi alinhado à esquerda,
+   a cor de destaque muda conforme o conjunto de mistérios (do dia no topo, o escolhido na seção). */
+:root{
+  --paper:#f1f0f5; --paper-2:#e6e4ee; --ink:#1d2036; --muted:#575a73; --line:#cdcade;
+  --c-goz:#a8477a; --c-lum:#8a5f00; --c-dol:#7b2a3c; --c-glo:#2a6a8c;
+  --on-accent:#ffffff;
+  --accent:var(--c-dol);
+  --display:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --text:'Newsreader',Georgia,'Times New Roman',serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#14172a; --paper-2:#1c2038; --ink:#e9e7f2; --muted:#a3a6bd; --line:#2f3454;
+    --c-goz:#e48cbb; --c-lum:#e2b657; --c-dol:#e88d9f; --c-glo:#82c2e2; --on-accent:#14172a; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#14172a; --paper-2:#1c2038; --ink:#e9e7f2; --muted:#a3a6bd; --line:#2f3454;
+  --c-goz:#e48cbb; --c-lum:#e2b657; --c-dol:#e88d9f; --c-glo:#82c2e2; --on-accent:#14172a; color-scheme:dark;
+}
+.set-gozosos{--accent:var(--c-goz)}
+.set-luminosos{--accent:var(--c-lum)}
+.set-dolorosos{--accent:var(--c-dol)}
+.set-gloriosos{--accent:var(--c-glo)}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--text);font-size:19px;line-height:1.62;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+a{color:inherit}
+button{font:inherit;color:inherit}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.in{max-width:46rem;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0 0 1rem}
+
+/* cabeçalho */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:1px solid var(--line)}
+.top .in{display:flex;flex-wrap:wrap;align-items:center;gap:.2rem 1.4rem;padding-block:.55rem}
+.brand{font-family:var(--display);font-weight:600;font-size:1.45rem;text-decoration:none;margin-right:auto}
+.top nav{display:flex;gap:1.3rem;flex-wrap:wrap}
+.top nav a{text-decoration:none;font-size:.95rem;color:var(--muted)}
+.top nav a:hover{color:var(--ink)}
+.theme{background:none;border:1px solid var(--line);border-radius:2rem;padding:.2rem .75rem;font-size:.8rem;color:var(--muted);cursor:pointer}
+section[id]{scroll-margin-top:4.6rem}
+
+/* héroi */
+.hero{padding-block:3.2rem 1.6rem}
+.hero h1{font-size:clamp(2.6rem,9vw,4.4rem);max-width:12ch;margin-bottom:1.3rem}
+.today{font-size:1.25rem;margin-bottom:1.4rem}
+.today strong{color:var(--accent);font-weight:500}
+.btn{display:inline-block;background:var(--accent);color:var(--on-accent);border:0;border-radius:2rem;padding:.7rem 1.5rem;font-size:1rem;cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.verse{margin:1.6rem 0 0;color:var(--muted);font-style:italic}
+.verse span{font-style:normal;font-size:.9rem}
+.beads{display:block;width:13.8rem;max-width:100%;height:auto;color:var(--accent);margin:2.4rem 0 .4rem}
+
+/* seções */
+.sec{padding-block:2.6rem}
+.sec h2{font-size:2.2rem;margin-bottom:.7rem}
+.lead{color:var(--muted);max-width:36rem}
+.prose{max-width:36rem}
+.prayer{white-space:pre-line}
+.small{font-size:.92rem;color:var(--muted)}
+.steps{color:var(--muted);font-style:italic;margin-top:1.2rem}
+details.pr{border-top:1px solid var(--line);max-width:36rem}
+details.pr:last-of-type{border-bottom:1px solid var(--line)}
+details.pr summary{cursor:pointer;padding:.7rem 0;font-family:var(--display);font-weight:600;font-size:1.25rem;list-style:none}
+details.pr summary::-webkit-details-marker{display:none}
+details.pr summary::after{content:"+";float:right;color:var(--accent)}
+details.pr[open] summary::after{content:"−"}
+details.pr p{margin:0 0 1rem}
+
+/* santo do dia */
+.saint{display:grid;grid-template-columns:14rem minmax(0,1fr);gap:1.6rem 2rem;margin-top:1.4rem;align-items:start}
+.frame{aspect-ratio:4/5;max-width:100%;background:var(--paper-2);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;color:var(--muted);font-size:.85rem;text-align:center;padding:1rem}
+.frame svg{width:4.4rem;height:auto;color:var(--accent)}
+figure.photo{margin:0}
+figure.photo img{display:block;width:100%;height:auto}
+figure.photo figcaption{font-size:.78rem;color:var(--muted);margin-top:.4rem}
+.saint h3{font-size:2.1rem;margin-bottom:.35rem}
+.kicker{color:var(--accent);margin-bottom:.2rem}
+.meta{color:var(--muted);font-size:.95rem;margin-bottom:1.1rem}
+.pull{margin:1.4rem 0;padding:0;font-family:var(--display);font-size:1.6rem;line-height:1.25;font-weight:500;font-style:italic}
+.pull small{display:block;font-family:var(--text);font-style:normal;font-size:.8rem;color:var(--muted);margin-top:.4rem}
+.src{margin-top:1.4rem;font-size:.9rem;color:var(--muted)}
+.src ul{margin:.3rem 0 0;padding-left:1.1rem}
+.notice{background:var(--paper-2);border:1px solid var(--line);padding:.6rem .9rem;font-size:.92rem;color:var(--muted);margin-top:1rem}
+
+/* mistérios */
+.tabs{display:flex;flex-wrap:wrap;gap:.1rem 1.6rem;border-bottom:1px solid var(--line);margin-top:1.4rem}
+.tab{background:none;border:0;padding:.55rem 0;margin-bottom:-1px;font-family:var(--display);font-weight:600;font-size:1.3rem;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab small{font-family:var(--text);font-weight:400;font-size:.72rem;color:var(--accent);margin-left:.35rem}
+.panel-head{margin:1.4rem 0 .2rem}
+.panel-head p{margin:0 0 .3rem}
+.decades{list-style:none;margin:1.2rem 0 0;padding:0}
+.decades>li{display:grid;grid-template-columns:3rem minmax(0,1fr);gap:.2rem .6rem;padding:1.5rem 0;border-top:1px solid var(--line)}
+.ord{font-family:var(--display);font-weight:600;font-size:2.4rem;line-height:1;color:var(--accent)}
+.decades h3{font-size:1.65rem;margin-bottom:.8rem}
+.decades blockquote{margin:0 0 .9rem;font-style:italic}
+.decades cite{display:block;font-style:normal;font-size:.85rem;color:var(--muted);margin-top:.15rem}
+.virtue{font-weight:500;margin:0}
+.after{border-top:1px solid var(--line);padding-top:1.4rem}
+.next{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.8rem}
+.next button{background:none;border:1px solid var(--accent);color:var(--ink);border-radius:2rem;padding:.5rem 1.1rem;cursor:pointer;font-size:.98rem}
+.next button:hover{background:var(--accent);color:var(--on-accent)}
+.week{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.6rem,1fr));gap:.4rem 1.2rem;margin:.9rem 0 0;padding:0;list-style:none}
+.week li{display:flex;justify-content:space-between;gap:.6rem;border-bottom:1px solid var(--line);padding:.35rem 0;font-size:.95rem}
+.week li.is-today{font-weight:500}
+.week li.is-today span:last-child{color:var(--accent)}
+.week span:first-child{color:var(--muted)}
+.week li.is-today span:first-child{color:var(--ink)}
+.end{border-top:1px solid var(--line);margin-top:1rem}
+.foot{padding-block:2rem 3rem;color:var(--muted);font-size:.9rem}
+
+@media (max-width:640px){
+  body{font-size:18px}
+  .saint{grid-template-columns:minmax(0,1fr)}
+  .frame{max-width:15rem}
+  .decades>li{grid-template-columns:minmax(0,1fr)}
+  .ord{font-size:1.9rem}
+  .hero{padding-top:2.2rem}
+}
+</style>
+
+<header class="top">
+  <div class="in">
+    <a class="brand" href="#inicio">Santo Terço</a>
+    <nav aria-label="Seções">
+      <a href="#santo">Santo do dia</a>
+      <a href="#misterios">Mistérios</a>
+      <a href="#oracoes">Orações</a>
+    </nav>
+    <button class="theme" id="theme" type="button" aria-label="Alternar tema claro e escuro">Claro / escuro</button>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="hero in" id="hero">
+    <h1>Com Maria, contemplar Cristo.</h1>
+    <p class="today" id="today"></p>
+    <button class="btn" id="go-today" type="button">Rezar os mistérios de hoje</button>
+    <p class="verse">Faça-se em mim segundo a tua palavra. <span>Lucas 1,38</span></p>
+    <svg class="beads" viewBox="0 0 224 14" role="presentation" aria-hidden="true"><line x1="3" y1="7" x2="211" y2="7" stroke="currentColor" stroke-width="1" opacity=".5"/><g fill="currentColor"><circle cx="6" cy="7" r="3"/><circle cx="26" cy="7" r="3"/><circle cx="46" cy="7" r="3"/><circle cx="66" cy="7" r="3"/><circle cx="86" cy="7" r="3"/><circle cx="106" cy="7" r="3"/><circle cx="126" cy="7" r="3"/><circle cx="146" cy="7" r="3"/><circle cx="166" cy="7" r="3"/><circle cx="186" cy="7" r="3"/><circle cx="210" cy="7" r="6"/></g></svg>
+  </section>
+
+  <section class="sec in" id="oracoes">
+    <h2>Oração introdutória</h2>
+    <p class="lead">Faça o sinal da cruz, reze o Credo e depois um Pai-Nosso, três Ave-Marias e um Glória ao Pai.</p>
+    <details class="pr" open>
+      <summary>Sinal da cruz</summary>
+      <p class="prayer">Pelo sinal da Santa Cruz, livrai-nos, Deus, nosso Senhor, dos nossos inimigos.
+Em nome do Pai, e do Filho, e do Espírito Santo. Amém.</p>
+    </details>
+    <details class="pr" open>
+      <summary>Credo</summary>
+      <p>Creio em Deus Pai todo-poderoso, criador do céu e da terra; e em Jesus Cristo, seu único Filho, nosso Senhor, que foi concebido pelo poder do Espírito Santo, nasceu da Virgem Maria, padeceu sob Pôncio Pilatos, foi crucificado, morto e sepultado; desceu à mansão dos mortos; ressuscitou ao terceiro dia; subiu aos céus, está sentado à direita de Deus Pai todo-poderoso, donde há de vir a julgar os vivos e os mortos. Creio no Espírito Santo, na santa Igreja Católica, na comunhão dos santos, na remissão dos pecados, na ressurreição da carne, na vida eterna. Amém.</p>
+    </details>
+    <details class="pr">
+      <summary>Pai-Nosso</summary>
+      <p>Pai nosso, que estais nos céus, santificado seja o vosso nome, venha a nós o vosso reino, seja feita a vossa vontade, assim na terra como no céu. O pão nosso de cada dia nos dai hoje, perdoai-nos as nossas ofensas, assim como nós perdoamos a quem nos tem ofendido, e não nos deixeis cair em tentação, mas livrai-nos do mal. Amém.</p>
+    </details>
+    <details class="pr">
+      <summary>Ave-Maria</summary>
+      <p>Ave Maria, cheia de graça, o Senhor é convosco, bendita sois vós entre as mulheres e bendito é o fruto do vosso ventre, Jesus. Santa Maria, Mãe de Deus, rogai por nós, pecadores, agora e na hora de nossa morte. Amém.</p>
+    </details>
+    <details class="pr">
+      <summary>Glória ao Pai</summary>
+      <p>Glória ao Pai, ao Filho e ao Espírito Santo. Como era no princípio, agora e sempre. Amém.</p>
+    </details>
+    <details class="pr">
+      <summary>Ó meu Jesus (ao fim de cada dezena)</summary>
+      <p>Ó meu Jesus, perdoai-nos, livrai-nos do fogo do inferno, levai as almas todas para o Céu e socorrei principalmente as que mais precisarem.</p>
+    </details>
+  </section>
+
+  <section class="sec in" id="santo" aria-live="polite">
+    <h2>Santo do dia</h2>
+    <p class="lead" id="saint-date"></p>
+    <div id="saint-out"></div>
+  </section>
+
+  <section class="sec in" id="misterios">
+    <h2>Os mistérios do Rosário</h2>
+    <p class="lead">Escolha o conjunto do dia ou siga a contemplação que desejar.</p>
+    <div class="tabs" role="tablist" aria-label="Conjuntos de mistérios" id="tabs"></div>
+    <div id="panel" role="tabpanel" aria-live="polite"></div>
+    <h3 style="margin-top:2.4rem;font-size:1.5rem">Guia semanal</h3>
+    <ul class="week" id="week"></ul>
+  </section>
+
+  <section class="sec in" id="concluir">
+    <svg class="beads" style="margin-top:0" viewBox="0 0 224 14" role="presentation" aria-hidden="true"><line x1="3" y1="7" x2="211" y2="7" stroke="currentColor" stroke-width="1" opacity=".5"/><g fill="currentColor"><circle cx="6" cy="7" r="3"/><circle cx="26" cy="7" r="3"/><circle cx="46" cy="7" r="3"/><circle cx="66" cy="7" r="3"/><circle cx="86" cy="7" r="3"/><circle cx="106" cy="7" r="3"/><circle cx="126" cy="7" r="3"/><circle cx="146" cy="7" r="3"/><circle cx="166" cy="7" r="3"/><circle cx="186" cy="7" r="3"/><circle cx="210" cy="7" r="6"/></g></svg>
+    <h2>Oração conclusiva</h2>
+    <details class="pr" open>
+      <summary>Salve-Rainha</summary>
+      <p>Salve, Rainha, Mãe de misericórdia, vida, doçura e esperança nossa, salve! A vós bradamos, os degredados filhos de Eva. A vós suspiramos, gemendo e chorando neste vale de lágrimas. Eia, pois, advogada nossa, esses vossos olhos misericordiosos a nós volvei. E depois deste desterro, mostrai-nos Jesus, bendito fruto do vosso ventre, ó clemente, ó piedosa, ó doce sempre Virgem Maria. Rogai por nós, santa Mãe de Deus, para que sejamos dignos das promessas de Cristo. Amém.</p>
+    </details>
+    <details class="pr" open>
+      <summary>Oração final</summary>
+      <p>Ó Deus, cujo Filho unigênito, por sua vida, morte e ressurreição, nos alcançou o prêmio da vida eterna, concedei-nos, nós vos suplicamos, que, meditando estes mistérios do Santíssimo Rosário da Bem-aventurada Virgem Maria, imitemos o que eles contêm e alcancemos o que prometem. Por Cristo, Senhor nosso. Amém.</p>
+    </details>
+    <p class="verse" style="margin-top:1.6rem">Maria conservava todas estas palavras, meditando-as no seu coração. <span>Lucas 2,19</span></p>
+    <p class="small">Uma pausa de fé, recolhimento e esperança.</p>
+  </section>
+</main>
+
+<footer class="foot in">Santo do dia com fontes citadas em cada dia. Meditações e virtudes dos mistérios conforme o guia de oração deste terço.</footer>
+
+<script>
+/* ---------- dados ---------- */
+const DAYS=['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
+const DAYS_SHORT=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+const MONTHS=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+
+const SETS=[
+{id:'gozosos',name:'Mistérios Gozosos',short:'Gozosos',theme:'A alegria da Encarnação e da infância de Jesus.',daysText:'Segundas-feiras e sábados',days:[1,6],decades:[
+ {t:'A Anunciação do Anjo a Nossa Senhora',ref:'Lc 1,38',q:'Maria respondeu: Eis aqui a serva do Senhor; que se cumpra em mim segundo a tua palavra.',m:'Contemplemos Maria acolhendo a mensagem do Arcanjo Gabriel. Mesmo sem compreender inteiramente os planos de Deus, entrega-se à Sua vontade, e o Verbo se faz carne em seu ventre.',v:'Peçamos a graça de humildade e obediência à vontade de Deus.'},
+ {t:'A Visitação de Nossa Senhora a Santa Isabel',ref:'Lc 1,42',q:'Isabel exclamou em alta voz: Bendita és tu entre as mulheres, e bendito é o fruto do teu ventre!',m:'Contemplemos Maria que, trazendo Jesus em seu ventre, vai apressadamente servir Isabel. A Mãe de Deus não procura honras, mas se coloca a serviço do próximo.',v:'Peçamos a graça de caridade fraterna e generosidade.'},
+ {t:'O Nascimento de Nosso Senhor Jesus Cristo',ref:'Lc 2,7',q:'Maria deu à luz seu filho primogênito, envolveu-o em faixas e deitou-o numa manjedoura, pois não havia lugar para eles na hospedaria.',m:'Contemplemos o Criador do universo nascendo pobre numa manjedoura. O Deus infinito se faz pequeno por amor a nós.',v:'Peçamos a graça de desapego dos bens terrenos e pobreza de espírito.'},
+ {t:'A Apresentação do Menino Jesus no Templo',ref:'Lc 2,35',q:'Simeão disse a Maria: Uma espada atravessará a tua própria alma, para que se revelem os pensamentos de muitos corações.',m:'Contemplemos Maria e José obedecendo à Lei e ouvindo de Simeão a profecia da espada que transpassaria a alma de Nossa Senhora. Maria acolhe tudo com fidelidade.',v:'Peçamos a graça de pureza de coração e fidelidade aos nossos deveres.'},
+ {t:'A Perda e o Encontro do Menino Jesus no Templo',ref:'Lc 2,49',q:'Jesus lhes respondeu: Por que me procuráveis? Não sabíeis que devo estar na casa de meu Pai?',m:'Contemplemos a angústia de Maria e José procurando Jesus por três dias e a alegria de reencontrá-lo no Templo. Nada se compara à presença do Senhor.',v:'Peçamos a graça de buscar a Deus acima de todas as coisas.'}
+]},
+{id:'luminosos',name:'Mistérios Luminosos',short:'Luminosos',theme:'A luz de Cristo manifestada ao mundo.',daysText:'Quintas-feiras',days:[4],decades:[
+ {t:'O Batismo de Jesus no Rio Jordão',ref:'Mt 3,17',q:'Uma voz vinda dos céus declarou: Este é meu Filho amado, em quem ponho minha alegria.',m:'Contemplemos Jesus, sem pecado, submetendo-se humildemente ao batismo de João. O Espírito Santo desce e a voz do Pai manifesta Seu Filho amado.',v:'Peçamos a graça de fidelidade às promessas do Batismo.'},
+ {t:'A Autorrevelação de Jesus nas Bodas de Caná',ref:'Jo 2,5',q:'Sua mãe disse aos serventes: Fazei tudo o que ele vos disser.',m:'Contemplemos Maria apresentando a Jesus a necessidade dos noivos. Por sua intercessão, Cristo transforma a água em vinho; ela nos ensina a fazer tudo o que Ele disser.',v:'Peçamos a graça de confiança na intercessão de Maria e obediência a Cristo.'},
+ {t:'O Anúncio do Reino de Deus e o Convite à Conversão',ref:'Mc 1,15',q:'Jesus anunciava: O tempo se cumpriu e o Reino de Deus está próximo. Convertei-vos e crede no Evangelho.',m:'Contemplemos Jesus anunciando o Reino, perdoando pecadores e chamando todos a abandonar o pecado e renovar a vida.',v:'Peçamos a graça de conversão sincera e perseverante.'},
+ {t:'A Transfiguração de Nosso Senhor',ref:'Mc 9,7',q:'Uma nuvem os envolveu, e dela veio uma voz: Este é meu Filho amado; escutai-o.',m:'Contemplemos a glória de Jesus manifestada a Pedro, Tiago e João. Antes da Paixão, Ele lhes oferece um vislumbre da glória futura.',v:'Peçamos a graça de fé e esperança nas tribulações.'},
+ {t:'A Instituição da Santíssima Eucaristia',ref:'Lc 22,19',q:'Jesus tomou o pão, deu graças, partiu-o e o entregou, dizendo: Isto é meu corpo, que é dado por vós. Fazei isto em memória de mim.',m:'Contemplemos Jesus na Última Ceia, oferecendo Seu Corpo e Sangue e permanecendo realmente presente entre nós sob as espécies eucarísticas.',v:'Peçamos a graça de amor ardente à Eucaristia e reverência na Comunhão.'}
+]},
+{id:'dolorosos',name:'Mistérios Dolorosos',short:'Dolorosos',theme:'A paixão de Cristo, amor levado até o fim.',daysText:'Terças-feiras e sextas-feiras',days:[2,5],decades:[
+ {t:'A Agonia de Jesus no Horto das Oliveiras',ref:'Lc 22,42',q:'Jesus rezava: Pai, se quiseres, afasta de mim este cálice. Contudo, não se faça a minha vontade, mas a tua.',m:'Contemplemos Jesus prostrado em oração no Getsêmani. Enquanto os discípulos dormem, Ele aceita livremente o cálice da Paixão e se submete à vontade do Pai.',v:'Peçamos a graça de contrição dos pecados e conformidade com a vontade divina.'},
+ {t:'A Flagelação de Nosso Senhor Jesus Cristo',ref:'Jo 19,1',q:'Então Pilatos mandou que Jesus fosse açoitado.',m:'Contemplemos o inocente Jesus sendo cruelmente açoitado. Seu corpo santíssimo sofre voluntariamente pela nossa redenção.',v:'Peçamos a graça de pureza e mortificação dos sentidos.'},
+ {t:'A Coroação de Espinhos',ref:'Mt 27,29',q:'Teceram uma coroa de espinhos, colocaram-na sobre sua cabeça e, ajoelhando-se diante dele, zombavam: Salve, rei dos judeus!',m:'Contemplemos o Rei do universo coroado de espinhos e ridicularizado pelos soldados. Jesus suporta as humilhações com mansidão.',v:'Peçamos a graça de humildade e desapego da aprovação humana.'},
+ {t:'Jesus Carrega a Cruz até o Calvário',ref:'Lc 9,23',q:'Jesus dizia a todos: Se alguém quer seguir-me, renuncie a si mesmo, tome sua cruz a cada dia e siga-me.',m:'Contemplemos Jesus enfraquecido carregando a Cruz até o Calvário. Cada passo manifesta Seu amor e Sua perseverança na obra da redenção.',v:'Peçamos a graça de paciência e perseverança nas dificuldades.'},
+ {t:'A Crucifixão e Morte de Nosso Senhor',ref:'Lc 23,34',q:'Jesus dizia: Pai, perdoa-lhes, pois não sabem o que fazem.',m:'Contemplemos Jesus pregado na Cruz, oferecendo Sua vida por nós e perdoando os que O crucificam. Maria permanece fiel ao pé da Cruz.',v:'Peçamos a graça de amor a Jesus crucificado, perdão e perseverança final.'}
+]},
+{id:'gloriosos',name:'Mistérios Gloriosos',short:'Gloriosos',theme:'A vitória de Cristo e a esperança da Igreja.',daysText:'Quartas-feiras e domingos',days:[3,0],decades:[
+ {t:'A Ressurreição de Nosso Senhor Jesus Cristo',ref:'Lc 24,6',q:'Os mensageiros disseram: Ele não está aqui; ressuscitou! Lembrai-vos do que vos disse quando ainda estava na Galileia.',m:'Contemplemos Cristo ressuscitado ao terceiro dia, vencedor do pecado e da morte. Nele nossa esperança encontra sua firmeza.',v:'Peçamos a graça de fé viva e renovação espiritual.'},
+ {t:'A Ascensão de Jesus aos Céus',ref:'Lc 24,51',q:'Enquanto os abençoava, Jesus afastou-se deles e foi elevado ao céu.',m:'Contemplemos Jesus subindo gloriosamente aos Céus. Ele não abandona Sua Igreja e nos recorda que nossa verdadeira pátria está junto do Pai.',v:'Peçamos a graça de desejo ardente do Céu.'},
+ {t:'A Descida do Espírito Santo sobre Nossa Senhora e os Apóstolos',ref:'At 2,4',q:'Todos ficaram cheios do Espírito Santo e começaram a falar em outras línguas, conforme o Espírito lhes concedia expressar-se.',m:'Contemplemos os Apóstolos reunidos em oração com Maria e recebendo o Espírito Santo, que transforma seu medo em coragem para anunciar o Evangelho.',v:'Peçamos a graça de docilidade ao Espírito Santo e zelo apostólico.'},
+ {t:'A Assunção de Nossa Senhora aos Céus',ref:'Lc 1,49',q:'Maria proclamou: O Poderoso fez em mim grandes coisas; santo é o seu nome.',m:'Contemplemos Maria elevada em corpo e alma à glória celestial, participando singularmente da vitória de seu Filho sobre a morte.',v:'Peçamos a graça de santa morte e verdadeira devoção à Virgem Maria.'},
+ {t:'A Coroação de Nossa Senhora como Rainha do Céu e da Terra',ref:'Ap 12,1',q:'Apareceu no céu um grande sinal: uma mulher revestida do sol, com a lua debaixo dos pés e uma coroa de doze estrelas sobre a cabeça.',m:'Contemplemos Maria glorificada como Rainha dos anjos e santos. A humilde serva do Senhor continua intercedendo amorosamente por seus filhos.',v:'Peçamos a graça de perseverança final e confiança na intercessão de Maria.'}
+]}
+];
+
+/* Santo do dia: uma entrada por data, no formato "MM-DD".
+   Para incluir outro dia, basta acrescentar uma entrada nova neste objeto. */
+const SAINTS={
+ '10-20':{
+  name:'Santa Maria Bertilla Boscardin',
+  kicker:'Virgem e enfermeira',
+  years:'1888 a 1922',
+  feast:'Festa em 20 de outubro',
+  patron:'Padroeira das pessoas rejeitadas, solitárias e vítimas de abuso.',
+  image:{src:'santa-bertilla.jpg',alt:'Ilustração de Santa Maria Bertilla Boscardin, de hábito azul-escuro, com um crucifixo e lírios nos braços',credit:'Ilustração: A12'},
+  paras:[
+   'Anna Francesca Boscardin nasceu em 6 de outubro de 1888, em Brendola, perto de Vicenza, no norte da Itália, numa família camponesa. Estudou pouco, porque precisava ajudar em casa e no campo. Segundo os depoimentos do processo de beatificação, seu pai era violento e bebia muito.',
+   'Aos 16 anos pediu para entrar na congregação das Irmãs Mestras de Santa Dorotéia, em Vicenza, apesar das dúvidas do seu pároco, e recebeu o nome de Maria Bertilla. Fez os votos em 8 de dezembro de 1907 e foi enviada ao hospital de Treviso. Trabalhou primeiro na cozinha e na lavanderia e depois se formou para cuidar dos doentes, sobretudo das crianças com difteria.',
+   'Na Primeira Guerra Mundial, quando as bombas alcançaram Treviso, ficou ao lado dos feridos e dos doentes que não podiam ser removidos. Depois de um retiro em 1914, escreveu o programa de sua vida:'
+  ],
+  quote:{text:'Jesus como modelo, Deus como meta, Maria como apoio, eu mesma como oferta.',note:'Programa de vida escrito após um retiro em 1914. Tradução livre da página do Vaticano.'},
+  paras2:[
+   'Um tumor doloroso exigiu cirurgia, e ela enfrentou a doença com confiança, mesmo quando o mal voltou depois da operação. Morreu em Treviso em 20 de outubro de 1922, aos 34 anos, pedindo às irmãs que trabalhassem somente para o Senhor.',
+   'Foi beatificada por Pio XII em 8 de junho de 1952 e canonizada por João XXIII em 11 de maio de 1961. Seu corpo repousa na capela dedicada a ela, em Vicenza.'
+  ],
+  sources:[
+   {l:'Estado da Cidade do Vaticano, Santo do dia (20 de outubro)',u:'https://vaticanstate.va/en/state-and-government/general-informations/saint-of-the-day/2854-october-20-saint-maria-bertilla-boscardin.html'},
+   {l:'Wikipédia, Maria Bertilla Boscardin',u:'https://en.wikipedia.org/wiki/Maria_Bertilla_Boscardin'},
+   {l:'Canção Nova, Santa Maria Bertilla Boscardin',u:'https://santo.cancaonova.com/santo/santa-maria-bertilla-boscardin-enfermeira-na-primeira-guerra-mundial/'}
+  ],
+  checked:'20 de outubro de 2026'
+ }
+};
+
+/* ---------- utilidades ---------- */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const now=new Date();
+const dow=now.getDay();
+const todaySet=SETS.find(s=>s.days.includes(dow));
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- topo ---------- */
+$('hero').classList.add('set-'+todaySet.id);
+$('today').innerHTML='Hoje, '+DAYS[dow]+', rezamos os <strong>'+todaySet.name+'</strong>.';
+
+/* ---------- santo do dia ---------- */
+(function(){
+  const key=String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+  let entry=SAINTS[key],fallback=false,shownKey=key;
+  if(!entry){const ks=Object.keys(SAINTS).sort();shownKey=ks[ks.length-1];entry=SAINTS[shownKey];fallback=true;}
+  $('saint-date').textContent=DAYS[dow]+', '+now.getDate()+' de '+MONTHS[now.getMonth()];
+  const sm=parseInt(shownKey.slice(0,2),10)-1,sd=parseInt(shownKey.slice(3),10);
+  const img=entry.image
+    ? '<figure class="photo"><img src="'+esc(entry.image.src)+'" alt="'+esc(entry.image.alt||entry.name)+'"><figcaption>'+esc(entry.image.credit||'')+'</figcaption></figure>'
+    : '<div class="frame" role="img" aria-label="Espaço reservado para a imagem de '+esc(entry.name)+'"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="30" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="40" cy="40" r="24" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/></svg><span>Imagem a definir</span></div>';
+  const ps=a=>a.map(p=>'<p>'+esc(p)+'</p>').join('');
+  const notice=fallback?'<p class="notice">O santo deste dia ainda não foi cadastrado. Aqui está o último, de '+sd+' de '+MONTHS[sm]+'.</p>':'';
+  $('saint-out').innerHTML=notice+
+   '<div class="saint set-gozosos"><div>'+img+'</div><div class="prose">'+
+   (entry.kicker?'<p class="kicker">'+esc(entry.kicker)+'</p>':'')+'<h3>'+esc(entry.name)+'</h3>'+
+   '<p class="meta">'+[entry.years,entry.feast,entry.patron].filter(Boolean).map(esc).join(' · ')+'</p>'+
+   ps(entry.paras||[])+
+   (entry.quote?'<blockquote class="pull">“'+esc(entry.quote.text)+'”'+(entry.quote.note?'<small>'+esc(entry.quote.note)+'</small>':'')+'</blockquote>':'')+
+   ps(entry.paras2||[])+
+   '<div class="src">Fontes, consultadas em '+esc(entry.checked)+':<ul>'+entry.sources.map(s=>'<li><a href="'+esc(s.u)+'" target="_blank" rel="noopener">'+esc(s.l)+'</a></li>').join('')+'</ul></div>'+
+   '</div></div>';
+})();
+
+/* ---------- mistérios ---------- */
+const tabsEl=$('tabs'),panelEl=$('panel'),mys=$('misterios');
+let current=todaySet.id;
+
+function renderTabs(){
+  tabsEl.innerHTML=SETS.map(s=>'<button class="tab set-'+s.id+'" role="tab" type="button" id="tab-'+s.id+'" data-id="'+s.id+'" aria-selected="'+(s.id===current)+'" aria-controls="panel" tabindex="'+(s.id===current?0:-1)+'">'+s.short+(s.id===todaySet.id?'<small>hoje</small>':'')+'</button>').join('');
+}
+function renderPanel(){
+  const i=SETS.findIndex(s=>s.id===current),s=SETS[i];
+  const others=[1,2,3].map(k=>SETS[(i+k)%SETS.length]);
+  panelEl.className='set-'+s.id;
+  panelEl.setAttribute('aria-labelledby','tab-'+s.id);
+  panelEl.innerHTML=
+   '<div class="panel-head"><p>'+esc(s.theme)+'</p><p class="small">'+esc(s.daysText)+'. Antes de cada dezena, contemple a cena e peça a virtude indicada.</p></div>'+
+   '<ol class="decades">'+s.decades.map((d,n)=>
+     '<li><span class="ord" aria-hidden="true">'+(n+1)+'º</span><div><h3>'+esc(d.t)+'</h3>'+
+     '<blockquote>'+esc(d.q)+'<cite>Passagem bíblica, '+esc(d.ref)+'</cite></blockquote>'+
+     '<p>'+esc(d.m)+'</p><p class="virtue">'+esc(d.v)+'</p></div></li>').join('')+'</ol>'+
+   '<div class="after"><p><strong>Para meditar:</strong> contemple a cena, examine sua vida e conserve a intenção durante as dez Ave-Marias.</p>'+
+   '<p class="small" style="margin:1rem 0 0">Terminou este conjunto? Continue com:</p>'+
+   '<div class="next">'+others.map(o=>'<button type="button" data-go="'+o.id+'">'+esc(o.name)+'</button>').join('')+'</div></div>';
+}
+function select(id,scroll){
+  current=id;renderTabs();renderPanel();
+  if(scroll){mys.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});}
+}
+tabsEl.addEventListener('click',e=>{const b=e.target.closest('.tab');if(b)select(b.dataset.id,false);});
+tabsEl.addEventListener('keydown',e=>{
+  if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;
+  const i=SETS.findIndex(s=>s.id===current),n=(i+(e.key==='ArrowRight'?1:-1)+SETS.length)%SETS.length;
+  select(SETS[n].id,false);$('tab-'+SETS[n].id).focus();
+});
+panelEl.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)select(b.dataset.go,true);});
+$('go-today').addEventListener('click',()=>select(todaySet.id,true));
+
+/* guia semanal (segunda a domingo) */
+$('week').innerHTML=[1,2,3,4,5,6,0].map(d=>{
+  const s=SETS.find(x=>x.days.includes(d));
+  return '<li class="'+(d===dow?'is-today':'')+'"><span>'+DAYS_SHORT[d]+'</span><span>'+s.short+'</span></li>';
+}).join('');
+
+/* abre um conjunto direto pelo endereço, por exemplo #dolorosos */
+(function(){
+  const h=(location.hash||'').slice(1);
+  if(SETS.some(s=>s.id===h)){current=h;}
+})();
+renderTabs();renderPanel();
+if(SETS.some(s=>s.id===(location.hash||'').slice(1))){setTimeout(()=>mys.scrollIntoView(),0);}
+
+/* ---------- tema ---------- */
+const root=document.documentElement;
+try{const t=localStorage.getItem('tema');if(t)root.setAttribute('data-theme',t);}catch(e){}
+$('theme').addEventListener('click',()=>{
+  const cur=root.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+  const nx=cur==='dark'?'light':'dark';
+  root.setAttribute('data-theme',nx);
+  try{localStorage.setItem('tema',nx);}catch(e){}
+});
+</script>
