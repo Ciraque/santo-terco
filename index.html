@@ -205,13 +205,22 @@ figure.art figcaption{font-size:.78rem;color:var(--muted);margin-top:1.1rem;line
 .intent-recall q{display:block;font-style:italic;margin-top:.3rem;white-space:pre-line}
 .intent-recall q::before,.intent-recall q::after{content:none}
 
-/* ladainha */
-.litany{max-width:36rem}
-.litany .open-lines p,.litany .close-lines p{margin:0 0 .35rem}
-.litany .resp{color:var(--muted)}
-.litany ul{columns:2;column-gap:1.6rem;margin:.8rem 0 1rem;padding:0;list-style:none}
-.litany li{break-inside:avoid;padding:.12rem 0}
-.litany .note{font-size:.9rem;color:var(--muted);font-style:italic;margin:.8rem 0 0}
+/* ladainha: diálogo ℣/℟ e invocações agrupadas por tema, com continhas douradas */
+.litany{max-width:36rem;padding-bottom:1rem}
+.lit-pairs{margin:0 0 1.4rem;padding:0;list-style:none}
+.lit-pairs li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.1rem 1.2rem;padding:.4rem 0;border-bottom:1px dashed var(--line)}
+.lit-pairs li:last-child{border-bottom:0}
+.lit-pairs .r{font-style:italic;color:var(--muted)}
+.vr{font-family:var(--display);font-weight:600;font-style:normal;color:var(--gold);margin-right:.35rem}
+.lit-group{margin:0 0 1.3rem}
+.lit-group h4{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin:0 0 .5rem;padding-bottom:.35rem;border-bottom:1px solid var(--gold);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;color:var(--gold)}
+.lit-group h4 span{font-family:var(--text);letter-spacing:0;text-transform:none;font-style:italic;font-size:.9rem;color:var(--muted)}
+.lit-group ul{columns:2;column-gap:1.6rem;margin:0;padding:0;list-style:none}
+.lit-group li{break-inside:avoid;position:relative;padding:.18rem 0 .18rem 1rem;line-height:1.4}
+.lit-group li::before{content:"";position:absolute;left:0;top:.72em;width:.38rem;height:.38rem;border-radius:50%;background:var(--gold)}
+.oremos{border-left:2px solid var(--gold);padding:.2rem 0 .2rem 1.1rem;margin:1.4rem 0 0}
+.oremos strong{display:block;font-family:var(--display);font-size:1.15rem;margin-bottom:.2rem}
+.litany .note{font-size:.85rem;color:var(--muted);font-style:italic;margin:1.2rem 0 0}
 
 /* divisor entre o terço e o dia a dia */
 .divider{padding-block:3rem 0;text-align:center}
@@ -255,7 +264,8 @@ details.pr.wide{max-width:none}
 
 @media (max-width:640px){
   body{font-size:18px}
-  .litany ul{columns:1}
+  .lit-group ul{columns:1}
+  .lit-pairs li{grid-template-columns:minmax(0,1fr)}
   .holy{padding:1.6rem 1rem 1.3rem}
   .holy .photo,.holy .frame{width:9.5rem}
   figure.art{padding:.9rem .9rem .7rem}
@@ -365,26 +375,29 @@ Em nome do Pai, e do Filho, e do Espírito Santo. Amém.</p>
     <details class="pr">
       <summary>Ladainha de Nossa Senhora</summary>
       <div class="litany">
-        <div class="open-lines">
-          <p>Senhor, tende piedade de nós. <span class="resp">Senhor, tende piedade de nós.</span></p>
-          <p>Jesus Cristo, tende piedade de nós. <span class="resp">Jesus Cristo, tende piedade de nós.</span></p>
-          <p>Senhor, tende piedade de nós. <span class="resp">Senhor, tende piedade de nós.</span></p>
-          <p>Jesus Cristo, ouvi-nos. <span class="resp">Jesus Cristo, ouvi-nos.</span></p>
-          <p>Jesus Cristo, atendei-nos. <span class="resp">Jesus Cristo, atendei-nos.</span></p>
-          <p>Deus, Pai do céu, <span class="resp">tende piedade de nós.</span></p>
-          <p>Deus Filho, Redentor do mundo, <span class="resp">tende piedade de nós.</span></p>
-          <p>Deus Espírito Santo, <span class="resp">tende piedade de nós.</span></p>
-          <p>Santíssima Trindade, que sois um só Deus, <span class="resp">tende piedade de nós.</span></p>
-        </div>
-        <p class="note">A cada invocação abaixo, responde-se: rogai por nós.</p>
-        <ul><li>Santa Maria</li><li>Santa Mãe de Deus</li><li>Santa Virgem das virgens</li><li>Mãe de Cristo</li><li>Mãe da Igreja</li><li>Mãe de misericórdia</li><li>Mãe da divina graça</li><li>Mãe da esperança</li><li>Mãe puríssima</li><li>Mãe castíssima</li><li>Mãe sempre virgem</li><li>Mãe imaculada</li><li>Mãe digna de amor</li><li>Mãe admirável</li><li>Mãe do bom conselho</li><li>Mãe do Criador</li><li>Mãe do Salvador</li><li>Virgem prudentíssima</li><li>Virgem venerável</li><li>Virgem louvável</li><li>Virgem poderosa</li><li>Virgem clemente</li><li>Virgem fiel</li><li>Espelho de perfeição</li><li>Sede da Sabedoria</li><li>Fonte de nossa alegria</li><li>Vaso espiritual</li><li>Tabernáculo da eterna glória</li><li>Moradia consagrada a Deus</li><li>Rosa mística</li><li>Torre de Davi</li><li>Torre de marfim</li><li>Casa de ouro</li><li>Arca da aliança</li><li>Porta do céu</li><li>Estrela da manhã</li><li>Saúde dos enfermos</li><li>Refúgio dos pecadores</li><li>Conforto dos migrantes</li><li>Consoladora dos aflitos</li><li>Auxílio dos cristãos</li><li>Rainha dos anjos</li><li>Rainha dos patriarcas</li><li>Rainha dos profetas</li><li>Rainha dos apóstolos</li><li>Rainha dos mártires</li><li>Rainha dos confessores da fé</li><li>Rainha das virgens</li><li>Rainha de todos os santos</li><li>Rainha concebida sem pecado original</li><li>Rainha assunta ao céu</li><li>Rainha do santo Rosário</li><li>Rainha da família</li><li>Rainha da paz</li></ul>
-        <div class="close-lines">
-          <p>Cordeiro de Deus, que tirais os pecados do mundo, <span class="resp">perdoai-nos, Senhor.</span></p>
-          <p>Cordeiro de Deus, que tirais os pecados do mundo, <span class="resp">ouvi-nos, Senhor.</span></p>
-          <p>Cordeiro de Deus, que tirais os pecados do mundo, <span class="resp">tende piedade de nós.</span></p>
-          <p>Rogai por nós, santa Mãe de Deus, <span class="resp">para que sejamos dignos das promessas de Cristo.</span></p>
-          <p><strong>Oremos.</strong> Senhor Deus, nós vos suplicamos que concedais a vossos servos lograr perpétua saúde de alma e corpo; e que, pela gloriosa intercessão da bem-aventurada sempre Virgem Maria, sejamos livres da presente tristeza e gozemos da eterna alegria. Por Cristo, nosso Senhor. Amém.</p>
-        </div>
+        <ul class="lit-pairs">
+          <li><span><span class="vr" aria-hidden="true">℣</span>Senhor, tende piedade de nós.</span><span class="r"><span class="vr" aria-hidden="true">℟</span>Senhor, tende piedade de nós.</span></li>
+          <li><span><span class="vr" aria-hidden="true">℣</span>Jesus Cristo, tende piedade de nós.</span><span class="r"><span class="vr" aria-hidden="true">℟</span>Jesus Cristo, tende piedade de nós.</span></li>
+          <li><span><span class="vr" aria-hidden="true">℣</span>Senhor, tende piedade de nós.</span><span class="r"><span class="vr" aria-hidden="true">℟</span>Senhor, tende piedade de nós.</span></li>
+          <li><span><span class="vr" aria-hidden="true">℣</span>Jesus Cristo, ouvi-nos.</span><span class="r"><span class="vr" aria-hidden="true">℟</span>Jesus Cristo, ouvi-nos.</span></li>
+          <li><span><span class="vr" aria-hidden="true">℣</span>Jesus Cristo, atendei-nos.</span><span class="r"><span class="vr" aria-hidden="true">℟</span>Jesus Cristo, atendei-nos.</span></li>
+          <li><span><span class="vr" aria-hidden="true">℣</span>Deus, Pai do céu,</span><span class="r"><span class="vr" aria-hidden="true">℟</span>tende piedade de nós.</span></li>
+          <li><span><span class="vr" aria-hidden="true">℣</span>Deus Filho, Redentor do mundo,</span><span class="r"><span class="vr" aria-hidden="true">℟</span>tende piedade de nós.</span></li>
+          <li><span><span class="vr" aria-hidden="true">℣</span>Deus Espírito Santo,</span><span class="r"><span class="vr" aria-hidden="true">℟</span>tende piedade de nós.</span></li>
+          <li><span><span class="vr" aria-hidden="true">℣</span>Santíssima Trindade, que sois um só Deus,</span><span class="r"><span class="vr" aria-hidden="true">℟</span>tende piedade de nós.</span></li>
+        </ul>
+        <div class="lit-group"><h4>Santa Maria<span>℟ rogai por nós</span></h4><ul><li>Santa Maria</li><li>Santa Mãe de Deus</li><li>Santa Virgem das virgens</li></ul></div>
+        <div class="lit-group"><h4>Mãe<span>℟ rogai por nós</span></h4><ul><li>Mãe de Cristo</li><li>Mãe da Igreja</li><li>Mãe de misericórdia</li><li>Mãe da divina graça</li><li>Mãe da esperança</li><li>Mãe puríssima</li><li>Mãe castíssima</li><li>Mãe sempre virgem</li><li>Mãe imaculada</li><li>Mãe digna de amor</li><li>Mãe admirável</li><li>Mãe do bom conselho</li><li>Mãe do Criador</li><li>Mãe do Salvador</li></ul></div>
+        <div class="lit-group"><h4>Virgem<span>℟ rogai por nós</span></h4><ul><li>Virgem prudentíssima</li><li>Virgem venerável</li><li>Virgem louvável</li><li>Virgem poderosa</li><li>Virgem clemente</li><li>Virgem fiel</li></ul></div>
+        <div class="lit-group"><h4>Figuras de Maria<span>℟ rogai por nós</span></h4><ul><li>Espelho de perfeição</li><li>Sede da Sabedoria</li><li>Fonte de nossa alegria</li><li>Vaso espiritual</li><li>Tabernáculo da eterna glória</li><li>Moradia consagrada a Deus</li><li>Rosa mística</li><li>Torre de Davi</li><li>Torre de marfim</li><li>Casa de ouro</li><li>Arca da aliança</li><li>Porta do céu</li><li>Estrela da manhã</li><li>Saúde dos enfermos</li><li>Refúgio dos pecadores</li><li>Conforto dos migrantes</li><li>Consoladora dos aflitos</li><li>Auxílio dos cristãos</li></ul></div>
+        <div class="lit-group"><h4>Rainha<span>℟ rogai por nós</span></h4><ul><li>Rainha dos anjos</li><li>Rainha dos patriarcas</li><li>Rainha dos profetas</li><li>Rainha dos apóstolos</li><li>Rainha dos mártires</li><li>Rainha dos confessores da fé</li><li>Rainha das virgens</li><li>Rainha de todos os santos</li><li>Rainha concebida sem pecado original</li><li>Rainha assunta ao céu</li><li>Rainha do santo Rosário</li><li>Rainha da família</li><li>Rainha da paz</li></ul></div>
+        <ul class="lit-pairs">
+          <li><span><span class="vr" aria-hidden="true">℣</span>Cordeiro de Deus, que tirais os pecados do mundo,</span><span class="r"><span class="vr" aria-hidden="true">℟</span>perdoai-nos, Senhor.</span></li>
+          <li><span><span class="vr" aria-hidden="true">℣</span>Cordeiro de Deus, que tirais os pecados do mundo,</span><span class="r"><span class="vr" aria-hidden="true">℟</span>ouvi-nos, Senhor.</span></li>
+          <li><span><span class="vr" aria-hidden="true">℣</span>Cordeiro de Deus, que tirais os pecados do mundo,</span><span class="r"><span class="vr" aria-hidden="true">℟</span>tende piedade de nós.</span></li>
+          <li><span><span class="vr" aria-hidden="true">℣</span>Rogai por nós, santa Mãe de Deus,</span><span class="r"><span class="vr" aria-hidden="true">℟</span>para que sejamos dignos das promessas de Cristo.</span></li>
+        </ul>
+        <div class="oremos"><strong>Oremos</strong>Senhor Deus, nós vos suplicamos que concedais a vossos servos lograr perpétua saúde de alma e corpo; e que, pela gloriosa intercessão da bem-aventurada sempre Virgem Maria, sejamos livres da presente tristeza e gozemos da eterna alegria. Por Cristo, nosso Senhor. Amém.</div>
         <p class="note">Ladainha Lauretana, com as invocações “Mãe de misericórdia”, “Mãe da esperança” e “Conforto dos migrantes”, acrescentadas pelo Papa Francisco em 2020. Fontes: <a href="https://pt.wikipedia.org/wiki/Ladainha_Lauretana" target="_blank" rel="noopener">Wikipédia</a> e <a href="https://www.vaticannews.va/pt/vaticano/news/2020-06/papa-francisco-acrescenta-tres-invocacoes-ladainha-nossa-senhora.html" target="_blank" rel="noopener">Vatican News</a>.</p>
       </div>
     </details>
