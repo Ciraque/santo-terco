@@ -207,13 +207,37 @@ figure.art figcaption{font-size:.78rem;color:var(--muted);margin-top:1.1rem;line
 .intent-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.5rem 1rem;margin-top:.6rem;font-size:.8rem;color:var(--muted)}
 .intent-btn{background:var(--accent);color:var(--on-accent);border:0;border-radius:2rem;padding:.4rem 1rem;font-size:.9rem;cursor:pointer}
 .intent-btn.ghost{background:none;color:var(--muted);border:1px solid var(--line)}
+.intent-actions{display:flex;gap:.5rem}
+.intent-list li{overflow:hidden;text-overflow:ellipsis}
+#intent-preview li,#intent-recall-list li{white-space:nowrap}
+.dlg-tabs{display:flex;gap:.4rem;padding:0 1.2rem .8rem}
+.dlg-tabs button{background:none;border:1px solid var(--line);border-radius:2rem;padding:.2rem .9rem;font-size:.85rem;color:var(--muted);cursor:pointer}
+.dlg-tabs button[aria-pressed="true"]{border-color:var(--accent);color:var(--ink);background:var(--paper-2)}
+.intent-read{flex:1;overflow:auto;margin:0 1.2rem;padding:.2rem .4rem 1rem 0;border-top:1px solid var(--line)}
+.intent-read .empty{color:var(--muted);font-style:italic;margin-top:1rem}
+.intent-read .offer,.intent-read .entrega{border-left:2px solid var(--gold);padding:.1rem 0 .1rem 1rem;margin:1.1rem 0;font-style:italic}
+.intent-read .lbl{display:block;font-style:normal;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.2rem}
+.intent-read .offer p,.intent-read .entrega p{margin:0 0 .4rem}
+.intent-read section{margin:1.2rem 0}
+.intent-read h4{display:flex;gap:.6rem;align-items:baseline;font-family:var(--display);font-weight:600;font-size:1.3rem;line-height:1.25;margin:0 0 .35rem}
+.intent-read h4 span{color:var(--gold);font-size:1.05rem;flex:none}
+.intent-read section p{margin:0 0 .6rem;padding-left:1.4rem}
+.intent-read .grp{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin:1rem 0 .2rem}
+.intent-read ul.simple{list-style:none;padding:0;margin:1rem 0}
+.intent-read ul.simple li{position:relative;padding:.2rem 0 .2rem 1rem}
+.intent-read ul.simple li::before{content:"";position:absolute;left:0;top:.75em;width:.36rem;height:.36rem;border-radius:50%;background:var(--gold)}
+.intent-edit{flex:1;display:flex;flex-direction:column;min-height:0}
+.intent-edit[hidden]{display:none}
+.intent-close{margin:.6rem 0 0;padding:.1rem 0 .1rem .9rem;border-left:2px solid var(--gold);font-style:italic}
+.intent-close p{margin:0 0 .3rem}
+.intent-link{background:none;border:0;padding:0;margin-top:.6rem;font-size:.88rem;color:var(--accent);text-decoration:underline;cursor:pointer}
 .intent-dlg{width:min(42rem,calc(100vw - 2rem));height:min(46rem,calc(100dvh - 2rem));max-width:none;max-height:none;padding:0;border:1px solid var(--gold);background:var(--paper);color:var(--ink)}
 .intent-dlg[open]{display:flex;flex-direction:column}
 .intent-dlg::backdrop{background:rgba(10,12,24,.55)}
 .intent-dlg header{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.2rem .4rem}
 .intent-dlg h3{font-size:1.6rem}
 .intent-dlg .tip{margin:0;padding:0 1.2rem .8rem;font-size:.88rem;color:var(--muted)}
-.intent-dlg textarea{flex:1;margin:0 1.2rem;resize:none;font:inherit;font-size:1rem;line-height:1.6;color:var(--ink);background:var(--paper-2);border:1px solid var(--line);padding:.8rem .9rem}
+.intent-dlg textarea{flex:1;min-height:0;margin:0 1.2rem;resize:none;font:inherit;font-size:1rem;line-height:1.6;color:var(--ink);background:var(--paper-2);border:1px solid var(--line);padding:.8rem .9rem}
 .intent-dlg textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
 .intent-dlg footer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem 1rem;padding:.8rem 1.2rem 1rem;font-size:.8rem;color:var(--muted)}
 .intent-dlg footer div{display:flex;gap:.5rem}
@@ -364,7 +388,7 @@ Em nome do Pai, e do Filho, e do Espírito Santo. Amém.</p>
       <p id="intent-invite">Ofereça este terço a Deus. Por quem ou pelo que você vai rezar hoje? Apresente seus pedidos, agradecimentos e as pessoas que leva no coração.</p>
       <ul class="intent-list" id="intent-preview" hidden></ul>
       <p class="intent-more" id="intent-more" hidden></p>
-      <div class="intent-foot"><span id="intent-info">Fica guardado só neste aparelho. Ninguém mais vê.</span><button type="button" class="intent-btn" id="intent-open">Escrever intenções</button></div>
+      <div class="intent-foot"><span id="intent-info">Fica guardado só neste aparelho. Ninguém mais vê.</span><span class="intent-actions"><button type="button" class="intent-btn ghost" id="intent-edit-btn" hidden>Editar</button><button type="button" class="intent-btn" id="intent-open">Escrever intenções</button></span></div>
     </div>
     <details class="pr" open>
       <summary>Credo</summary>
@@ -399,7 +423,7 @@ Em nome do Pai, e do Filho, e do Espírito Santo. Amém.</p>
   <section class="sec in step" id="concluir">
     <p class="step-kicker">3º passo · Conclusão</p>
     <h2>Oração conclusiva</h2>
-    <div class="intent-recall" id="intent-recall" hidden><p>Entregue a Nossa Senhora as intenções que você ofereceu no início:</p><ul class="intent-list" id="intent-recall-list"></ul><details class="intent-all" id="intent-all" hidden><summary id="intent-all-label"></summary><ul class="intent-list" id="intent-all-list"></ul></details></div>
+    <div class="intent-recall" id="intent-recall" hidden><p>Entregue a Nossa Senhora as intenções que você ofereceu no início:</p><ul class="intent-list" id="intent-recall-list"></ul><details class="intent-all" id="intent-all" hidden><summary id="intent-all-label"></summary><ul class="intent-list" id="intent-all-list"></ul></details><blockquote class="intent-close" id="intent-close" hidden></blockquote><button type="button" class="intent-link" id="intent-read-btn">Ler as intenções completas</button></div>
     <details class="pr" open>
       <summary>Salve-Rainha</summary>
       <p>Salve, Rainha, Mãe de misericórdia, vida, doçura e esperança nossa, salve! A vós bradamos, os degredados filhos de Eva. A vós suspiramos, gemendo e chorando neste vale de lágrimas. Eia, pois, advogada nossa, esses vossos olhos misericordiosos a nós volvei. E depois deste desterro, mostrai-nos Jesus, bendito fruto do vosso ventre, ó clemente, ó piedosa, ó doce sempre Virgem Maria. Rogai por nós, santa Mãe de Deus, para que sejamos dignos das promessas de Cristo. Amém.</p>
@@ -508,9 +532,13 @@ In nomine Patris, et Filii, et Spiritus Sancti. Amen.</p></div></div>
 
 <dialog class="intent-dlg" id="intent-dlg" aria-labelledby="intent-dlg-title">
   <header><h3 id="intent-dlg-title">Minhas intenções</h3><button type="button" class="intent-btn" data-close>Pronto</button></header>
-  <p class="tip">Escreva uma intenção por linha. Pode colar uma lista do Notion ou de outro lugar; linhas que terminam com dois-pontos (ex.: “Família:”) viram títulos de grupo.</p>
-  <textarea id="intent" aria-label="Minhas intenções" placeholder="Pela saúde da minha mãe&#10;Pelas almas do purgatório&#10;Em ação de graças por…"></textarea>
-  <footer><span>Fica guardado só neste aparelho. Ninguém mais vê.</span><div><button type="button" class="intent-btn ghost" id="intent-clear">Apagar tudo</button><button type="button" class="intent-btn" data-close>Pronto</button></div></footer>
+  <div class="dlg-tabs" role="group" aria-label="Modo"><button type="button" data-mode="rezar" aria-pressed="true">Rezar</button><button type="button" data-mode="editar" aria-pressed="false">Editar</button></div>
+  <div class="intent-read" id="intent-read"></div>
+  <div class="intent-edit" id="intent-edit" hidden>
+    <p class="tip">Cole aqui suas intenções. Funciona de dois jeitos: uma intenção por linha, ou como no Notion, com títulos (cabeçalhos ou linhas numeradas, como “1. Pelo Brasil”) seguidos do texto da oração. O que vier antes da primeira intenção vira a oração de oferecimento; o que vier depois de uma linha divisória, no fim, vira a oração de entrega.</p>
+    <textarea id="intent" aria-label="Minhas intenções" placeholder="Pela saúde da minha mãe&#10;Pelas almas do purgatório&#10;Em ação de graças por…"></textarea>
+  </div>
+  <footer><span>Fica guardado só neste aparelho. Ninguém mais vê.</span><div><button type="button" class="intent-btn ghost" id="intent-clear" hidden>Apagar tudo</button><button type="button" class="intent-btn" data-close>Pronto</button></div></footer>
 </dialog>
 
 <div class="player" id="player" hidden>
@@ -823,7 +851,52 @@ if(SETS.some(s=>s.id===(location.hash||'').slice(1))){setTimeout(()=>mys.scrollI
 
 /* ---------- intenções ---------- */
 /* Guardadas só no navegador da pessoa (localStorage); nada é enviado a lugar nenhum.
-   Uma intenção por linha; marcadores colados (-, •, *, 1.) são ignorados e linhas com ":" no fim viram títulos. */
+   Entende dois formatos ao colar:
+   1) lista simples: uma intenção por linha (marcadores -, •, 1. são ignorados; "Família:" vira título de grupo);
+   2) documento com títulos, como no Notion: cabeçalhos (## 1. Pelo Brasil) ou linhas numeradas seguidas de texto.
+      O que vem antes do primeiro título é o oferecimento; o que vem depois de uma divisória (---) no fim, ou em
+      citação (>), é a entrega; um cabeçalho de nível acima (#) encerra a leitura (ex.: outra seção do documento).
+      Sem marcações, um parágrafo terminado em "Amém" depois das intenções é a entrega e encerra a leitura. */
+function parseIntentions(text){
+  const L=text.replace(/\r/g,'').split('\n'),numRe=/^\d+[.)]\s+\S/,bulletRe=/^([-•*▪◦–]|\[[ xX]?\])\s+/;
+  const clean=s=>s.trim().replace(bulletRe,'').trim();
+  const res={opening:[],items:[],closing:[]};
+  const hasHash=L.some(l=>/^\s*#{1,6}\s+\S/.test(l));
+  let numMode=false;
+  if(!hasHash)for(let i=0;i<L.length&&!numMode;i++){
+    if(!numRe.test(L[i].trim()))continue;
+    let j=i+1;while(j<L.length&&!L[j].trim())j++;
+    if(j<L.length&&!numRe.test(L[j].trim())&&!bulletRe.test(L[j].trim()))numMode=true;
+  }
+  if(!hasHash&&!numMode){
+    for(const raw of L){
+      const l=clean(raw.replace(/^\s*\d+[.)]\s*/,''));if(!l)continue;
+      res.items.push(/:$/.test(l)?{t:l.slice(0,-1),h:true,body:[]}:{t:l,h:false,body:[]});
+    }
+    return res;
+  }
+  let lvl=0,cur=null,afterDivider=false;
+  for(const raw of L){
+    const l=raw.trim();if(!l)continue;
+    if(/^([-*_])\1{2,}$/.test(l)){if(res.items.length)afterDivider=true;continue;}
+    let m=l.match(/^(#{1,6})\s+(.*)$/),level=0,title=null;
+    if(m){level=m[1].length;title=m[2];}else if(numMode&&numRe.test(l)){level=2;title=l;}
+    if(title!==null){
+      if(res.items.length&&level<lvl)break;
+      if(!lvl)lvl=level;
+      if(level>lvl){if(cur)cur.body.push(clean(title));continue;}
+      if(res.closing.length&&cur){cur.body.push(...res.closing);res.closing=[];}
+      cur={t:clean(title.replace(/^\d+[.)]\s*/,'')),h:false,body:[]};res.items.push(cur);afterDivider=false;continue;
+    }
+    const q=l.match(/^>\s?(.*)$/),txt=clean(q?q[1]:l);
+    if(!txt)continue;
+    if(!res.items.length)res.opening.push(txt);
+    else if(q||afterDivider)res.closing.push(txt);
+    else if(numMode&&/Amém[.!]?\**$/.test(txt)){res.closing.push(txt);break;}
+    else cur.body.push(txt);
+  }
+  return res;
+}
 (function(){
   const box=$('intent'),dlg=$('intent-dlg'),info=$('intent-info');
   const KEY='intencoes',base='Fica guardado só neste aparelho. Ninguém mais vê.',SHOW=3;
@@ -834,13 +907,11 @@ if(SETS.some(s=>s.id===(location.hash||'').slice(1))){setTimeout(()=>mys.scrollI
     box.value=saved.text;
     if(saved.day&&saved.day!==todayStr&&saved.label)info.textContent='Escritas em '+saved.label+'. '+base;
   }
-  function parse(){
-    return box.value.split('\n').map(l=>l.trim().replace(/^(\[[ xX]?\]|[-•*–·▪◦]|\d+[.)])\s*/,'').trim()).filter(Boolean)
-      .map(l=>/:$/.test(l)?{h:true,t:l.slice(0,-1)}:{h:false,t:l});
-  }
-  const li=x=>'<li'+(x.h?' class="h"':'')+'>'+esc(x.t)+'</li>';
+  const fmt=s=>esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/__(.+?)__/g,'<strong>$1</strong>');
+  const plain=s=>s.replace(/\*\*|__/g,'');
+  const li=x=>'<li'+(x.h?' class="h"':'')+' title="'+esc(plain(x.t))+'">'+esc(plain(x.t))+'</li>';
   function render(){
-    const items=parse(),n=items.filter(x=>!x.h).length;
+    const r=parseIntentions(box.value),items=r.items,n=items.filter(x=>!x.h).length;
     const firsts=[];for(const x of items){if(firsts.filter(y=>!y.h).length>=SHOW)break;firsts.push(x);}
     if(firsts.length&&firsts[firsts.length-1].h)firsts.pop();
     const rest=n-firsts.filter(x=>!x.h).length;
@@ -848,20 +919,39 @@ if(SETS.some(s=>s.id===(location.hash||'').slice(1))){setTimeout(()=>mys.scrollI
     $('intent-invite').hidden=!!n;
     $('intent-preview').hidden=!n;$('intent-preview').innerHTML=firsts.map(li).join('');
     $('intent-more').hidden=!rest;$('intent-more').textContent=rest===1?'e mais 1 intenção':'e mais '+rest+' intenções';
-    $('intent-open').textContent=n?'Ver e editar':'Escrever intenções';
+    $('intent-open').textContent=n?'Rezar as intenções':'Escrever intenções';
+    $('intent-edit-btn').hidden=!n;
     $('intent-recall').hidden=!n;
     $('intent-recall-list').innerHTML=firsts.map(li).join('');
     $('intent-all').hidden=!rest;$('intent-all-label').textContent=$('intent-all').open?'Mostrar menos':'Ver todas as '+n+' intenções';
     $('intent-all-list').innerHTML=items.map(li).join('');
+    $('intent-close').hidden=!r.closing.length;$('intent-close').innerHTML=r.closing.map(p=>'<p>'+fmt(p)+'</p>').join('');
+    // modo "Rezar": tudo formatado
+    let h='';
+    if(r.opening.length)h+='<div class="offer"><span class="lbl">Oferecimento</span>'+r.opening.map(p=>'<p>'+fmt(p)+'</p>').join('')+'</div>';
+    const rich=items.some(x=>x.body.length);
+    if(rich){let k=0;h+=items.map(x=>x.h?'<p class="grp">'+fmt(x.t)+'</p>':'<section><h4><span>'+(++k)+'.</span>'+fmt(x.t)+'</h4>'+x.body.map(p=>'<p>'+fmt(p)+'</p>').join('')+'</section>').join('');}
+    else if(items.length)h+='<ul class="simple">'+items.map(x=>x.h?'<li class="grp">'+fmt(x.t)+'</li>':'<li>'+fmt(x.t)+'</li>').join('')+'</ul>';
+    if(r.closing.length)h+='<div class="entrega"><span class="lbl">Entrega</span>'+r.closing.map(p=>'<p>'+fmt(p)+'</p>').join('')+'</div>';
+    $('intent-read').innerHTML=h||'<p class="empty">Nenhuma intenção ainda. Toque em “Editar” para escrever ou colar as suas.</p>';
   }
   function save(){
     const v=box.value.trim();
     try{v?localStorage.setItem(KEY,JSON.stringify({text:box.value,day:todayStr,label:now.getDate()+' de '+MONTHS[now.getMonth()]})):localStorage.removeItem(KEY);}catch(e){}
     info.textContent=base;render();
   }
+  function mode(m){
+    dlg.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===m)));
+    $('intent-read').hidden=m!=='rezar';$('intent-edit').hidden=m!=='editar';$('intent-clear').hidden=m!=='editar';
+    if(m==='editar')box.focus();else $('intent-read').scrollTop=0;
+  }
+  function open(m){dlg.showModal();mode(m);}
   box.addEventListener('input',save);
   $('intent-all').addEventListener('toggle',render);
-  $('intent-open').addEventListener('click',()=>{dlg.showModal();box.focus();});
+  $('intent-open').addEventListener('click',()=>open(box.value.trim()?'rezar':'editar'));
+  $('intent-edit-btn').addEventListener('click',()=>open('editar'));
+  $('intent-read-btn').addEventListener('click',()=>open('rezar'));
+  dlg.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>mode(b.dataset.mode)));
   dlg.addEventListener('click',e=>{
     const r=dlg.getBoundingClientRect(),fora=e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom;
     if(e.target.closest('[data-close]')||(e.target===dlg&&fora))dlg.close();
