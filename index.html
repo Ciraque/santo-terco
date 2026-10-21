@@ -121,12 +121,18 @@ figure.art figcaption{font-size:.78rem;color:var(--muted);margin-top:.4rem}
 .next{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.8rem}
 .next button{background:none;border:1px solid var(--accent);color:var(--ink);border-radius:2rem;padding:.5rem 1.1rem;cursor:pointer;font-size:.98rem}
 .next button:hover{background:var(--accent);color:var(--on-accent)}
-.week{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.6rem,1fr));gap:.4rem 1.2rem;margin:.9rem 0 0;padding:0;list-style:none}
-.week li{display:flex;justify-content:space-between;gap:.6rem;border-bottom:1px solid var(--line);padding:.35rem 0;font-size:.95rem}
-.week li.is-today{font-weight:500}
-.week li.is-today span:last-child{color:var(--accent)}
-.week span:first-child{color:var(--muted)}
-.week li.is-today span:first-child{color:var(--ink)}
+.week-guide{margin-top:2.6rem}
+.week-guide h3{font-size:1.5rem;margin-bottom:.2rem}
+.week{display:grid;gap:.6rem;margin:1rem 0 0;padding:0;list-style:none}
+.week button{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:.3rem 1rem;width:100%;text-align:left;background:none;border:1px solid var(--line);border-left:4px solid var(--accent);padding:.75rem 1rem;cursor:pointer}
+.week button:hover{background:var(--paper-2)}
+.week .is-today button{background:var(--paper-2);border-color:var(--accent)}
+.week strong{font-family:var(--display);font-weight:600;font-size:1.3rem;line-height:1.2}
+.week .tag{font-family:var(--text);font-size:.72rem;color:var(--accent);margin-left:.5rem;vertical-align:middle;font-weight:500}
+.week .theme-line{grid-column:1;color:var(--muted);font-size:.88rem;line-height:1.35}
+.week .days{grid-column:2;grid-row:1 / span 2;display:flex;gap:.35rem}
+.week .day{min-width:2.9rem;text-align:center;border:1px solid var(--line);border-radius:2rem;padding:.15rem .5rem;font-size:.82rem;color:var(--muted)}
+.week .day.now{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .end{border-top:1px solid var(--line);margin-top:1rem}
 .foot{padding-block:2rem 3rem;color:var(--muted);font-size:.9rem}
 
@@ -245,8 +251,11 @@ Em nome do Pai, e do Filho, e do Espírito Santo. Amém.</p>
     <p class="lead">Escolha o conjunto do dia ou siga a contemplação que desejar.</p>
     <div class="tabs" role="tablist" aria-label="Conjuntos de mistérios" id="tabs"></div>
     <div id="panel" role="tabpanel" aria-live="polite"></div>
-    <h3 style="margin-top:2.4rem;font-size:1.5rem">Guia semanal</h3>
-    <ul class="week" id="week"></ul>
+    <div class="week-guide">
+      <h3>Guia semanal</h3>
+      <p class="small">Cada conjunto de mistérios tem seus dias na semana. Toque em um deles para abri-lo.</p>
+      <ul class="week" id="week"></ul>
+    </div>
   </section>
 
   <section class="sec in" id="concluir">
@@ -571,11 +580,16 @@ tabsEl.addEventListener('keydown',e=>{
 panelEl.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)select(b.dataset.go,true);});
 $('go-today').addEventListener('click',()=>select(todaySet.id,true));
 
-/* guia semanal (segunda a domingo) */
-$('week').innerHTML=[1,2,3,4,5,6,0].map(d=>{
-  const s=SETS.find(x=>x.days.includes(d));
-  return '<li class="'+(d===dow?'is-today':'')+'"><span>'+DAYS_SHORT[d]+'</span><span>'+s.short+'</span></li>';
+/* guia semanal: um cartão por conjunto, com os dias da semana (segunda primeiro) */
+$('week').innerHTML=SETS.map(s=>{
+  const days=s.days.slice().sort((a,b)=>((a+6)%7)-((b+6)%7));
+  const isToday=s.days.includes(dow);
+  return '<li class="set-'+s.id+(isToday?' is-today':'')+'"><button type="button" data-go="'+s.id+'"'+(isToday?' aria-current="date"':'')+'>'+
+    '<strong>'+esc(s.short)+(isToday?'<span class="tag">hoje</span>':'')+'</strong>'+
+    '<span class="days" aria-label="'+esc(s.daysText)+'">'+days.map(d=>'<span class="day'+(d===dow?' now':'')+'" aria-hidden="true">'+DAYS_SHORT[d].slice(0,3)+'</span>').join('')+'</span>'+
+    '<span class="theme-line">'+esc(s.theme)+'</span></button></li>';
 }).join('');
+$('week').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)select(b.dataset.go,true);});
 
 /* abre um conjunto direto pelo endereço, por exemplo #dolorosos */
 (function(){
