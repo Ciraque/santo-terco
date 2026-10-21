@@ -127,6 +127,35 @@ figure.photo figcaption{font-size:.78rem;color:var(--muted);margin-top:.4rem}
 .end{border-top:1px solid var(--line);margin-top:1rem}
 .foot{padding-block:2rem 3rem;color:var(--muted);font-size:.9rem}
 
+/* liturgia do dia */
+.lit-head{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .9rem;margin:1.2rem 0 .6rem}
+.lit-head h3{font-size:1.65rem}
+.chip{display:inline-flex;align-items:center;gap:.4rem;font-size:.85rem;color:var(--muted);border:1px solid var(--line);border-radius:2rem;padding:.1rem .7rem}
+.chip i{width:.75rem;height:.75rem;border-radius:50%;border:1px solid var(--line);background:var(--dot,#888)}
+.readings{list-style:none;margin:0 0 1rem;padding:0;max-width:36rem}
+.readings li{display:flex;justify-content:space-between;gap:1rem;border-bottom:1px solid var(--line);padding:.45rem 0}
+.readings li span:first-child{color:var(--muted)}
+.precept{border-left:3px solid var(--accent);background:var(--paper-2);padding:.75rem 1rem;margin:1.2rem 0 .4rem;max-width:36rem}
+.precept strong{color:var(--accent);font-weight:500}
+
+/* orações em português e latim */
+.bi{display:grid;grid-template-columns:1fr 1fr;gap:.2rem 1.6rem;padding-bottom:1rem}
+.bi h4{margin:0 0 .2rem;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:500}
+.bi p{margin:0;white-space:pre-line}
+.bi [lang="la"]{font-style:italic}
+details.pr.wide{max-width:none}
+
+/* som ambiente */
+.sound{background:none;border:1px solid var(--line);border-radius:2rem;padding:.2rem .75rem;font-size:.8rem;color:var(--muted);cursor:pointer}
+.sound[aria-pressed="true"]{border-color:var(--accent);color:var(--ink)}
+.player{position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:6;background:var(--paper);border:1px solid var(--line);padding:.5rem;width:232px;box-shadow:0 6px 24px rgba(0,0,0,.18)}
+.player .yt{width:216px;height:122px;background:#000}
+.player .yt iframe{width:100%;height:100%;border:0;display:block}
+.player p{margin:.35rem 0 0;font-size:.75rem;color:var(--muted);line-height:1.35}
+.player-bar{display:flex;align-items:center;gap:.5rem;margin-top:.4rem;font-size:.8rem;color:var(--muted)}
+.player-bar input{flex:1;min-width:0;accent-color:var(--accent)}
+.player-bar button{background:none;border:1px solid var(--line);border-radius:2rem;padding:.1rem .6rem;font-size:.75rem;color:var(--muted);cursor:pointer}
+
 @media (max-width:640px){
   body{font-size:18px}
   .saint{grid-template-columns:minmax(0,1fr)}
@@ -134,6 +163,7 @@ figure.photo figcaption{font-size:.78rem;color:var(--muted);margin-top:.4rem}
   .decades>li{grid-template-columns:minmax(0,1fr)}
   .ord{font-size:1.9rem}
   .hero{padding-top:2.2rem}
+  .bi{grid-template-columns:minmax(0,1fr);gap:.8rem}
 }
 </style>
 </head>
@@ -144,9 +174,11 @@ figure.photo figcaption{font-size:.78rem;color:var(--muted);margin-top:.4rem}
     <a class="brand" href="#inicio">Santo Terço</a>
     <nav aria-label="Seções">
       <a href="#santo">Santo do dia</a>
+      <a href="#liturgia">Liturgia</a>
       <a href="#misterios">Mistérios</a>
-      <a href="#oracoes">Orações</a>
+      <a href="#principais">Orações</a>
     </nav>
+    <button class="sound" id="sound" type="button" aria-pressed="false" aria-label="Som ambiente">♪ Som</button>
     <button class="theme" id="theme" type="button" aria-label="Alternar tema claro e escuro">Claro / escuro</button>
   </div>
 </header>
@@ -196,6 +228,12 @@ Em nome do Pai, e do Filho, e do Espírito Santo. Amém.</p>
     <div id="saint-out"></div>
   </section>
 
+  <section class="sec in" id="liturgia" aria-live="polite">
+    <h2>Liturgia do dia</h2>
+    <p class="lead" id="lit-date"></p>
+    <div id="lit-out"></div>
+  </section>
+
   <section class="sec in" id="misterios">
     <h2>Os mistérios do Rosário</h2>
     <p class="lead">Escolha o conjunto do dia ou siga a contemplação que desejar.</p>
@@ -219,7 +257,56 @@ Em nome do Pai, e do Filho, e do Espírito Santo. Amém.</p>
     <p class="verse" style="margin-top:1.6rem">Maria conservava todas estas palavras, meditando-as no seu coração. <span>Lucas 2,19</span></p>
     <p class="small">Uma pausa de fé, recolhimento e esperança.</p>
   </section>
+
+  <section class="sec in" id="principais">
+    <h2>Principais orações</h2>
+    <p class="lead">As orações tradicionais da Igreja em português e em latim, a língua oficial da Igreja Católica.</p>
+    <details class="pr wide">
+      <summary>Sinal da cruz</summary>
+      <div class="bi"><div><h4>Português</h4><p>Pelo sinal da Santa Cruz, livrai-nos, Deus, nosso Senhor, dos nossos inimigos.
+Em nome do Pai, e do Filho, e do Espírito Santo. Amém.</p></div><div><h4>Latim</h4><p lang="la">Per signum Crucis de inimicis nostris libera nos, Deus noster.
+In nomine Patris, et Filii, et Spiritus Sancti. Amen.</p></div></div>
+    </details>
+    <details class="pr wide">
+      <summary>Pai-Nosso</summary>
+      <div class="bi"><div><h4>Português</h4><p>Pai nosso, que estais nos céus, santificado seja o vosso nome, venha a nós o vosso reino, seja feita a vossa vontade, assim na terra como no céu. O pão nosso de cada dia nos dai hoje, perdoai-nos as nossas ofensas, assim como nós perdoamos a quem nos tem ofendido, e não nos deixeis cair em tentação, mas livrai-nos do mal. Amém.</p></div><div><h4>Latim</h4><p lang="la">Pater noster, qui es in caelis, sanctificetur nomen tuum. Adveniat regnum tuum. Fiat voluntas tua, sicut in caelo et in terra. Panem nostrum quotidianum da nobis hodie, et dimitte nobis debita nostra, sicut et nos dimittimus debitoribus nostris. Et ne nos inducas in tentationem, sed libera nos a malo. Amen.</p></div></div>
+    </details>
+    <details class="pr wide">
+      <summary>Ave-Maria</summary>
+      <div class="bi"><div><h4>Português</h4><p>Ave Maria, cheia de graça, o Senhor é convosco, bendita sois vós entre as mulheres e bendito é o fruto do vosso ventre, Jesus. Santa Maria, Mãe de Deus, rogai por nós, pecadores, agora e na hora de nossa morte. Amém.</p></div><div><h4>Latim</h4><p lang="la">Ave Maria, gratia plena, Dominus tecum. Benedicta tu in mulieribus, et benedictus fructus ventris tui, Iesus. Sancta Maria, Mater Dei, ora pro nobis peccatoribus, nunc et in hora mortis nostrae. Amen.</p></div></div>
+    </details>
+    <details class="pr wide">
+      <summary>Glória ao Pai</summary>
+      <div class="bi"><div><h4>Português</h4><p>Glória ao Pai, ao Filho e ao Espírito Santo. Como era no princípio, agora e sempre. Amém.</p></div><div><h4>Latim</h4><p lang="la">Gloria Patri, et Filio, et Spiritui Sancto. Sicut erat in principio, et nunc et semper, et in saecula saeculorum. Amen.</p></div></div>
+    </details>
+    <details class="pr wide">
+      <summary>Credo</summary>
+      <div class="bi"><div><h4>Português</h4><p>Creio em Deus Pai todo-poderoso, criador do céu e da terra; e em Jesus Cristo, seu único Filho, nosso Senhor, que foi concebido pelo poder do Espírito Santo, nasceu da Virgem Maria, padeceu sob Pôncio Pilatos, foi crucificado, morto e sepultado; desceu à mansão dos mortos; ressuscitou ao terceiro dia; subiu aos céus, está sentado à direita de Deus Pai todo-poderoso, donde há de vir a julgar os vivos e os mortos. Creio no Espírito Santo, na santa Igreja Católica, na comunhão dos santos, na remissão dos pecados, na ressurreição da carne, na vida eterna. Amém.</p></div><div><h4>Latim</h4><p lang="la">Credo in Deum Patrem omnipotentem, Creatorem caeli et terrae. Et in Iesum Christum, Filium eius unicum, Dominum nostrum, qui conceptus est de Spiritu Sancto, natus ex Maria Virgine, passus sub Pontio Pilato, crucifixus, mortuus, et sepultus, descendit ad inferos, tertia die resurrexit a mortuis, ascendit ad caelos, sedet ad dexteram Dei Patris omnipotentis, inde venturus est iudicare vivos et mortuos. Credo in Spiritum Sanctum, sanctam Ecclesiam catholicam, sanctorum communionem, remissionem peccatorum, carnis resurrectionem, vitam aeternam. Amen.</p></div></div>
+    </details>
+    <details class="pr wide">
+      <summary>Salve-Rainha</summary>
+      <div class="bi"><div><h4>Português</h4><p>Salve, Rainha, Mãe de misericórdia, vida, doçura e esperança nossa, salve! A vós bradamos, os degredados filhos de Eva. A vós suspiramos, gemendo e chorando neste vale de lágrimas. Eia, pois, advogada nossa, esses vossos olhos misericordiosos a nós volvei. E depois deste desterro, mostrai-nos Jesus, bendito fruto do vosso ventre, ó clemente, ó piedosa, ó doce sempre Virgem Maria. Rogai por nós, santa Mãe de Deus, para que sejamos dignos das promessas de Cristo. Amém.</p></div><div><h4>Latim</h4><p lang="la">Salve, Regina, Mater misericordiae, vita, dulcedo, et spes nostra, salve. Ad te clamamus, exsules filii Hevae. Ad te suspiramus, gementes et flentes in hac lacrimarum valle. Eia, ergo, advocata nostra, illos tuos misericordes oculos ad nos converte. Et Iesum, benedictum fructum ventris tui, nobis post hoc exsilium ostende. O clemens, O pia, O dulcis Virgo Maria. Ora pro nobis, sancta Dei Genetrix, ut digni efficiamur promissionibus Christi. Amen.</p></div></div>
+    </details>
+    <details class="pr wide">
+      <summary>Santo Anjo</summary>
+      <div class="bi"><div><h4>Português</h4><p>Santo Anjo do Senhor, meu zeloso guardador, se a ti me confiou a piedade divina, sempre me rege, me guarda, me governa e me ilumina. Amém.</p></div><div><h4>Latim</h4><p lang="la">Angele Dei, qui custos es mei, me, tibi commissum pietate superna, illumina, custodi, rege et guberna. Amen.</p></div></div>
+    </details>
+    <details class="pr wide">
+      <summary>Ó meu Jesus</summary>
+      <div class="bi"><div><h4>Português</h4><p>Ó meu Jesus, perdoai-nos, livrai-nos do fogo do inferno, levai as almas todas para o Céu e socorrei principalmente as que mais precisarem.</p></div><div><h4>Latim</h4><p lang="la">Domine Iesu, dimitte nobis debita nostra, salva nos ab igne inferiori, perduc in caelum omnes animas, praesertim eas, quae misericordiae tuae maxime indigent.</p></div></div>
+    </details>
+    <details class="pr wide">
+      <summary>Pelos fiéis defuntos</summary>
+      <div class="bi"><div><h4>Português</h4><p>Dai-lhes, Senhor, o descanso eterno, e brilhe para eles a vossa luz. Descansem em paz. Amém.</p></div><div><h4>Latim</h4><p lang="la">Requiem aeternam dona eis, Domine, et lux perpetua luceat eis. Requiescant in pace. Amen.</p></div></div>
+    </details>
+  </section>
 </main>
+
+<div class="player" id="player" hidden>
+  <div class="yt"><div id="yt"></div></div>
+  <div class="player-bar"><label for="vol">Volume</label><input type="range" id="vol" min="0" max="40" value="8"><button type="button" id="player-close">Fechar</button></div>
+  <p>Música: <a href="https://www.youtube.com/watch?v=a_4Nay7YPbk" target="_blank" rel="noopener">The light shines in the darkness</a>, canal Catholic Ambient (YouTube).</p>
+</div>
 
 <footer class="foot in">Santo do dia com fontes citadas em cada dia. Meditações e virtudes dos mistérios conforme o guia de oração deste terço.</footer>
 
@@ -307,6 +394,24 @@ const SAINTS={
  }
 };
 
+/* Liturgia do dia: uma entrada por data, no formato "AAAA-MM-DD" (as leituras mudam a cada ano).
+   Só as referências bíblicas; o texto completo fica no link da fonte. */
+const LITURGY={
+ '2026-10-21':{
+  title:'Quarta-feira da 29ª Semana do Tempo Comum',
+  color:'Verde',
+  readings:[
+   {l:'1ª Leitura',r:'Ef 3,2-12'},
+   {l:'Salmo',r:'Is 12,2-3.4bcd.5-6'},
+   {l:'Evangelho',r:'Lc 12,39-48'}
+  ],
+  sources:[
+   {l:'Canção Nova, Liturgia Diária',u:'https://liturgia.cancaonova.com/pb/'},
+   {l:'Vatican News, Palavra do dia',u:'https://www.vaticannews.va/pt/palavra-do-dia/2026/10/21.html'}
+  ]
+ }
+};
+
 /* ---------- utilidades ---------- */
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -340,6 +445,45 @@ $('today').innerHTML='Hoje, '+DAYS[dow]+', rezamos os <strong>'+todaySet.name+'<
    ps(entry.paras2||[])+
    '<div class="src">Fontes, consultadas em '+esc(entry.checked)+':<ul>'+entry.sources.map(s=>'<li><a href="'+esc(s.u)+'" target="_blank" rel="noopener">'+esc(s.l)+'</a></li>').join('')+'</ul></div>'+
    '</div></div>';
+})();
+
+/* ---------- liturgia do dia ---------- */
+/* Dias de preceito no Brasil: todos os domingos, Santa Maria Mãe de Deus (1/1),
+   Corpus Christi (60 dias após a Páscoa), Imaculada Conceição (8/12) e Natal (25/12). */
+function easter(y){
+  const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),
+    h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),
+    mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;
+  return new Date(y,mo-1,da);
+}
+function precept(d){
+  const m=d.getMonth()+1,day=d.getDate();
+  if(m===1&&day===1)return 'Solenidade de Santa Maria, Mãe de Deus';
+  if(m===12&&day===8)return 'Solenidade da Imaculada Conceição de Nossa Senhora';
+  if(m===12&&day===25)return 'Natal do Senhor';
+  const cc=easter(d.getFullYear());cc.setDate(cc.getDate()+60);
+  if(cc.getMonth()===d.getMonth()&&cc.getDate()===day)return 'Solenidade do Santíssimo Corpo e Sangue de Cristo (Corpus Christi)';
+  if(d.getDay()===0)return 'Domingo, o Dia do Senhor';
+  return '';
+}
+(function(){
+  const y=now.getFullYear(),mm=String(now.getMonth()+1).padStart(2,'0'),dd=String(now.getDate()).padStart(2,'0');
+  const entry=LITURGY[y+'-'+mm+'-'+dd];
+  const COLORS={verde:'#2f7d3a',roxo:'#5b2a86',branco:'#ffffff',vermelho:'#b3202a',rosa:'#e48cbb',preto:'#111111'};
+  const p=precept(now);
+  $('lit-date').textContent=DAYS[dow]+', '+now.getDate()+' de '+MONTHS[now.getMonth()];
+  const pre=p?'<p class="precept"><strong>Hoje é dia de preceito.</strong> '+esc(p)+'. Os católicos são chamados a participar da Santa Missa.</p>':'';
+  const vn='https://www.vaticannews.va/pt/palavra-do-dia/'+y+'/'+mm+'/'+dd+'.html';
+  if(!entry){
+    $('lit-out').innerHTML=pre+'<p class="prose">As leituras de hoje ainda não foram cadastradas aqui. Você pode lê-las na <a href="https://liturgia.cancaonova.com/pb/" target="_blank" rel="noopener">Liturgia Diária da Canção Nova</a> ou na <a href="'+vn+'" target="_blank" rel="noopener">Palavra do dia do Vatican News</a>.</p>';
+    return;
+  }
+  const dot=COLORS[(entry.color||'').toLowerCase()];
+  $('lit-out').innerHTML=pre+
+   '<div class="lit-head"><h3>'+esc(entry.title)+'</h3>'+(entry.color?'<span class="chip"><i style="--dot:'+(dot||'#888')+'"></i>Cor litúrgica: '+esc(entry.color)+'</span>':'')+'</div>'+
+   '<ul class="readings">'+entry.readings.map(r=>'<li><span>'+esc(r.l)+'</span><span>'+esc(r.r)+'</span></li>').join('')+'</ul>'+
+   '<p class="small">Leia os textos completos nas fontes abaixo.</p>'+
+   '<div class="src">Fontes:<ul>'+entry.sources.map(s=>'<li><a href="'+esc(s.u)+'" target="_blank" rel="noopener">'+esc(s.l)+'</a></li>').join('')+'</ul></div>';
 })();
 
 /* ---------- mistérios ---------- */
@@ -390,6 +534,34 @@ $('week').innerHTML=[1,2,3,4,5,6,0].map(d=>{
 })();
 renderTabs();renderPanel();
 if(SETS.some(s=>s.id===(location.hash||'').slice(1))){setTimeout(()=>mys.scrollIntoView(),0);}
+
+/* ---------- som ambiente ---------- */
+/* O navegador só deixa tocar som depois de um clique; o player do YouTube carrega só quando pedido. */
+(function(){
+  const btn=$('sound'),box=$('player'),vol=$('vol');
+  let player=null,on=false;
+  function setOn(v){
+    on=v;btn.setAttribute('aria-pressed',String(v));box.hidden=!v;
+    if(player&&player.pauseVideo){v?player.playVideo():player.pauseVideo();}
+  }
+  function build(){
+    player=new YT.Player('yt',{
+      host:'https://www.youtube-nocookie.com',videoId:'a_4Nay7YPbk',
+      playerVars:{autoplay:1,loop:1,playlist:'a_4Nay7YPbk',controls:1,playsinline:1,rel:0},
+      events:{onReady:e=>{e.target.setVolume(+vol.value);if(on)e.target.playVideo();}}
+    });
+  }
+  btn.addEventListener('click',()=>{
+    setOn(!on);
+    if(on&&!player){
+      if(window.YT&&YT.Player){build();return;}
+      window.onYouTubeIframeAPIReady=build;
+      const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);
+    }
+  });
+  vol.addEventListener('input',()=>{if(player&&player.setVolume)player.setVolume(+vol.value);});
+  $('player-close').addEventListener('click',()=>setOn(false));
+})();
 
 /* ---------- tema ---------- */
 const root=document.documentElement;
