@@ -82,7 +82,7 @@ p{margin:0 0 1rem}
 .top nav a{text-decoration:none;font-size:.95rem;color:var(--muted)}
 .top nav a:hover{color:var(--ink)}
 .theme{background:none;border:1px solid var(--line);border-radius:50%;width:2rem;height:2rem;padding:0;display:inline-grid;place-items:center;font-size:1rem;line-height:1;color:var(--muted);cursor:pointer}
-section[id]{scroll-margin-top:4.6rem}
+section[id],details[id]{scroll-margin-top:4.6rem}
 
 /* héroi */
 .hero{padding-block:3.2rem 1.6rem;display:grid;grid-template-columns:minmax(0,1fr) 15.5rem;gap:1.6rem 2.6rem;align-items:center}
@@ -308,6 +308,15 @@ figure.art figcaption em{font-style:normal}
 .bi p{margin:0;white-space:pre-line}
 .bi [lang="la"]{font-style:italic}
 details.pr.wide{max-width:none}
+.pr-note{font-size:.9rem;color:var(--muted);font-style:italic}
+.bi [lang="la"] p{margin:0 0 .8rem}
+.bi p+p{margin-top:.8rem}
+.pr-src{margin-top:1rem}
+/* aviso do Ângelus: só nos horários de 6h, 12h e 18h */
+.angelus-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.6rem 1rem;margin-top:1.4rem;padding:.75rem 1rem;border:1px solid var(--gold);border-left:3px solid var(--gold);background:var(--paper-2)}
+.angelus-bar p{margin:0;font-size:.98rem}
+.angelus-bar strong{font-family:var(--display);font-size:1.15rem}
+.angelus-bar button{background:var(--accent);color:var(--on-accent);border:0;border-radius:2rem;padding:.4rem 1rem;font-size:.9rem;cursor:pointer}
 
 /* som ambiente */
 .sound{background:none;border:1px solid var(--line);border-radius:50%;width:2rem;height:2rem;padding:0;display:inline-grid;place-items:center;color:var(--muted);cursor:pointer}
@@ -324,7 +333,7 @@ details.pr.wide{max-width:none}
 .player .yt{width:100%;aspect-ratio:16/9;background:#000}
 #yt{width:100%;height:100%}
 .player .yt iframe{width:100%;height:100%;border:0;display:block}
-@media (max-width:640px){.player{right:8px;bottom:8px;width:calc(100vw - 16px)}}
+@media (max-width:640px){.top nav{order:3;flex-basis:100%}.player{right:8px;bottom:8px;width:calc(100vw - 16px)}}
 
 @media (max-width:640px){
   body{font-size:18px}
@@ -370,6 +379,7 @@ details.pr.wide{max-width:none}
 </header>
 
 <main id="inicio">
+  <div class="in" id="angelus-wrap" hidden><div class="angelus-bar" role="note"><p><strong id="angelus-title">Hora do Ângelus</strong> · <span id="angelus-when"></span></p><button type="button" id="angelus-go">Rezar agora</button></div></div>
   <section class="hero in" id="hero">
    <div>
     <p class="season" id="season"></p>
@@ -548,6 +558,17 @@ In nomine Patris, et Filii, et Spiritus Sancti. Amen.</p></div></div>
       <summary>Pelos fiéis defuntos</summary>
       <div class="bi"><div><h4>Português</h4><p>Dai-lhes, Senhor, o descanso eterno, e brilhe para eles a vossa luz. Descansem em paz. Amém.</p></div><div><h4>Latim</h4><p lang="la">Requiem aeternam dona eis, Domine, et lux perpetua luceat eis. Requiescant in pace. Amen.</p></div></div>
     </details>
+    <details class="pr wide" id="angelus">
+      <summary>Ângelus</summary>
+      <p class="pr-note">Rezado às 6h, ao meio-dia e às 18h, em memória da Encarnação. No Tempo Pascal, é substituído pelo Regina Caeli.</p>
+      <div class="bi"><div><h4>Português</h4><p><span class="vr" aria-hidden="true">℣</span>O Anjo do Senhor anunciou a Maria.<br><span class="vr" aria-hidden="true">℟</span>E ela concebeu do Espírito Santo.<br><em>Ave Maria…</em><br><span class="vr" aria-hidden="true">℣</span>Eis aqui a serva do Senhor.<br><span class="vr" aria-hidden="true">℟</span>Faça-se em mim segundo a vossa palavra.<br><em>Ave Maria…</em><br><span class="vr" aria-hidden="true">℣</span>E o Verbo se fez carne.<br><span class="vr" aria-hidden="true">℟</span>E habitou entre nós.<br><em>Ave Maria…</em><br><span class="vr" aria-hidden="true">℣</span>Rogai por nós, santa Mãe de Deus.<br><span class="vr" aria-hidden="true">℟</span>Para que sejamos dignos das promessas de Cristo.</p><p><strong>Oremos.</strong> Infundi, Senhor, a vossa graça em nossas almas, para que nós, que pela anunciação do Anjo conhecemos a encarnação de Cristo, vosso Filho, por sua paixão e morte na cruz sejamos conduzidos à glória da ressurreição. Pelo mesmo Cristo, Senhor nosso. Amém.</p></div><div><h4>Latim</h4><div lang="la"><p><span class="vr" aria-hidden="true">℣</span>Angelus Domini nuntiavit Mariae.<br><span class="vr" aria-hidden="true">℟</span>Et concepit de Spiritu Sancto.<br>Ave Maria…<br><span class="vr" aria-hidden="true">℣</span>Ecce ancilla Domini.<br><span class="vr" aria-hidden="true">℟</span>Fiat mihi secundum verbum tuum.<br>Ave Maria…<br><span class="vr" aria-hidden="true">℣</span>Et Verbum caro factum est.<br><span class="vr" aria-hidden="true">℟</span>Et habitavit in nobis.<br>Ave Maria…<br><span class="vr" aria-hidden="true">℣</span>Ora pro nobis, sancta Dei Genetrix.<br><span class="vr" aria-hidden="true">℟</span>Ut digni efficiamur promissionibus Christi.</p><p>Oremus. Gratiam tuam, quaesumus, Domine, mentibus nostris infunde; ut qui, Angelo nuntiante, Christi Filii tui incarnationem cognovimus, per passionem eius et crucem ad resurrectionis gloriam perducamur. Per eundem Christum Dominum nostrum. Amen.</p></div></div></div>
+    </details>
+    <details class="pr wide" id="regina">
+      <summary>Regina Caeli (Tempo Pascal)</summary>
+      <p class="pr-note">Rezado no lugar do Ângelus da Páscoa até Pentecostes.</p>
+      <div class="bi"><div><h4>Português</h4><p>Rainha do céu, alegrai-vos, aleluia!<br>Porque aquele que merecestes trazer em vosso seio, aleluia!<br>Ressuscitou como disse, aleluia!<br>Rogai por nós a Deus, aleluia!<br><span class="vr" aria-hidden="true">℣</span>Exultai e alegrai-vos, ó Virgem Maria, aleluia!<br><span class="vr" aria-hidden="true">℟</span>Porque o Senhor ressuscitou verdadeiramente, aleluia!</p><p><strong>Oremos.</strong> Ó Deus, que alegrastes o mundo com a ressurreição do vosso Filho, nosso Senhor Jesus Cristo, concedei-nos que, pela intercessão da Virgem Maria, sua Mãe, alcancemos as alegrias da vida eterna. Por Cristo, Senhor nosso. Amém.</p></div><div><h4>Latim</h4><div lang="la"><p>Regina caeli, laetare, alleluia.<br>Quia quem meruisti portare, alleluia.<br>Resurrexit, sicut dixit, alleluia.<br>Ora pro nobis Deum, alleluia.<br><span class="vr" aria-hidden="true">℣</span>Gaude et laetare, Virgo Maria, alleluia.<br><span class="vr" aria-hidden="true">℟</span>Quia surrexit Dominus vere, alleluia.</p><p>Oremus. Deus, qui per resurrectionem Filii tui, Domini nostri Iesu Christi, mundum laetificare dignatus es: praesta, quaesumus, ut, per eius Genetricem Virginem Mariam, perpetuae capiamus gaudia vitae. Per eundem Christum Dominum nostrum. Amen.</p></div></div></div>
+    </details>
+    <p class="small pr-src">Texto do Ângelus e do Regina Caeli conforme o <a href="https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_po.html" target="_blank" rel="noopener">Compêndio do Catecismo da Igreja Católica</a>, na forma usada no Brasil.</p>
   </section>
 </main>
 
@@ -565,6 +586,7 @@ In nomine Patris, et Filii, et Spiritus Sancti. Amen.</p></div></div>
 <div class="player" id="player" hidden role="region" aria-label="Música ambiente: The light shines in the darkness, canal Catholic Ambient (YouTube)"><div class="yt"><div id="yt"></div></div></div>
 
 <footer class="foot in">
+  <p><strong>Privacidade:</strong> suas intenções ficam só no seu aparelho. Este site não coleta nenhum dado.</p>
   <p>Santo do dia com fontes citadas em cada dia. Meditações e virtudes dos mistérios conforme o guia de oração deste terço.</p>
   <details class="credits"><summary>Créditos das imagens</summary><ul id="credits"></ul></details>
 </footer>
@@ -881,6 +903,23 @@ $('week').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(
 })();
 renderTabs();renderPanel();
 if(SETS.some(s=>s.id===(location.hash||'').slice(1))){setTimeout(()=>mys.scrollIntoView(),0);}
+
+/* ---------- Ângelus ---------- */
+/* Aviso discreto no topo só das 6h às 6h59, das 12h às 12h59 e das 18h às 18h59 (hora do aparelho).
+   No Tempo Pascal, o aviso chama para o Regina Caeli. */
+(function(){
+  const h=now.getHours();if(h!==6&&h!==12&&h!==18)return;
+  const pascal=season.name==='Tempo Pascal'||season.name==='Pentecostes',id=pascal?'regina':'angelus';
+  $('angelus-title').textContent=pascal?'Hora do Regina Caeli':'Hora do Ângelus';
+  $('angelus-when').textContent=h===6?'são 6h, a oração da manhã':h===12?'é meio-dia':'são 18h, a oração da tarde';
+  $('angelus-wrap').hidden=false;
+  $('angelus-go').addEventListener('click',()=>{
+    const d=$(id);d.open=true;
+    /* as imagens que carregam no caminho mudam a altura da página; reajusta a posição algumas vezes */
+    const go=()=>d.scrollIntoView({behavior:'instant',block:'start'});
+    requestAnimationFrame(go);[350,900,1800].forEach(ms=>setTimeout(go,ms));
+  });
+})();
 
 /* ---------- intenções ---------- */
 /* Guardadas só no navegador da pessoa (localStorage); nada é enviado a lugar nenhum.
