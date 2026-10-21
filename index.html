@@ -203,6 +203,8 @@ figure.art figcaption{font-size:.78rem;color:var(--muted);margin-top:1.1rem;line
 .intent-list li::before{content:"";position:absolute;left:0;top:.72em;width:.36rem;height:.36rem;border-radius:50%;background:var(--gold)}
 .intent-list li.h{padding-left:0;margin-top:.4rem;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
 .intent-list li.h::before{content:none}
+.intent-final{margin:.4rem 0 .2rem;padding:.1rem 0 .1rem .9rem;border-left:2px solid var(--gold);font-style:italic;font-size:.98rem}
+.intent-final span{display:block;font-style:normal;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:.15rem}
 .intent-more{margin:0 0 .5rem;font-size:.85rem;color:var(--muted);font-style:italic}
 .intent-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.5rem 1rem;margin-top:.6rem;font-size:.8rem;color:var(--muted)}
 .intent-btn{background:var(--accent);color:var(--on-accent);border:0;border-radius:2rem;padding:.4rem 1rem;font-size:.9rem;cursor:pointer}
@@ -377,17 +379,22 @@ details.pr.wide{max-width:none}
   <section class="sec in step" id="oracoes">
     <p class="step-kicker">1º passo · Início</p>
     <h2>Oração introdutória</h2>
-    <p class="lead">Faça o sinal da cruz, reze o Credo e depois um Pai-Nosso, três Ave-Marias e um Glória ao Pai.</p>
+    <p class="lead">Faça o sinal da cruz, ofereça o terço e as suas intenções, reze o Credo e depois um Pai-Nosso, três Ave-Marias e um Glória ao Pai.</p>
     <details class="pr" open>
       <summary>Sinal da cruz</summary>
       <p class="prayer">Pelo sinal da Santa Cruz, livrai-nos, Deus, nosso Senhor, dos nossos inimigos.
 Em nome do Pai, e do Filho, e do Espírito Santo. Amém.</p>
+    </details>
+    <details class="pr" open>
+      <summary>Oferecimento do terço</summary>
+      <p>Divino Jesus, eu vos ofereço este terço que vou rezar, contemplando os mistérios de nossa Redenção. Concedei-me, pela intercessão de Maria, vossa Mãe Santíssima, a quem me dirijo, as graças necessárias para bem rezá-lo e a graça de ganhar as indulgências desta santa devoção.</p>
     </details>
     <div class="intent" id="intent-box">
       <div class="intent-head"><span class="intent-title">Intenções</span><span class="intent-count" id="intent-count"></span></div>
       <p id="intent-invite">Ofereça este terço a Deus. Por quem ou pelo que você vai rezar hoje? Apresente seus pedidos, agradecimentos e as pessoas que leva no coração.</p>
       <ul class="intent-list" id="intent-preview" hidden></ul>
       <p class="intent-more" id="intent-more" hidden></p>
+      <p class="intent-final"><span>Ao final das intenções</span>Tudo vos entrego, Senhor, pelas mãos de Maria. Que em todas as coisas se cumpra a vossa santa vontade. Amém.</p>
       <div class="intent-foot"><span id="intent-info">Fica guardado só neste aparelho. Ninguém mais vê.</span><span class="intent-actions"><button type="button" class="intent-btn ghost" id="intent-edit-btn" hidden>Editar</button><button type="button" class="intent-btn" id="intent-open">Escrever intenções</button></span></div>
     </div>
     <details class="pr" open>
@@ -900,6 +907,7 @@ function parseIntentions(text){
 (function(){
   const box=$('intent'),dlg=$('intent-dlg'),info=$('intent-info');
   const KEY='intencoes',base='Fica guardado só neste aparelho. Ninguém mais vê.',SHOW=3;
+  const ENTREGA='Tudo vos entrego, Senhor, pelas mãos de Maria. Que em todas as coisas se cumpra a vossa santa vontade. Amém.'; // usada quando a pessoa não escreveu uma entrega própria
   const todayStr=now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
   let saved=null;
   try{saved=JSON.parse(localStorage.getItem(KEY)||'null');}catch(e){}
@@ -912,6 +920,7 @@ function parseIntentions(text){
   const li=x=>'<li'+(x.h?' class="h"':'')+' title="'+esc(plain(x.t))+'">'+esc(plain(x.t))+'</li>';
   function render(){
     const r=parseIntentions(box.value),items=r.items,n=items.filter(x=>!x.h).length;
+    const closing=r.closing.length?r.closing:[ENTREGA];
     const firsts=[];for(const x of items){if(firsts.filter(y=>!y.h).length>=SHOW)break;firsts.push(x);}
     if(firsts.length&&firsts[firsts.length-1].h)firsts.pop();
     const rest=n-firsts.filter(x=>!x.h).length;
@@ -925,14 +934,14 @@ function parseIntentions(text){
     $('intent-recall-list').innerHTML=firsts.map(li).join('');
     $('intent-all').hidden=!rest;$('intent-all-label').textContent=$('intent-all').open?'Mostrar menos':'Ver todas as '+n+' intenções';
     $('intent-all-list').innerHTML=items.map(li).join('');
-    $('intent-close').hidden=!r.closing.length;$('intent-close').innerHTML=r.closing.map(p=>'<p>'+fmt(p)+'</p>').join('');
+    $('intent-close').hidden=false;$('intent-close').innerHTML=closing.map(p=>'<p>'+fmt(p)+'</p>').join('');
     // modo "Rezar": tudo formatado
     let h='';
     if(r.opening.length)h+='<div class="offer"><span class="lbl">Oferecimento</span>'+r.opening.map(p=>'<p>'+fmt(p)+'</p>').join('')+'</div>';
     const rich=items.some(x=>x.body.length);
     if(rich){let k=0;h+=items.map(x=>x.h?'<p class="grp">'+fmt(x.t)+'</p>':'<section><h4><span>'+(++k)+'.</span>'+fmt(x.t)+'</h4>'+x.body.map(p=>'<p>'+fmt(p)+'</p>').join('')+'</section>').join('');}
     else if(items.length)h+='<ul class="simple">'+items.map(x=>x.h?'<li class="grp">'+fmt(x.t)+'</li>':'<li>'+fmt(x.t)+'</li>').join('')+'</ul>';
-    if(r.closing.length)h+='<div class="entrega"><span class="lbl">Entrega</span>'+r.closing.map(p=>'<p>'+fmt(p)+'</p>').join('')+'</div>';
+    if(items.length)h+='<div class="entrega"><span class="lbl">Entrega</span>'+closing.map(p=>'<p>'+fmt(p)+'</p>').join('')+'</div>';
     $('intent-read').innerHTML=h||'<p class="empty">Nenhuma intenção ainda. Toque em “Editar” para escrever ou colar as suas.</p>';
   }
   function save(){
