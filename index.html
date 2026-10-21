@@ -305,18 +305,11 @@ details.pr.wide{max-width:none}
 /* som ambiente */
 .sound{background:none;border:1px solid var(--line);border-radius:2rem;padding:.2rem .75rem;font-size:.8rem;color:var(--muted);cursor:pointer}
 .sound[aria-pressed="true"]{border-color:var(--accent);color:var(--ink)}
-.player{--pw:426px;position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:6;width:min(calc(var(--pw) + 1.1rem),calc(100vw - 24px));background:var(--paper);border:1px solid var(--gold);padding:.55rem;box-shadow:0 8px 28px rgba(0,0,0,.25)}
-.player-top{display:flex;align-items:center;gap:.45rem;margin-bottom:.45rem;cursor:grab;user-select:none;touch-action:none}
-.player-top.dragging{cursor:grabbing}
-.player-top .grip{color:var(--gold);font-size:.9rem;line-height:1}
-.player-name{flex:1;font-family:var(--display);font-weight:600;font-size:1.05rem}
-.pbtn{flex:none;background:none;border:1px solid var(--line);border-radius:50%;width:1.9rem;height:1.9rem;display:grid;place-items:center;padding:0;color:var(--ink);font-size:.8rem;line-height:1;cursor:pointer}
-.pbtn:hover{border-color:var(--accent)}
+.player{position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:6;width:min(426px,calc(100vw - 24px));box-shadow:0 6px 24px rgba(0,0,0,.3)}
 .player .yt{width:100%;aspect-ratio:16/9;background:#000}
 #yt{width:100%;height:100%}
 .player .yt iframe{width:100%;height:100%;border:0;display:block}
-.player p{margin:.45rem 0 0;font-size:.72rem;color:var(--muted);line-height:1.35}
-@media (max-width:640px){.player{right:8px;bottom:8px;width:calc(100vw - 16px);padding:.45rem}}
+@media (max-width:640px){.player{right:8px;bottom:8px;width:calc(100vw - 16px)}}
 
 @media (max-width:640px){
   body{font-size:18px}
@@ -557,11 +550,7 @@ In nomine Patris, et Filii, et Spiritus Sancti. Amen.</p></div></div>
   <footer><span>Fica guardado só neste aparelho. Ninguém mais vê.</span><div><button type="button" class="intent-btn ghost" id="intent-clear" hidden>Apagar tudo</button><button type="button" class="intent-btn" data-close>Pronto</button></div></footer>
 </dialog>
 
-<div class="player" id="player" hidden role="region" aria-label="Música ambiente">
-  <div class="player-top" id="player-drag" title="Arraste para mover"><span class="grip" aria-hidden="true">⠿</span><span class="player-name">Música ambiente</span><button type="button" class="pbtn" id="player-close" aria-label="Fechar a música" title="Fechar">✕</button></div>
-  <div class="yt"><div id="yt"></div></div>
-  <p>Música: <a href="https://www.youtube.com/watch?v=a_4Nay7YPbk" target="_blank" rel="noopener">The light shines in the darkness</a>, canal Catholic Ambient (YouTube).</p>
-</div>
+<div class="player" id="player" hidden role="region" aria-label="Música ambiente: The light shines in the darkness, canal Catholic Ambient (YouTube)"><div class="yt"><div id="yt"></div></div></div>
 
 <footer class="foot in">Santo do dia com fontes citadas em cada dia. Meditações e virtudes dos mistérios conforme o guia de oração deste terço.</footer>
 
@@ -982,7 +971,7 @@ function parseIntentions(text){
 /* O navegador só deixa tocar som depois de um clique. Por privacidade, nenhum script do YouTube roda nesta página:
    o player é um iframe de outra origem (isolado, sem acesso aos dados do site), com os controles do próprio YouTube.
    Começa mudo e, assim que carrega, recebe por mensagem o volume baixo. Tamanho com folga para os botões do YouTube
-   (e acima do mínimo de 200 px de altura exigido por ele). A barra de título fecha e permite arrastar o player. */
+   (e acima do mínimo de 200 px de altura exigido por ele). Só o vídeo aparece; para desligar, toca-se de novo no botão "♪ Som" do topo. */
 (function(){
   const btn=$('sound'),box=$('player'),YT='https://www.youtube-nocookie.com',VOLUME=8;
   let frame=null,on=false;
@@ -1002,25 +991,6 @@ function parseIntentions(text){
     if(v&&!frame)build();else cmd(v?'playVideo':'pauseVideo');
   }
   btn.addEventListener('click',()=>setOn(!on));
-  $('player-close').addEventListener('click',()=>setOn(false));
-  /* arrastar o player pela barra de título */
-  const handle=$('player-drag');let start=null;
-  function keepInside(){
-    if(!box.style.left)return;
-    const r=box.getBoundingClientRect(),m=8;
-    box.style.left=Math.min(Math.max(m,r.left),innerWidth-r.width-m)+'px';
-    box.style.top=Math.min(Math.max(m,r.top),innerHeight-r.height-m)+'px';
-  }
-  handle.addEventListener('pointerdown',e=>{
-    if(e.target.closest('button'))return;
-    const r=box.getBoundingClientRect();start={x:e.clientX-r.left,y:e.clientY-r.top};
-    box.style.left=r.left+'px';box.style.top=r.top+'px';box.style.right='auto';box.style.bottom='auto';
-    handle.setPointerCapture(e.pointerId);handle.classList.add('dragging');
-  });
-  handle.addEventListener('pointermove',e=>{if(!start)return;box.style.left=(e.clientX-start.x)+'px';box.style.top=(e.clientY-start.y)+'px';});
-  const end=()=>{if(!start)return;start=null;handle.classList.remove('dragging');keepInside();};
-  handle.addEventListener('pointerup',end);handle.addEventListener('pointercancel',end);
-  addEventListener('resize',keepInside);
 })();
 
 /* ---------- tema ---------- */
