@@ -134,6 +134,14 @@ figure.art figcaption{font-size:.78rem;color:var(--muted);margin-top:.4rem}
 .end{border-top:1px solid var(--line);margin-top:1rem}
 .foot{padding-block:2rem 3rem;color:var(--muted);font-size:.9rem}
 
+/* divisor entre o terço e o dia a dia */
+.divider{padding-block:3rem 0;text-align:center}
+.divider .rule{display:block;height:1px;background:var(--line);margin-bottom:2.2rem;position:relative}
+.divider .rule::after{content:"";position:absolute;left:50%;top:50%;width:.6rem;height:.6rem;margin:-.3rem 0 0 -.3rem;border-radius:50%;background:var(--c-dol);box-shadow:0 0 0 .5rem var(--paper)}
+.divider-kicker{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 .3rem}
+.divider-title{font-size:clamp(2rem,6vw,2.7rem)}
+.divider .small{margin:.6rem auto 0;max-width:30rem}
+
 /* liturgia do dia */
 .lit-head{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .9rem;margin:1.2rem 0 .6rem}
 .lit-head h3{font-size:1.65rem}
@@ -259,6 +267,13 @@ Em nome do Pai, e do Filho, e do Espírito Santo. Amém.</p>
     <p class="verse" style="margin-top:1.6rem">Maria conservava todas estas palavras, meditando-as no seu coração. <span>Lucas 2,19</span></p>
     <p class="small">Uma pausa de fé, recolhimento e esperança.</p>
   </section>
+
+  <div class="divider in" role="presentation">
+    <span class="rule" aria-hidden="true"></span>
+    <p class="divider-kicker">Depois do terço</p>
+    <h2 class="divider-title">Caminhar com a Igreja</h2>
+    <p class="small">A Palavra de cada dia, o santo que a Igreja recorda e as orações de sempre.</p>
+  </div>
 
   <section class="sec in" id="liturgia" aria-live="polite">
     <h2>Liturgia diária</h2>
