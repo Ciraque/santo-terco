@@ -305,8 +305,7 @@ details.pr.wide{max-width:none}
 /* som ambiente */
 .sound{background:none;border:1px solid var(--line);border-radius:2rem;padding:.2rem .75rem;font-size:.8rem;color:var(--muted);cursor:pointer}
 .sound[aria-pressed="true"]{border-color:var(--accent);color:var(--ink)}
-.player{--pw:362px;position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:6;width:min(calc(var(--pw) + 1.1rem),calc(100vw - 24px));background:var(--paper);border:1px solid var(--gold);padding:.55rem;box-shadow:0 8px 28px rgba(0,0,0,.25)}
-.player.big{--pw:560px}
+.player{--pw:426px;position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:6;width:min(calc(var(--pw) + 1.1rem),calc(100vw - 24px));background:var(--paper);border:1px solid var(--gold);padding:.55rem;box-shadow:0 8px 28px rgba(0,0,0,.25)}
 .player-top{display:flex;align-items:center;gap:.45rem;margin-bottom:.45rem;cursor:grab;user-select:none;touch-action:none}
 .player-top.dragging{cursor:grabbing}
 .player-top .grip{color:var(--gold);font-size:.9rem;line-height:1}
@@ -316,12 +315,8 @@ details.pr.wide{max-width:none}
 .player .yt{width:100%;aspect-ratio:16/9;background:#000}
 #yt{width:100%;height:100%}
 .player .yt iframe{width:100%;height:100%;border:0;display:block}
-.player-ctrl{display:flex;align-items:center;gap:.5rem;margin-top:.5rem;font-size:.78rem;color:var(--muted)}
-.player-ctrl input{flex:1;min-width:0;accent-color:var(--accent)}
-.player-ctrl .pbtn.play{width:2.2rem;height:2.2rem;background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
-.ptime{font-variant-numeric:tabular-nums;min-width:2.8rem;text-align:center}
 .player p{margin:.45rem 0 0;font-size:.72rem;color:var(--muted);line-height:1.35}
-@media (max-width:640px){#player-size{display:none}.player{right:8px;bottom:8px;width:calc(100vw - 16px);padding:.45rem}}
+@media (max-width:640px){.player{right:8px;bottom:8px;width:calc(100vw - 16px);padding:.45rem}}
 
 @media (max-width:640px){
   body{font-size:18px}
@@ -563,10 +558,8 @@ In nomine Patris, et Filii, et Spiritus Sancti. Amen.</p></div></div>
 </dialog>
 
 <div class="player" id="player" hidden role="region" aria-label="Música ambiente">
-  <div class="player-top" id="player-drag" title="Arraste para mover"><span class="grip" aria-hidden="true">⠿</span><span class="player-name">Música ambiente</span><button type="button" class="pbtn" id="player-size" aria-label="Ampliar o vídeo" title="Ampliar">⤢</button><button type="button" class="pbtn" id="player-close" aria-label="Fechar a música" title="Fechar">✕</button></div>
+  <div class="player-top" id="player-drag" title="Arraste para mover"><span class="grip" aria-hidden="true">⠿</span><span class="player-name">Música ambiente</span><button type="button" class="pbtn" id="player-close" aria-label="Fechar a música" title="Fechar">✕</button></div>
   <div class="yt"><div id="yt"></div></div>
-  <div class="player-ctrl"><button type="button" class="pbtn play" id="player-play" aria-label="Pausar">❚❚</button><span class="ptime" id="p-cur">0:00</span><input type="range" id="p-seek" min="0" max="0" step="1" value="0" aria-label="Posição na música" disabled><span class="ptime" id="p-dur">–:––</span></div>
-  <div class="player-ctrl"><label for="vol">Volume</label><input type="range" id="vol" min="0" max="40" value="8"></div>
   <p>Música: <a href="https://www.youtube.com/watch?v=a_4Nay7YPbk" target="_blank" rel="noopener">The light shines in the darkness</a>, canal Catholic Ambient (YouTube).</p>
 </div>
 
@@ -987,50 +980,29 @@ function parseIntentions(text){
 
 /* ---------- som ambiente ---------- */
 /* O navegador só deixa tocar som depois de um clique. Por privacidade, nenhum script do YouTube roda nesta página:
-   o player é um iframe de outra origem (isolado, sem acesso aos dados do site), sem os controles do YouTube,
-   comandado por mensagens (tocar, pausar, volume, pular). O próprio player avisa o tempo atual e a duração.
-   Começa mudo e o volume baixo é aplicado em seguida. Tamanho mínimo de 200 px de altura (regra do YouTube). */
+   o player é um iframe de outra origem (isolado, sem acesso aos dados do site), com os controles do próprio YouTube.
+   Começa mudo e, assim que carrega, recebe por mensagem o volume baixo. Tamanho com folga para os botões do YouTube
+   (e acima do mínimo de 200 px de altura exigido por ele). A barra de título fecha e permite arrastar o player. */
 (function(){
-  const btn=$('sound'),box=$('player'),vol=$('vol'),seek=$('p-seek'),play=$('player-play'),YT='https://www.youtube-nocookie.com';
-  let frame=null,on=false,playing=true,dragging=false;
-  const fmt=s=>{s=Math.max(0,Math.floor(s));const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=String(s%60).padStart(2,'0');return h?h+':'+String(m).padStart(2,'0')+':'+x:m+':'+x;};
+  const btn=$('sound'),box=$('player'),YT='https://www.youtube-nocookie.com',VOLUME=8;
+  let frame=null,on=false;
   function cmd(func,args){if(frame&&frame.contentWindow)frame.contentWindow.postMessage(JSON.stringify({event:'command',func:func,args:args||[]}),YT);}
-  function showPlay(p){playing=p;play.textContent=p?'❚❚':'▶';play.setAttribute('aria-label',p?'Pausar':'Tocar');}
-  function apply(){cmd('setVolume',[+vol.value]);cmd('unMute');if(on){cmd('playVideo');showPlay(true);}}
   function build(){
     frame=document.createElement('iframe');
-    frame.src=YT+'/embed/a_4Nay7YPbk?enablejsapi=1&autoplay=1&mute=1&controls=0&disablekb=1&fs=0&iv_load_policy=3&loop=1&playlist=a_4Nay7YPbk&playsinline=1&rel=0';
-    frame.title='Música ambiente';frame.allow='autoplay; encrypted-media';
+    frame.src=YT+'/embed/a_4Nay7YPbk?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=a_4Nay7YPbk&playsinline=1&rel=0&iv_load_policy=3';
+    frame.title='Música ambiente';frame.allow='autoplay; encrypted-media; picture-in-picture';
     frame.addEventListener('load',()=>{
       frame.contentWindow.postMessage(JSON.stringify({event:'listening',id:'som',channel:'widget'}),YT);
-      [300,1200,2500].forEach(ms=>setTimeout(apply,ms));
+      [300,1200,2500].forEach(ms=>setTimeout(()=>{cmd('setVolume',[VOLUME]);cmd('unMute');if(on)cmd('playVideo');},ms));
     });
     $('yt').appendChild(frame);
   }
-  /* mensagens que o player manda de volta: só tempo, duração e estado (tocando/pausado) */
-  window.addEventListener('message',e=>{
-    if(e.origin!==YT||!frame||e.source!==frame.contentWindow)return;
-    let d;try{d=typeof e.data==='string'?JSON.parse(e.data):e.data;}catch(_){return;}
-    const i=d&&d.event==='infoDelivery'&&d.info;if(!i)return;
-    if(typeof i.duration==='number'&&i.duration>0){seek.max=Math.floor(i.duration);seek.disabled=false;$('p-dur').textContent=fmt(i.duration);}
-    if(typeof i.currentTime==='number'&&!dragging){seek.value=Math.floor(i.currentTime);$('p-cur').textContent=fmt(i.currentTime);}
-    if(typeof i.playerState==='number'&&(i.playerState===1||i.playerState===2))showPlay(i.playerState===1);
-  });
   function setOn(v){
     on=v;btn.setAttribute('aria-pressed',String(v));box.hidden=!v;
-    if(v&&!frame)build();else{cmd(v?'playVideo':'pauseVideo');showPlay(v);}
+    if(v&&!frame)build();else cmd(v?'playVideo':'pauseVideo');
   }
   btn.addEventListener('click',()=>setOn(!on));
-  play.addEventListener('click',()=>{cmd(playing?'pauseVideo':'playVideo');showPlay(!playing);});
-  vol.addEventListener('input',()=>cmd('setVolume',[+vol.value]));
-  seek.addEventListener('input',()=>{dragging=true;$('p-cur').textContent=fmt(+seek.value);});
-  seek.addEventListener('change',()=>{cmd('seekTo',[+seek.value,true]);dragging=false;});
   $('player-close').addEventListener('click',()=>setOn(false));
-  $('player-size').addEventListener('click',()=>{
-    const big=box.classList.toggle('big');
-    $('player-size').textContent=big?'⤡':'⤢';$('player-size').title=big?'Reduzir':'Ampliar';
-    $('player-size').setAttribute('aria-label',big?'Reduzir o vídeo':'Ampliar o vídeo');keepInside();
-  });
   /* arrastar o player pela barra de título */
   const handle=$('player-drag');let start=null;
   function keepInside(){
