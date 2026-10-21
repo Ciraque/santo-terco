@@ -277,10 +277,21 @@ details.pr.wide{max-width:none}
   .ord{font-size:1.9rem}
   .hero{padding-top:2.2rem}
   .bi{grid-template-columns:minmax(0,1fr);gap:.8rem}
-  .hero{grid-template-columns:minmax(0,1fr)}
-  .hero-art{order:-1;width:10.5rem}
-  .hero-art .arch{border-radius:50% 50% 0 0 / 6rem 6rem 0 0}
-  .hero-art img{border-radius:50% 50% 0 0 / 5.6rem 5.6rem 0 0}
+  /* no celular, a pintura fica à direita do título (o texto de baixo ocupa a largura toda) */
+  .hero{grid-template-columns:minmax(0,1fr) 7.6rem;grid-template-areas:"season art" "title art" "today today" "btn btn" "verse verse" "beads beads";gap:0 1rem;align-items:start}
+  .hero>div{display:contents}
+  .hero .season{grid-area:season;align-self:end}
+  .hero h1{grid-area:title;font-size:clamp(2.1rem,10.5vw,2.6rem);margin-bottom:1.2rem}
+  .hero .today{grid-area:today}
+  .hero .btn{grid-area:btn;justify-self:start}
+  .hero .verse{grid-area:verse}
+  .hero .beads{grid-area:beads}
+  .hero-art{grid-area:art;width:100%;margin-bottom:1.2rem}
+  .hero-art .arch{padding:.3rem;border-radius:50% 50% 0 0 / 4.3rem 4.3rem 0 0}
+  .hero-art img{border-radius:50% 50% 0 0 / 4rem 4rem 0 0}
+  .hero-art figcaption{font-size:.68rem;line-height:1.35;margin-top:.35rem}
+  .hero-art .cap-long{display:none}
+  .hero:has(.hero-art[hidden]){grid-template-areas:"season season" "title title" "today today" "btn btn" "verse verse" "beads beads"}
   .step{--rail:1.7rem;--rx:.4rem}
 }
 </style>
@@ -313,7 +324,7 @@ details.pr.wide{max-width:none}
    </div>
     <figure class="hero-art">
       <span class="arch"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Sassoferrato_-_Jungfrun_i_b%C3%B6n.jpg/960px-Sassoferrato_-_Jungfrun_i_b%C3%B6n.jpg" alt="Pintura da Virgem Maria em oração, de mãos postas, com véu branco e manto azul" fetchpriority="high" referrerpolicy="no-referrer" onerror="this.closest('figure').hidden=true"></span>
-      <figcaption><em>A Virgem em oração</em>, Sassoferrato · <a href="https://commons.wikimedia.org/wiki/File:Sassoferrato_-_Jungfrun_i_b%C3%B6n.jpg" target="_blank" rel="noopener">Wikimedia Commons</a> · Domínio público</figcaption>
+      <figcaption><span class="cap-long"><em>A Virgem em oração</em>, </span>Sassoferrato · <a href="https://commons.wikimedia.org/wiki/File:Sassoferrato_-_Jungfrun_i_b%C3%B6n.jpg" target="_blank" rel="noopener"><span class="cap-long">Wikimedia </span>Commons</a><span class="cap-long"> · Domínio público</span></figcaption>
     </figure>
   </section>
 
