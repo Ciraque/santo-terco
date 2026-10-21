@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Santo Terço</title>
+<meta name="description" content="Reze o terço com os mistérios do dia, a liturgia diária, o santo do dia e as principais orações em português e latim.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#f1f0f5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14172a" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Santo Terço">
+<meta property="og:title" content="Santo Terço · Com Maria, contemplar Cristo">
+<meta property="og:description" content="Os mistérios do dia, a liturgia, o santo do dia e as principais orações.">
+<meta property="og:url" content="https://ciraque.github.io/santo-terco/">
+<meta property="og:image" content="https://ciraque.github.io/santo-terco/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Santo Terço: Com Maria, contemplar Cristo.">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,8 +31,11 @@
 :root{
   --paper:#f1f0f5; --paper-2:#e6e4ee; --ink:#1d2036; --muted:#575a73; --line:#cdcade;
   --c-goz:#a8477a; --c-lum:#8a5f00; --c-dol:#7b2a3c; --c-glo:#2a6a8c;
+  --s-verde:#2f6b3a; --s-roxo:#5b2a86; --s-branco:#8a6700; --s-vermelho:#a3202b; --s-rosa:#a8477a;
+  --gold:#8f6f22;
   --on-accent:#ffffff;
-  --accent:var(--c-dol);
+  --season:var(--s-verde);
+  --accent:var(--season);
   --display:'Cormorant Garamond',Georgia,'Times New Roman',serif;
   --text:'Newsreader',Georgia,'Times New Roman',serif;
 }
@@ -24,12 +43,20 @@
   :root:not([data-theme="light"]){
     --paper:#14172a; --paper-2:#1c2038; --ink:#e9e7f2; --muted:#a3a6bd; --line:#2f3454;
     --c-goz:#e48cbb; --c-lum:#e2b657; --c-dol:#e88d9f; --c-glo:#82c2e2; --on-accent:#14172a; color-scheme:dark;
+    --s-verde:#86c994; --s-roxo:#c0a2e8; --s-branco:#e2c35a; --s-vermelho:#f0959a; --s-rosa:#e48cbb; --gold:#d9b765;
   }
 }
 :root[data-theme="dark"]{
   --paper:#14172a; --paper-2:#1c2038; --ink:#e9e7f2; --muted:#a3a6bd; --line:#2f3454;
   --c-goz:#e48cbb; --c-lum:#e2b657; --c-dol:#e88d9f; --c-glo:#82c2e2; --on-accent:#14172a; color-scheme:dark;
+    --s-verde:#86c994; --s-roxo:#c0a2e8; --s-branco:#e2c35a; --s-vermelho:#f0959a; --s-rosa:#e48cbb; --gold:#d9b765;
 }
+/* cor do tempo litúrgico (definida pelo script conforme a data) */
+:root[data-season="roxo"]{--season:var(--s-roxo)}
+:root[data-season="branco"]{--season:var(--s-branco)}
+:root[data-season="vermelho"]{--season:var(--s-vermelho)}
+:root[data-season="rosa"]{--season:var(--s-rosa)}
+:root[data-season]{--accent:var(--season)}
 .set-gozosos{--accent:var(--c-goz)}
 .set-luminosos{--accent:var(--c-lum)}
 .set-dolorosos{--accent:var(--c-dol)}
@@ -58,8 +85,15 @@ p{margin:0 0 1rem}
 section[id]{scroll-margin-top:4.6rem}
 
 /* héroi */
-.hero{padding-block:3.2rem 1.6rem}
+.hero{padding-block:3.2rem 1.6rem;display:grid;grid-template-columns:minmax(0,1fr) 15.5rem;gap:1.6rem 2.6rem;align-items:center}
 .hero h1{font-size:clamp(2.6rem,9vw,4.4rem);max-width:12ch;margin-bottom:1.3rem}
+.season{display:inline-flex;align-items:center;gap:.45rem;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:0 0 .9rem}
+.season i{width:.6rem;height:.6rem;border-radius:50%;background:var(--season)}
+.hero-art{margin:0}
+.hero:has(.hero-art[hidden]){grid-template-columns:minmax(0,1fr)}
+.hero-art .arch{display:block;padding:.45rem;border:1px solid var(--gold);border-radius:50% 50% 0 0 / 7.5rem 7.5rem 0 0}
+.hero-art img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%;border-radius:50% 50% 0 0 / 7rem 7rem 0 0;background:var(--paper-2)}
+.hero-art figcaption{font-size:.75rem;color:var(--muted);margin-top:.5rem;line-height:1.4}
 .today{font-size:1.25rem;margin-bottom:1.4rem}
 .today strong{color:var(--accent);font-weight:500}
 .btn{display:inline-block;background:var(--accent);color:var(--on-accent);border:0;border-radius:2rem;padding:.7rem 1.5rem;font-size:1rem;cursor:pointer}
@@ -67,6 +101,7 @@ section[id]{scroll-margin-top:4.6rem}
 .verse{margin:1.6rem 0 0;color:var(--muted);font-style:italic}
 .verse span{font-style:normal;font-size:.9rem}
 .beads{display:block;width:13.8rem;max-width:100%;height:auto;color:var(--accent);margin:2.4rem 0 .4rem}
+.today strong.set-gozosos,.today strong.set-luminosos,.today strong.set-dolorosos,.today strong.set-gloriosos{color:var(--accent)}
 
 /* seções */
 .sec{padding-block:2.6rem}
@@ -134,11 +169,25 @@ figure.art figcaption{font-size:.78rem;color:var(--muted);margin-top:.4rem}
 .end{border-top:1px solid var(--line);margin-top:1rem}
 .foot{padding-block:2rem 3rem;color:var(--muted);font-size:.9rem}
 
+/* o terço como caminho: linha vertical ligando início, mistérios e conclusão */
+.step{--rail:2.2rem;--rx:.55rem;position:relative;padding-left:calc(max(16px,env(safe-area-inset-left,0px)) + var(--rail))}
+.step::before{content:"";position:absolute;left:calc(max(16px,env(safe-area-inset-left,0px)) + var(--rx));top:0;bottom:0;width:1px;background:var(--gold);opacity:.55}
+#oracoes::before{top:3.2rem}
+#concluir::before{bottom:auto;height:3.2rem}
+.step-kicker{position:relative;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:0 0 .3rem}
+.step-kicker::before{content:"";position:absolute;left:calc(var(--rx) - var(--rail) - .4rem);top:.2rem;width:.8rem;height:.8rem;border-radius:50%;background:var(--paper);border:2px solid var(--gold)}
+
+/* letra capitular e ornamentos */
+.drop::first-letter{float:left;font-family:var(--display);font-weight:600;font-size:3.7em;line-height:.78;padding:.06em .12em 0 0;color:var(--accent)}
+.orn{display:block;width:9rem;height:1rem;margin:0 0 2.2rem;background:var(--gold);opacity:.8;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 144 16'%3E%3Cpath d='M0 8h58M86 8h58' stroke='black' stroke-width='1'/%3E%3Cpath d='M70.5 1h3v5.5H79v3h-5.5V15h-3V9.5H65v-3h5.5z'/%3E%3Ccircle cx='62' cy='8' r='1.6'/%3E%3Ccircle cx='82' cy='8' r='1.6'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 144 16'%3E%3Cpath d='M0 8h58M86 8h58' stroke='black' stroke-width='1'/%3E%3Cpath d='M70.5 1h3v5.5H79v3h-5.5V15h-3V9.5H65v-3h5.5z'/%3E%3Ccircle cx='62' cy='8' r='1.6'/%3E%3Ccircle cx='82' cy='8' r='1.6'/%3E%3C/svg%3E") center/contain no-repeat}
+
 /* divisor entre o terço e o dia a dia */
 .divider{padding-block:3rem 0;text-align:center}
 .divider .rule{display:block;height:1px;background:var(--line);margin-bottom:2.2rem;position:relative}
-.divider .rule::after{content:"";position:absolute;left:50%;top:50%;width:.6rem;height:.6rem;margin:-.3rem 0 0 -.3rem;border-radius:50%;background:var(--c-dol);box-shadow:0 0 0 .5rem var(--paper)}
-.divider-kicker{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 .3rem}
+.divider .rule::after{content:"";position:absolute;left:50%;top:50%;width:.6rem;height:.6rem;margin:-.3rem 0 0 -.3rem;border-radius:50%;background:var(--gold);box-shadow:0 0 0 .5rem var(--paper)}
+.divider-kicker{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:0 0 .3rem}
 .divider-title{font-size:clamp(2rem,6vw,2.7rem)}
 .divider .small{margin:.6rem auto 0;max-width:30rem}
 
@@ -182,6 +231,11 @@ details.pr.wide{max-width:none}
   .ord{font-size:1.9rem}
   .hero{padding-top:2.2rem}
   .bi{grid-template-columns:minmax(0,1fr);gap:.8rem}
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .hero-art{order:-1;width:10.5rem}
+  .hero-art .arch{border-radius:50% 50% 0 0 / 6rem 6rem 0 0}
+  .hero-art img{border-radius:50% 50% 0 0 / 5.6rem 5.6rem 0 0}
+  .step{--rail:1.7rem;--rx:.4rem}
 }
 </style>
 </head>
@@ -203,11 +257,18 @@ details.pr.wide{max-width:none}
 
 <main id="inicio">
   <section class="hero in" id="hero">
+   <div>
+    <p class="season" id="season"></p>
     <h1>Com Maria, contemplar Cristo.</h1>
     <p class="today" id="today"></p>
     <button class="btn" id="go-today" type="button">Rezar os mistérios de hoje</button>
     <p class="verse">Faça-se em mim segundo a tua palavra. <span>Lucas 1,38</span></p>
     <svg class="beads" viewBox="0 0 224 14" role="presentation" aria-hidden="true"><line x1="3" y1="7" x2="211" y2="7" stroke="currentColor" stroke-width="1" opacity=".5"/><g fill="currentColor"><circle cx="6" cy="7" r="3"/><circle cx="26" cy="7" r="3"/><circle cx="46" cy="7" r="3"/><circle cx="66" cy="7" r="3"/><circle cx="86" cy="7" r="3"/><circle cx="106" cy="7" r="3"/><circle cx="126" cy="7" r="3"/><circle cx="146" cy="7" r="3"/><circle cx="166" cy="7" r="3"/><circle cx="186" cy="7" r="3"/><circle cx="210" cy="7" r="6"/></g></svg>
+   </div>
+    <figure class="hero-art">
+      <span class="arch"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Sassoferrato_-_Jungfrun_i_b%C3%B6n.jpg/960px-Sassoferrato_-_Jungfrun_i_b%C3%B6n.jpg" alt="Pintura da Virgem Maria em oração, de mãos postas, com véu branco e manto azul" fetchpriority="high" referrerpolicy="no-referrer" onerror="this.closest('figure').hidden=true"></span>
+      <figcaption><em>A Virgem em oração</em>, Sassoferrato · <a href="https://commons.wikimedia.org/wiki/File:Sassoferrato_-_Jungfrun_i_b%C3%B6n.jpg" target="_blank" rel="noopener">Wikimedia Commons</a> · Domínio público</figcaption>
+    </figure>
   </section>
 
   <section class="sec in" id="guia">
@@ -216,7 +277,8 @@ details.pr.wide{max-width:none}
     <ul class="week" id="week"></ul>
   </section>
 
-  <section class="sec in" id="oracoes">
+  <section class="sec in step" id="oracoes">
+    <p class="step-kicker">1º passo · Início</p>
     <h2>Oração introdutória</h2>
     <p class="lead">Faça o sinal da cruz, reze o Credo e depois um Pai-Nosso, três Ave-Marias e um Glória ao Pai.</p>
     <details class="pr" open>
@@ -246,15 +308,16 @@ Em nome do Pai, e do Filho, e do Espírito Santo. Amém.</p>
     </details>
   </section>
 
-  <section class="sec in" id="misterios">
+  <section class="sec in step" id="misterios">
+    <p class="step-kicker">2º passo · Contemplação</p>
     <h2>Os mistérios do Rosário</h2>
     <p class="lead">Escolha o conjunto do dia ou siga a contemplação que desejar.</p>
     <div class="tabs" role="tablist" aria-label="Conjuntos de mistérios" id="tabs"></div>
     <div id="panel" role="tabpanel" aria-live="polite"></div>
   </section>
 
-  <section class="sec in" id="concluir">
-    <svg class="beads" style="margin-top:0" viewBox="0 0 224 14" role="presentation" aria-hidden="true"><line x1="3" y1="7" x2="211" y2="7" stroke="currentColor" stroke-width="1" opacity=".5"/><g fill="currentColor"><circle cx="6" cy="7" r="3"/><circle cx="26" cy="7" r="3"/><circle cx="46" cy="7" r="3"/><circle cx="66" cy="7" r="3"/><circle cx="86" cy="7" r="3"/><circle cx="106" cy="7" r="3"/><circle cx="126" cy="7" r="3"/><circle cx="146" cy="7" r="3"/><circle cx="166" cy="7" r="3"/><circle cx="186" cy="7" r="3"/><circle cx="210" cy="7" r="6"/></g></svg>
+  <section class="sec in step" id="concluir">
+    <p class="step-kicker">3º passo · Conclusão</p>
     <h2>Oração conclusiva</h2>
     <details class="pr" open>
       <summary>Salve-Rainha</summary>
@@ -282,12 +345,14 @@ Em nome do Pai, e do Filho, e do Espírito Santo. Amém.</p>
   </section>
 
   <section class="sec in" id="santo" aria-live="polite">
+    <span class="orn" aria-hidden="true"></span>
     <h2>Santo do dia</h2>
     <p class="lead" id="saint-date"></p>
     <div id="saint-out"></div>
   </section>
 
   <section class="sec in" id="principais">
+    <span class="orn" aria-hidden="true"></span>
     <h2>Principais orações</h2>
     <p class="lead">As orações tradicionais da Igreja em português e em latim, a língua oficial da Igreja Católica.</p>
     <details class="pr wide">
@@ -492,9 +557,34 @@ const dow=now.getDay();
 const todaySet=SETS.find(s=>s.days.includes(dow));
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/* ---------- tempo litúrgico ----------
+   Define a cor de destaque do site conforme o calendário: roxo no Advento e na Quaresma,
+   rosa no Gaudete e no Laetare, branco/dourado no Natal e na Páscoa, vermelho no Domingo de Ramos,
+   na Sexta-feira Santa e em Pentecostes, verde no Tempo Comum. */
+function liturgicalSeason(d){
+  const y=d.getFullYear(),k=x=>x.getFullYear()*10000+(x.getMonth()+1)*100+x.getDate(),add=(x,n)=>{const r=new Date(x);r.setDate(r.getDate()+n);return r;};
+  const today=k(d),E=easter(y);
+  const jan2=new Date(y,0,2),epi=add(jan2,(7-jan2.getDay())%7),bapt=add(epi,epi.getDate()>=7?1:7);
+  const dec24=new Date(y,11,24),adv1=add(dec24,-dec24.getDay()-21);
+  if(today<=k(bapt))return {id:'branco',name:'Tempo do Natal'};
+  if(today>=k(add(E,-46))&&today<k(E)){
+    if(today===k(add(E,-7))||today===k(add(E,-2)))return {id:'vermelho',name:'Semana Santa'};
+    if(today>=k(add(E,-7)))return {id:'roxo',name:'Semana Santa'};
+    if(today===k(add(E,-21)))return {id:'rosa',name:'Quaresma'};
+    return {id:'roxo',name:'Quaresma'};
+  }
+  if(today>=k(E)&&today<k(add(E,49)))return {id:'branco',name:'Tempo Pascal'};
+  if(today===k(add(E,49)))return {id:'vermelho',name:'Pentecostes'};
+  if(today>=k(adv1)&&today<k(new Date(y,11,25)))return today===k(add(adv1,14))?{id:'rosa',name:'Advento'}:{id:'roxo',name:'Advento'};
+  if(today>=k(new Date(y,11,25)))return {id:'branco',name:'Tempo do Natal'};
+  return {id:'verde',name:'Tempo Comum'};
+}
+const season=liturgicalSeason(now);
+if(season.id!=='verde')document.documentElement.setAttribute('data-season',season.id);
+
 /* ---------- topo ---------- */
-$('hero').classList.add('set-'+todaySet.id);
-$('today').innerHTML='Hoje, '+DAYS[dow]+', rezamos os <strong>'+todaySet.name+'</strong>.';
+$('today').innerHTML='Hoje, '+DAYS[dow]+', rezamos os <strong class="set-'+todaySet.id+'">'+todaySet.name+'</strong>.';
+$('season').innerHTML='<i aria-hidden="true"></i>'+esc(season.name);
 
 /* ---------- santo do dia ---------- */
 (function(){
@@ -509,10 +599,10 @@ $('today').innerHTML='Hoje, '+DAYS[dow]+', rezamos os <strong>'+todaySet.name+'<
   const ps=a=>a.map(p=>'<p>'+esc(p)+'</p>').join('');
   const notice=fallback?'<p class="notice">O santo deste dia ainda não foi cadastrado. Aqui está o último, de '+sd+' de '+MONTHS[sm]+'.</p>':'';
   $('saint-out').innerHTML=notice+
-   '<div class="saint set-gozosos"><div>'+img+'</div><div class="prose">'+
+   '<div class="saint"><div>'+img+'</div><div class="prose">'+
    (entry.kicker?'<p class="kicker">'+esc(entry.kicker)+'</p>':'')+'<h3>'+esc(entry.name)+'</h3>'+
    '<p class="meta">'+[entry.years,entry.feast,entry.patron].filter(Boolean).map(esc).join(' · ')+'</p>'+
-   ps(entry.paras||[])+
+   (entry.paras||[]).map((p,i)=>'<p'+(i===0?' class="drop"':'')+'>'+esc(p)+'</p>').join('')+
    (entry.quote?'<blockquote class="pull">“'+esc(entry.quote.text)+'”'+(entry.quote.note?'<small>'+esc(entry.quote.note)+'</small>':'')+'</blockquote>':'')+
    ps(entry.paras2||[])+
    '<div class="src">Fontes, consultadas em '+esc(entry.checked)+':<ul>'+entry.sources.map(s=>'<li><a href="'+esc(s.u)+'" target="_blank" rel="noopener">'+esc(s.l)+'</a></li>').join('')+'</ul></div>'+
@@ -576,7 +666,7 @@ function renderPanel(){
    '<ol class="decades">'+s.decades.map((d,n)=>
      '<li><span class="ord" aria-hidden="true">'+(n+1)+'º</span><div><h3>'+esc(d.t)+'</h3>'+artHtml((ART[s.id]||[])[n])+
      '<blockquote>'+esc(d.q)+'<cite>Passagem bíblica, '+esc(d.ref)+'</cite></blockquote>'+
-     '<p>'+esc(d.m)+'</p><p class="virtue">'+esc(d.v)+'</p></div></li>').join('')+'</ol>'+
+     '<p class="drop">'+esc(d.m)+'</p><p class="virtue">'+esc(d.v)+'</p></div></li>').join('')+'</ol>'+
    '<div class="after"><p><strong>Para meditar:</strong> contemple a cena, examine sua vida e conserve a intenção durante as dez Ave-Marias.</p>'+
    '<p class="small" style="margin:1rem 0 0">Terminou este conjunto? Continue com:</p>'+
    '<div class="next">'+others.map(o=>'<button type="button" data-go="'+o.id+'">'+esc(o.name)+'</button>').join('')+'</div></div>';
