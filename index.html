@@ -666,7 +666,7 @@ function renderPanel(){
    '<ol class="decades">'+s.decades.map((d,n)=>
      '<li><span class="ord" aria-hidden="true">'+(n+1)+'º</span><div><h3>'+esc(d.t)+'</h3>'+artHtml((ART[s.id]||[])[n])+
      '<blockquote>'+esc(d.q)+'<cite>Passagem bíblica, '+esc(d.ref)+'</cite></blockquote>'+
-     '<p class="drop">'+esc(d.m)+'</p><p class="virtue">'+esc(d.v)+'</p></div></li>').join('')+'</ol>'+
+     '<p>'+esc(d.m)+'</p><p class="virtue">'+esc(d.v)+'</p></div></li>').join('')+'</ol>'+
    '<div class="after"><p><strong>Para meditar:</strong> contemple a cena, examine sua vida e conserve a intenção durante as dez Ave-Marias.</p>'+
    '<p class="small" style="margin:1rem 0 0">Terminou este conjunto? Continue com:</p>'+
    '<div class="next">'+others.map(o=>'<button type="button" data-go="'+o.id+'">'+esc(o.name)+'</button>').join('')+'</div></div>';
