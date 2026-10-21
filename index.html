@@ -93,7 +93,6 @@ section[id]{scroll-margin-top:4.6rem}
 .hero:has(.hero-art[hidden]){grid-template-columns:minmax(0,1fr)}
 .hero-art .arch{display:block;padding:.45rem;border:1px solid var(--gold);border-radius:50% 50% 0 0 / 7.5rem 7.5rem 0 0}
 .hero-art img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%;border-radius:50% 50% 0 0 / 7rem 7rem 0 0;background:var(--paper-2)}
-.hero-art figcaption{font-size:.75rem;color:var(--muted);margin-top:.5rem;line-height:1.4}
 .today{font-size:1.25rem;margin-bottom:1.4rem}
 .today strong{color:var(--accent);font-weight:500}
 .btn{display:inline-block;background:var(--accent);color:var(--on-accent);border:0;border-radius:2rem;padding:.7rem 1.5rem;font-size:1rem;cursor:pointer}
@@ -136,7 +135,7 @@ details.pr p{margin:0 0 1.1rem}
 .frame{aspect-ratio:4/5;max-width:100%;background:var(--paper);border:1px solid var(--gold);border-radius:50% 50% 0 0 / 5.6rem 5.6rem 0 0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;color:var(--muted);font-size:.85rem;text-align:center;padding:1rem}
 .frame svg{width:4.4rem;height:auto;color:var(--accent)}
 figure.photo{margin:0}
-figure.photo figcaption{font-size:.72rem;color:var(--muted);margin-top:.5rem;line-height:1.4}
+.img-credit{margin:.6rem 0 0}
 .holy h3{font-size:2.1rem;margin-bottom:.35rem}
 .kicker{color:var(--accent);margin-bottom:.2rem}
 .meta{color:var(--muted);font-size:.95rem;margin-bottom:1.1rem}
@@ -163,7 +162,8 @@ figure.photo figcaption{font-size:.72rem;color:var(--muted);margin-top:.5rem;lin
 /* pinturas dos mistérios: passe-partout com filete dourado, como um quadro na parede */
 figure.art{margin:0 0 1.3rem;background:var(--paper-2);border:1px solid var(--line);padding:1.3rem 1.3rem .9rem;text-align:center}
 figure.art img{display:block;margin:0 auto;max-width:100%;max-height:24rem;width:auto;height:auto;outline:1px solid var(--gold);outline-offset:6px;box-shadow:0 3px 14px rgba(0,0,0,.22)}
-figure.art figcaption{font-size:.78rem;color:var(--muted);margin-top:1.1rem;line-height:1.4}
+figure.art figcaption{font-size:.78rem;color:var(--muted);margin-top:1rem;line-height:1.4;font-style:italic}
+figure.art figcaption em{font-style:normal}
 .after{border-top:1px solid var(--line);padding-top:1.4rem}
 .next{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.8rem}
 .next button{background:none;border:1px solid var(--accent);color:var(--ink);border-radius:2rem;padding:.5rem 1.1rem;cursor:pointer;font-size:.98rem}
@@ -180,6 +180,13 @@ figure.art figcaption{font-size:.78rem;color:var(--muted);margin-top:1.1rem;line
 .week .day.now{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .end{border-top:1px solid var(--line);margin-top:1rem}
 .foot{padding-block:2rem 3rem;color:var(--muted);font-size:.9rem}
+.foot p{margin:0 0 .8rem}
+.credits summary{cursor:pointer;color:var(--ink);list-style:none}
+.credits summary::-webkit-details-marker{display:none}
+.credits summary::before{content:"+ ";color:var(--gold)}
+.credits[open] summary::before{content:"− "}
+.credits ul{margin:.6rem 0 0;padding-left:1.1rem;font-size:.82rem;line-height:1.5}
+.credits li{margin-bottom:.25rem}
 
 /* o terço como caminho: linha vertical ligando início, mistérios e conclusão */
 .step{--rail:2.2rem;--rx:.55rem;position:relative;padding-left:calc(max(16px,env(safe-area-inset-left,0px)) + var(--rail))}
@@ -306,7 +313,13 @@ details.pr.wide{max-width:none}
 .sound{background:none;border:1px solid var(--line);border-radius:50%;width:2rem;height:2rem;padding:0;display:inline-grid;place-items:center;color:var(--muted);cursor:pointer}
 .sound[aria-pressed="true"]{border-color:var(--accent);color:var(--ink)}
 .sound-wrap{display:inline-flex;align-items:center;gap:.5rem}
-.vol{width:4.5rem;accent-color:var(--accent);cursor:pointer}
+.vol{--v:13%;-webkit-appearance:none;appearance:none;width:4.8rem;height:1.4rem;margin:0;background:transparent;cursor:pointer}
+.vol:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2rem}
+.vol::-webkit-slider-runnable-track{height:3px;border-radius:3px;background:linear-gradient(to right,var(--accent) var(--v),var(--line) var(--v))}
+.vol::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;margin-top:-5px;border-radius:50%;background:var(--paper);border:2px solid var(--gold);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.vol::-moz-range-track{height:3px;border-radius:3px;background:var(--line)}
+.vol::-moz-range-progress{height:3px;border-radius:3px;background:var(--accent)}
+.vol::-moz-range-thumb{width:10px;height:10px;border-radius:50%;background:var(--paper);border:2px solid var(--gold)}
 .player{position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:6;width:min(426px,calc(100vw - 24px));box-shadow:0 6px 24px rgba(0,0,0,.3)}
 .player .yt{width:100%;aspect-ratio:16/9;background:#000}
 #yt{width:100%;height:100%}
@@ -335,8 +348,6 @@ details.pr.wide{max-width:none}
   .hero-art{grid-area:art;width:100%;margin-bottom:1.2rem}
   .hero-art .arch{padding:.3rem;border-radius:50% 50% 0 0 / 4.3rem 4.3rem 0 0}
   .hero-art img{border-radius:50% 50% 0 0 / 4rem 4rem 0 0}
-  .hero-art figcaption{font-size:.68rem;line-height:1.35;margin-top:.35rem}
-  .hero-art .cap-long{display:none}
   .hero:has(.hero-art[hidden]){grid-template-areas:"season season" "title title" "today today" "btn btn" "verse verse" "beads beads"}
   .step{--rail:1.7rem;--rx:.4rem}
 }
@@ -370,7 +381,6 @@ details.pr.wide{max-width:none}
    </div>
     <figure class="hero-art">
       <span class="arch"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Sassoferrato_-_Jungfrun_i_b%C3%B6n.jpg/960px-Sassoferrato_-_Jungfrun_i_b%C3%B6n.jpg" alt="Pintura da Virgem Maria em oração, de mãos postas, com véu branco e manto azul" fetchpriority="high" referrerpolicy="no-referrer" onerror="this.closest('figure').hidden=true"></span>
-      <figcaption><span class="cap-long"><em>A Virgem em oração</em>, </span>Sassoferrato · <a href="https://commons.wikimedia.org/wiki/File:Sassoferrato_-_Jungfrun_i_b%C3%B6n.jpg" target="_blank" rel="noopener"><span class="cap-long">Wikimedia </span>Commons</a><span class="cap-long"> · Domínio público</span></figcaption>
     </figure>
   </section>
 
@@ -554,7 +564,10 @@ In nomine Patris, et Filii, et Spiritus Sancti. Amen.</p></div></div>
 
 <div class="player" id="player" hidden role="region" aria-label="Música ambiente: The light shines in the darkness, canal Catholic Ambient (YouTube)"><div class="yt"><div id="yt"></div></div></div>
 
-<footer class="foot in">Santo do dia com fontes citadas em cada dia. Meditações e virtudes dos mistérios conforme o guia de oração deste terço.</footer>
+<footer class="foot in">
+  <p>Santo do dia com fontes citadas em cada dia. Meditações e virtudes dos mistérios conforme o guia de oração deste terço.</p>
+  <details class="credits"><summary>Créditos das imagens</summary><ul id="credits"></ul></details>
+</footer>
 
 <script>
 /* ---------- dados ---------- */
@@ -630,9 +643,20 @@ function artHtml(x){
   if(!x)return '';
   const file=x.p.split('/').pop();
   const src='https://upload.wikimedia.org/wikipedia/commons/thumb/'+x.p+'/960px-'+file;
-  const page='https://commons.wikimedia.org/wiki/File:'+file;
   return '<figure class="art"><img src="'+src+'" alt="'+esc(x.t+', de '+x.a)+'" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest(\'figure\').hidden=true">'+
-    '<figcaption><em>'+esc(x.t)+'</em>, '+esc(x.a)+' · <a href="'+page+'" target="_blank" rel="noopener">Wikimedia Commons</a> · '+esc(x.l)+'</figcaption></figure>';
+    '<figcaption><em>'+esc(x.t)+'</em> · '+esc(x.a)+'</figcaption></figure>';
+}
+
+/* créditos completos das imagens fixas (abertura e mistérios), mostrados no rodapé */
+const CC_BY_SA='https://creativecommons.org/licenses/by-sa/4.0/deed.pt-br';
+function renderCredits(){
+  const page=f=>'https://commons.wikimedia.org/wiki/File:'+f;
+  const lic=l=>/CC BY-SA 4\.0/.test(l)?esc(l.replace(/,?\s*CC BY-SA 4\.0/,''))+', <a href="'+CC_BY_SA+'" target="_blank" rel="noopener">CC BY-SA 4.0</a>':esc(l);
+  const rows=[{t:'A Virgem em oração',a:'Sassoferrato',f:'Sassoferrato_-_Jungfrun_i_b%C3%B6n.jpg',l:PD,where:'Abertura'}];
+  const names={gozosos:'Gozosos',luminosos:'Luminosos',dolorosos:'Dolorosos',gloriosos:'Gloriosos'};
+  for(const k in ART)ART[k].forEach((x,i)=>rows.push({t:x.t,a:x.a,f:x.p.split('/').pop(),l:x.l,where:'Mistérios '+names[k]+', '+(i+1)+'º'}));
+  document.getElementById('credits').innerHTML=rows.map(r=>'<li>'+esc(r.where)+': <em>'+esc(r.t)+'</em>, '+esc(r.a)+'. <a href="'+page(r.f)+'" target="_blank" rel="noopener">Wikimedia Commons</a> · '+lic(r.l)+'</li>').join('')+
+    '<li>Imagem do santo do dia: crédito e licença junto às fontes de cada dia.</li>';
 }
 
 /* Santo do dia: uma entrada por data, no formato "MM-DD".
@@ -746,7 +770,7 @@ $('season').innerHTML='<i aria-hidden="true"></i>'+esc(season.name);
   $('saint-date').textContent=DAYS[dow]+', '+now.getDate()+' de '+MONTHS[now.getMonth()];
   const sm=parseInt(shownKey.slice(0,2),10)-1,sd=parseInt(shownKey.slice(3),10);
   const img=entry.image
-    ? '<figure class="photo"><span class="arch"><img src="'+esc(entry.image.src)+'"'+(entry.image.pos?' style="object-position:'+esc(entry.image.pos)+'"':'')+' alt="'+esc(entry.image.alt||entry.name)+'" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest(\'figure\').hidden=true"></span><figcaption>'+(entry.image.pageUrl?'<a href="'+esc(entry.image.pageUrl)+'" target="_blank" rel="noopener">'+esc(entry.image.credit||'Fonte da imagem')+'</a>':esc(entry.image.credit||''))+(entry.image.license?' · '+esc(entry.image.license):'')+'</figcaption></figure>'
+    ? '<figure class="photo"><span class="arch"><img src="'+esc(entry.image.src)+'"'+(entry.image.pos?' style="object-position:'+esc(entry.image.pos)+'"':'')+' alt="'+esc(entry.image.alt||entry.name)+'" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest(\'figure\').hidden=true"></span></figure>'
     : '<div class="frame" role="img" aria-label="Espaço reservado para a imagem de '+esc(entry.name)+'"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="30" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="40" cy="40" r="24" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/></svg><span>Imagem a definir</span></div>';
   const ps=a=>a.map(p=>'<p>'+esc(p)+'</p>').join('');
   const notice=fallback?'<p class="notice">O santo deste dia ainda não foi cadastrado. Aqui está o último, de '+sd+' de '+MONTHS[sm]+'.</p>':'';
@@ -758,7 +782,9 @@ $('season').innerHTML='<i aria-hidden="true"></i>'+esc(season.name);
    (entry.paras||[]).map((p,i)=>'<p'+(i===0?' class="drop"':'')+'>'+esc(p)+'</p>').join('')+
    (entry.quote?'<blockquote class="pull">“'+esc(entry.quote.text)+'”'+(entry.quote.note?'<small>'+esc(entry.quote.note)+'</small>':'')+'</blockquote>':'')+
    ps(entry.paras2||[])+
-   '<div class="src">Fontes, consultadas em '+esc(entry.checked)+':<ul>'+entry.sources.map(s=>'<li><a href="'+esc(s.u)+'" target="_blank" rel="noopener">'+esc(s.l)+'</a></li>').join('')+'</ul></div>'+
+   '<div class="src">Fontes, consultadas em '+esc(entry.checked)+':<ul>'+entry.sources.map(s=>'<li><a href="'+esc(s.u)+'" target="_blank" rel="noopener">'+esc(s.l)+'</a></li>').join('')+'</ul>'+
+   (entry.image&&entry.image.credit?'<p class="img-credit">'+(/^[^:]{1,20}:/.test(entry.image.credit)?'':'Imagem: ')+(entry.image.pageUrl?'<a href="'+esc(entry.image.pageUrl)+'" target="_blank" rel="noopener">'+esc(entry.image.credit)+'</a>':esc(entry.image.credit))+(entry.image.license?' · '+esc(entry.image.license):'')+'</p>':'')+
+   '</div>'+
    '</div>';
 })();
 
@@ -994,7 +1020,8 @@ function parseIntentions(text){
     if(v&&!frame)build();else cmd(v?'playVideo':'pauseVideo');
   }
   btn.addEventListener('click',()=>setOn(!on));
-  vol.addEventListener('input',()=>{cmd('setVolume',[+vol.value]);cmd('unMute');});
+  const paint=()=>vol.style.setProperty('--v',(vol.value/vol.max*100)+'%');paint();
+  vol.addEventListener('input',()=>{paint();cmd('setVolume',[+vol.value]);cmd('unMute');});
 })();
 
 /* ---------- tema ---------- */
@@ -1006,6 +1033,7 @@ $('theme').addEventListener('click',()=>{
   root.setAttribute('data-theme',nx);
   try{localStorage.setItem('tema',nx);}catch(e){}
 });
+renderCredits();
 </script>
 </body>
 </html>
