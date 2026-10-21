@@ -35,7 +35,7 @@
 :root{
   --paper:#f1f0f5; --paper-2:#e6e4ee; --ink:#1d2036; --muted:#575a73; --line:#cdcade;
   --s-verde:#2f6b3a; --s-roxo:#5b2a86; --s-branco:#8a6700; --s-vermelho:#a3202b; --s-rosa:#a8477a;
-  --gold:#8f6f22;
+  --gold:#7a5d18;
   --on-accent:#ffffff;
   --marian:#2b4377;
   --season:var(--s-verde);
@@ -333,7 +333,7 @@ details.pr.wide{max-width:none}
 .player .yt{width:100%;aspect-ratio:16/9;background:#000}
 #yt{width:100%;height:100%}
 .player .yt iframe{width:100%;height:100%;border:0;display:block}
-@media (max-width:640px){.top nav{order:3;flex-basis:100%}.player{right:8px;bottom:8px;width:calc(100vw - 16px)}}
+@media (max-width:640px){section[id],details[id]{scroll-margin-top:6.2rem}.top nav{order:3;flex-basis:100%}.player{right:8px;bottom:8px;width:calc(100vw - 16px)}}
 
 @media (max-width:640px){
   body{font-size:18px}
@@ -702,7 +702,7 @@ const SAINTS={
    'Foi beatificada por Pio XII em 8 de junho de 1952 e canonizada por João XXIII em 11 de maio de 1961. Seu corpo repousa na capela dedicada a ela, em Vicenza.'
   ],
   sources:[
-   {l:'Estado da Cidade do Vaticano, Santo do dia (20 de outubro)',u:'https://vaticanstate.va/en/state-and-government/general-informations/saint-of-the-day/2854-october-20-saint-maria-bertilla-boscardin.html'},
+   {l:'Estado da Cidade do Vaticano, Santo do dia (20 de outubro)',u:'https://www.vaticanstate.va/en/component/content/article/october-20-saint-maria-bertilla-boscardin.html?catid=51&Itemid=216'},
    {l:'Wikipédia, Maria Bertilla Boscardin',u:'https://en.wikipedia.org/wiki/Maria_Bertilla_Boscardin'},
    {l:'Canção Nova, Santa Maria Bertilla Boscardin',u:'https://santo.cancaonova.com/santo/santa-maria-bertilla-boscardin-enfermeira-na-primeira-guerra-mundial/'}
   ],
@@ -903,6 +903,7 @@ $('week').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(
 })();
 renderTabs();renderPanel();
 if(SETS.some(s=>s.id===(location.hash||'').slice(1))){setTimeout(()=>mys.scrollIntoView(),0);}
+addEventListener('hashchange',()=>{const h=(location.hash||'').slice(1);if(SETS.some(s=>s.id===h))select(h,true);});
 
 /* ---------- Ângelus ---------- */
 /* Aviso discreto no topo só das 6h às 6h59, das 12h às 12h59 e das 18h às 18h59 (hora do aparelho).
