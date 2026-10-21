@@ -114,8 +114,8 @@ details.pr summary::-webkit-details-marker{display:none}
 details.pr summary::before{content:"";flex:none;width:.45rem;height:.45rem;border-radius:50%;background:var(--gold)}
 details.pr summary::after{content:"+";flex:none;margin-left:auto;width:1.6rem;height:1.6rem;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;font-family:var(--text);font-weight:400;font-size:1rem;line-height:1;color:var(--accent)}
 details.pr summary:hover::after{border-color:var(--accent)}
-details.pr[open] summary{color:var(--accent);padding-bottom:.6rem}
-details.pr[open] summary::after{content:"−";border-color:var(--accent)}
+details.pr[open] summary{padding-bottom:.6rem}
+details.pr[open] summary::after{content:"−"}
 details.pr>:not(summary){padding-left:1.1rem}
 details.pr p{margin:0 0 1.1rem}
 
