@@ -191,18 +191,40 @@ figure.art figcaption{font-size:.78rem;color:var(--muted);margin-top:1.1rem;line
   -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 144 16'%3E%3Cpath d='M0 8h58M86 8h58' stroke='black' stroke-width='1'/%3E%3Cpath d='M70.5 1h3v5.5H79v3h-5.5V15h-3V9.5H65v-3h5.5z'/%3E%3Ccircle cx='62' cy='8' r='1.6'/%3E%3Ccircle cx='82' cy='8' r='1.6'/%3E%3C/svg%3E") center/contain no-repeat;
   mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 144 16'%3E%3Cpath d='M0 8h58M86 8h58' stroke='black' stroke-width='1'/%3E%3Cpath d='M70.5 1h3v5.5H79v3h-5.5V15h-3V9.5H65v-3h5.5z'/%3E%3Ccircle cx='62' cy='8' r='1.6'/%3E%3Ccircle cx='82' cy='8' r='1.6'/%3E%3C/svg%3E") center/contain no-repeat}
 
-/* intenções: escritas no início, relembradas na conclusão (guardadas só no aparelho) */
+/* intenções: cartão compacto no início (resumo), edição numa janela própria e lembrete compacto na conclusão.
+   Tudo fica guardado só no aparelho da pessoa. */
 .intent{border:1px solid var(--line);border-left:3px solid var(--gold);background:var(--paper-2);padding:1rem 1.1rem;margin:1.1rem 0 1.3rem;max-width:36rem}
-.intent label{display:block;font-family:var(--display);font-weight:600;font-size:1.25rem;margin-bottom:.2rem}
-.intent p{margin:0 0 .7rem;font-size:.95rem;color:var(--muted)}
-.intent textarea{display:block;width:100%;min-height:5.5rem;resize:vertical;font:inherit;font-size:1rem;line-height:1.5;color:var(--ink);background:var(--paper);border:1px solid var(--line);padding:.6rem .7rem}
-.intent textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
-.intent-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.4rem 1rem;margin-top:.5rem;font-size:.8rem;color:var(--muted)}
-.intent-foot button{background:none;border:1px solid var(--line);border-radius:2rem;padding:.1rem .7rem;font-size:.8rem;color:var(--muted);cursor:pointer}
+.intent-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:.25rem}
+.intent-title{font-family:var(--display);font-weight:600;font-size:1.3rem}
+.intent-count{font-size:.8rem;color:var(--muted)}
+.intent>p{margin:0 0 .7rem;font-size:.95rem;color:var(--muted)}
+.intent-list{list-style:none;margin:.2rem 0 .5rem;padding:0}
+.intent-list li{position:relative;padding:.15rem 0 .15rem 1rem;line-height:1.45}
+.intent-list li::before{content:"";position:absolute;left:0;top:.72em;width:.36rem;height:.36rem;border-radius:50%;background:var(--gold)}
+.intent-list li.h{padding-left:0;margin-top:.4rem;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.intent-list li.h::before{content:none}
+.intent-more{margin:0 0 .5rem;font-size:.85rem;color:var(--muted);font-style:italic}
+.intent-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.5rem 1rem;margin-top:.6rem;font-size:.8rem;color:var(--muted)}
+.intent-btn{background:var(--accent);color:var(--on-accent);border:0;border-radius:2rem;padding:.4rem 1rem;font-size:.9rem;cursor:pointer}
+.intent-btn.ghost{background:none;color:var(--muted);border:1px solid var(--line)}
+.intent-dlg{width:min(42rem,calc(100vw - 2rem));height:min(46rem,calc(100dvh - 2rem));max-width:none;max-height:none;padding:0;border:1px solid var(--gold);background:var(--paper);color:var(--ink)}
+.intent-dlg[open]{display:flex;flex-direction:column}
+.intent-dlg::backdrop{background:rgba(10,12,24,.55)}
+.intent-dlg header{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.2rem .4rem}
+.intent-dlg h3{font-size:1.6rem}
+.intent-dlg .tip{margin:0;padding:0 1.2rem .8rem;font-size:.88rem;color:var(--muted)}
+.intent-dlg textarea{flex:1;margin:0 1.2rem;resize:none;font:inherit;font-size:1rem;line-height:1.6;color:var(--ink);background:var(--paper-2);border:1px solid var(--line);padding:.8rem .9rem}
+.intent-dlg textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+.intent-dlg footer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem 1rem;padding:.8rem 1.2rem 1rem;font-size:.8rem;color:var(--muted)}
+.intent-dlg footer div{display:flex;gap:.5rem}
 .intent-recall{border-left:3px solid var(--gold);background:var(--paper-2);padding:.8rem 1.1rem;margin:0 0 1.2rem;max-width:36rem}
-.intent-recall p{margin:0}
-.intent-recall q{display:block;font-style:italic;margin-top:.3rem;white-space:pre-line}
-.intent-recall q::before,.intent-recall q::after{content:none}
+.intent-recall>p{margin:0 0 .2rem}
+.intent-all summary{cursor:pointer;font-size:.88rem;color:var(--accent);list-style:none;margin-top:.1rem}
+.intent-all summary::-webkit-details-marker{display:none}
+.intent-all[open] summary{margin-bottom:.3rem}
+.intent-all .intent-list{max-height:16rem;overflow:auto;padding-right:.4rem;margin:0}
+.intent-recall:has(.intent-all[open]) #intent-recall-list{display:none}
+@media (max-width:640px){.intent-dlg{width:100vw;height:100dvh;border:0}}
 
 /* ladainha: diálogo ℣/℟ e invocações agrupadas por tema, com continhas douradas */
 .litany{max-width:36rem;padding-bottom:1rem}
@@ -337,11 +359,12 @@ details.pr.wide{max-width:none}
       <p class="prayer">Pelo sinal da Santa Cruz, livrai-nos, Deus, nosso Senhor, dos nossos inimigos.
 Em nome do Pai, e do Filho, e do Espírito Santo. Amém.</p>
     </details>
-    <div class="intent">
-      <label for="intent">Intenções</label>
-      <p>Ofereça este terço a Deus. Por quem ou pelo que você vai rezar hoje? Apresente seus pedidos, agradecimentos e as pessoas que leva no coração.</p>
-      <textarea id="intent" placeholder="Ex.: pela saúde da minha mãe, pelas almas do purgatório, em ação de graças por…"></textarea>
-      <div class="intent-foot"><span id="intent-info">Fica guardado só neste aparelho. Ninguém mais vê.</span><button type="button" id="intent-clear">Limpar</button></div>
+    <div class="intent" id="intent-box">
+      <div class="intent-head"><span class="intent-title">Intenções</span><span class="intent-count" id="intent-count"></span></div>
+      <p id="intent-invite">Ofereça este terço a Deus. Por quem ou pelo que você vai rezar hoje? Apresente seus pedidos, agradecimentos e as pessoas que leva no coração.</p>
+      <ul class="intent-list" id="intent-preview" hidden></ul>
+      <p class="intent-more" id="intent-more" hidden></p>
+      <div class="intent-foot"><span id="intent-info">Fica guardado só neste aparelho. Ninguém mais vê.</span><button type="button" class="intent-btn" id="intent-open">Escrever intenções</button></div>
     </div>
     <details class="pr" open>
       <summary>Credo</summary>
@@ -376,7 +399,7 @@ Em nome do Pai, e do Filho, e do Espírito Santo. Amém.</p>
   <section class="sec in step" id="concluir">
     <p class="step-kicker">3º passo · Conclusão</p>
     <h2>Oração conclusiva</h2>
-    <div class="intent-recall" id="intent-recall" hidden><p>Entregue a Nossa Senhora as intenções que você ofereceu no início:</p><q id="intent-text"></q></div>
+    <div class="intent-recall" id="intent-recall" hidden><p>Entregue a Nossa Senhora as intenções que você ofereceu no início:</p><ul class="intent-list" id="intent-recall-list"></ul><details class="intent-all" id="intent-all" hidden><summary id="intent-all-label"></summary><ul class="intent-list" id="intent-all-list"></ul></details></div>
     <details class="pr" open>
       <summary>Salve-Rainha</summary>
       <p>Salve, Rainha, Mãe de misericórdia, vida, doçura e esperança nossa, salve! A vós bradamos, os degredados filhos de Eva. A vós suspiramos, gemendo e chorando neste vale de lágrimas. Eia, pois, advogada nossa, esses vossos olhos misericordiosos a nós volvei. E depois deste desterro, mostrai-nos Jesus, bendito fruto do vosso ventre, ó clemente, ó piedosa, ó doce sempre Virgem Maria. Rogai por nós, santa Mãe de Deus, para que sejamos dignos das promessas de Cristo. Amém.</p>
@@ -482,6 +505,13 @@ In nomine Patris, et Filii, et Spiritus Sancti. Amen.</p></div></div>
     </details>
   </section>
 </main>
+
+<dialog class="intent-dlg" id="intent-dlg" aria-labelledby="intent-dlg-title">
+  <header><h3 id="intent-dlg-title">Minhas intenções</h3><button type="button" class="intent-btn" data-close>Pronto</button></header>
+  <p class="tip">Escreva uma intenção por linha. Pode colar uma lista do Notion ou de outro lugar; linhas que terminam com dois-pontos (ex.: “Família:”) viram títulos de grupo.</p>
+  <textarea id="intent" aria-label="Minhas intenções" placeholder="Pela saúde da minha mãe&#10;Pelas almas do purgatório&#10;Em ação de graças por…"></textarea>
+  <footer><span>Fica guardado só neste aparelho. Ninguém mais vê.</span><div><button type="button" class="intent-btn ghost" id="intent-clear">Apagar tudo</button><button type="button" class="intent-btn" data-close>Pronto</button></div></footer>
+</dialog>
 
 <div class="player" id="player" hidden>
   <div class="yt"><div id="yt"></div></div>
@@ -792,26 +822,52 @@ renderTabs();renderPanel();
 if(SETS.some(s=>s.id===(location.hash||'').slice(1))){setTimeout(()=>mys.scrollIntoView(),0);}
 
 /* ---------- intenções ---------- */
-/* Guardadas só no navegador da pessoa (localStorage); nada é enviado a lugar nenhum. */
+/* Guardadas só no navegador da pessoa (localStorage); nada é enviado a lugar nenhum.
+   Uma intenção por linha; marcadores colados (-, •, *, 1.) são ignorados e linhas com ":" no fim viram títulos. */
 (function(){
-  const box=$('intent'),info=$('intent-info'),recall=$('intent-recall'),txt=$('intent-text');
-  const KEY='intencoes',base='Fica guardado só neste aparelho. Ninguém mais vê.';
+  const box=$('intent'),dlg=$('intent-dlg'),info=$('intent-info');
+  const KEY='intencoes',base='Fica guardado só neste aparelho. Ninguém mais vê.',SHOW=3;
   const todayStr=now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
   let saved=null;
   try{saved=JSON.parse(localStorage.getItem(KEY)||'null');}catch(e){}
   if(saved&&saved.text){
     box.value=saved.text;
-    if(saved.day&&saved.day!==todayStr&&saved.label)info.textContent='Escritas em '+saved.label+'. Atualize se quiser. '+base;
+    if(saved.day&&saved.day!==todayStr&&saved.label)info.textContent='Escritas em '+saved.label+'. '+base;
   }
-  function show(){const v=box.value.trim();recall.hidden=!v;txt.textContent=v;}
+  function parse(){
+    return box.value.split('\n').map(l=>l.trim().replace(/^(\[[ xX]?\]|[-•*–·▪◦]|\d+[.)])\s*/,'').trim()).filter(Boolean)
+      .map(l=>/:$/.test(l)?{h:true,t:l.slice(0,-1)}:{h:false,t:l});
+  }
+  const li=x=>'<li'+(x.h?' class="h"':'')+'>'+esc(x.t)+'</li>';
+  function render(){
+    const items=parse(),n=items.filter(x=>!x.h).length;
+    const firsts=[];for(const x of items){if(firsts.filter(y=>!y.h).length>=SHOW)break;firsts.push(x);}
+    if(firsts.length&&firsts[firsts.length-1].h)firsts.pop();
+    const rest=n-firsts.filter(x=>!x.h).length;
+    $('intent-count').textContent=n?(n===1?'1 intenção':n+' intenções'):'';
+    $('intent-invite').hidden=!!n;
+    $('intent-preview').hidden=!n;$('intent-preview').innerHTML=firsts.map(li).join('');
+    $('intent-more').hidden=!rest;$('intent-more').textContent=rest===1?'e mais 1 intenção':'e mais '+rest+' intenções';
+    $('intent-open').textContent=n?'Ver e editar':'Escrever intenções';
+    $('intent-recall').hidden=!n;
+    $('intent-recall-list').innerHTML=firsts.map(li).join('');
+    $('intent-all').hidden=!rest;$('intent-all-label').textContent=$('intent-all').open?'Mostrar menos':'Ver todas as '+n+' intenções';
+    $('intent-all-list').innerHTML=items.map(li).join('');
+  }
   function save(){
     const v=box.value.trim();
     try{v?localStorage.setItem(KEY,JSON.stringify({text:box.value,day:todayStr,label:now.getDate()+' de '+MONTHS[now.getMonth()]})):localStorage.removeItem(KEY);}catch(e){}
-    info.textContent=base;show();
+    info.textContent=base;render();
   }
   box.addEventListener('input',save);
-  $('intent-clear').addEventListener('click',()=>{box.value='';save();box.focus();});
-  show();
+  $('intent-all').addEventListener('toggle',render);
+  $('intent-open').addEventListener('click',()=>{dlg.showModal();box.focus();});
+  dlg.addEventListener('click',e=>{
+    const r=dlg.getBoundingClientRect(),fora=e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom;
+    if(e.target.closest('[data-close]')||(e.target===dlg&&fora))dlg.close();
+  });
+  $('intent-clear').addEventListener('click',()=>{if(!box.value.trim()||confirm('Apagar todas as intenções?')){box.value='';save();box.focus();}});
+  render();
 })();
 
 /* ---------- som ambiente ---------- */
