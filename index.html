@@ -526,7 +526,7 @@ const SAINTS={
   years:'1786 a 1837',
   feast:'Festa em 21 de outubro',
   patron:'Padroeiro da cidade de Sonnino, na Itália.',
-  image:{src:'https://upload.wikimedia.org/wikipedia/commons/5/51/Gaspare_del_Bufalo.jpg',alt:'Desenho em preto e branco do rosto de São Gaspar del Bufalo, de perfil',credit:'Autor desconhecido, via Wikimedia Commons',license:'Domínio público (PD-Art)',pageUrl:'https://commons.wikimedia.org/wiki/File:Gaspare_del_Bufalo.jpg'},
+  image:{src:'https://upload.wikimedia.org/wikipedia/commons/5/51/Gaspare_del_Bufalo.jpg',alt:'Desenho em preto e branco do rosto de São Gaspar del Bufalo, de perfil',credit:'Autor desconhecido, via Wikimedia Commons',license:'Domínio público (PD-Art)',pageUrl:'https://commons.wikimedia.org/wiki/File:Gaspare_del_Bufalo.jpg',pos:'100% 30%'},
   paras:[
    'Gaspar nasceu em Roma em 6 de janeiro de 1786, dia da Epifania, e por isso recebeu os nomes dos três Reis Magos: Gaspar, Melchior e Baltasar. Ainda criança, sofreu uma grave doença nos olhos. Sua mãe rezou com confiança diante da relíquia de São Francisco Xavier, na igreja de Jesus (Gesù), e ele ficou curado. Daí nasceu o desejo de ser padre missionário.',
    'Foi ordenado sacerdote em 31 de julho de 1808 e se dedicou aos pobres e aos trabalhadores simples do campo romano. Quando o governo de Napoleão exigiu dos padres um juramento de fidelidade ao imperador, ele se recusou. Por isso foi exilado e passou cerca de quatro anos preso, até voltar a Roma em 1814.',
@@ -604,7 +604,7 @@ $('season').innerHTML='<i aria-hidden="true"></i>'+esc(season.name);
   $('saint-date').textContent=DAYS[dow]+', '+now.getDate()+' de '+MONTHS[now.getMonth()];
   const sm=parseInt(shownKey.slice(0,2),10)-1,sd=parseInt(shownKey.slice(3),10);
   const img=entry.image
-    ? '<figure class="photo"><span class="arch"><img src="'+esc(entry.image.src)+'" alt="'+esc(entry.image.alt||entry.name)+'" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest(\'figure\').hidden=true"></span><figcaption>'+(entry.image.pageUrl?'<a href="'+esc(entry.image.pageUrl)+'" target="_blank" rel="noopener">'+esc(entry.image.credit||'Fonte da imagem')+'</a>':esc(entry.image.credit||''))+(entry.image.license?' · '+esc(entry.image.license):'')+'</figcaption></figure>'
+    ? '<figure class="photo"><span class="arch"><img src="'+esc(entry.image.src)+'"'+(entry.image.pos?' style="object-position:'+esc(entry.image.pos)+'"':'')+' alt="'+esc(entry.image.alt||entry.name)+'" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest(\'figure\').hidden=true"></span><figcaption>'+(entry.image.pageUrl?'<a href="'+esc(entry.image.pageUrl)+'" target="_blank" rel="noopener">'+esc(entry.image.credit||'Fonte da imagem')+'</a>':esc(entry.image.credit||''))+(entry.image.license?' · '+esc(entry.image.license):'')+'</figcaption></figure>'
     : '<div class="frame" role="img" aria-label="Espaço reservado para a imagem de '+esc(entry.name)+'"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="30" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="40" cy="40" r="24" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/></svg><span>Imagem a definir</span></div>';
   const ps=a=>a.map(p=>'<p>'+esc(p)+'</p>').join('');
   const notice=fallback?'<p class="notice">O santo deste dia ainda não foi cadastrado. Aqui está o último, de '+sd+' de '+MONTHS[sm]+'.</p>':'';
