@@ -121,8 +121,6 @@ figure.art figcaption{font-size:.78rem;color:var(--muted);margin-top:.4rem}
 .next{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.8rem}
 .next button{background:none;border:1px solid var(--accent);color:var(--ink);border-radius:2rem;padding:.5rem 1.1rem;cursor:pointer;font-size:.98rem}
 .next button:hover{background:var(--accent);color:var(--on-accent)}
-.week-guide{margin-top:2.6rem}
-.week-guide h3{font-size:1.5rem;margin-bottom:.2rem}
 .week{display:grid;gap:.6rem;margin:1rem 0 0;padding:0;list-style:none}
 .week button{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:.3rem 1rem;width:100%;text-align:left;background:none;border:1px solid var(--line);border-left:4px solid var(--accent);padding:.75rem 1rem;cursor:pointer}
 .week button:hover{background:var(--paper-2)}
@@ -204,6 +202,12 @@ details.pr.wide{max-width:none}
     <svg class="beads" viewBox="0 0 224 14" role="presentation" aria-hidden="true"><line x1="3" y1="7" x2="211" y2="7" stroke="currentColor" stroke-width="1" opacity=".5"/><g fill="currentColor"><circle cx="6" cy="7" r="3"/><circle cx="26" cy="7" r="3"/><circle cx="46" cy="7" r="3"/><circle cx="66" cy="7" r="3"/><circle cx="86" cy="7" r="3"/><circle cx="106" cy="7" r="3"/><circle cx="126" cy="7" r="3"/><circle cx="146" cy="7" r="3"/><circle cx="166" cy="7" r="3"/><circle cx="186" cy="7" r="3"/><circle cx="210" cy="7" r="6"/></g></svg>
   </section>
 
+  <section class="sec in" id="guia">
+    <h2>Guia semanal</h2>
+    <p class="lead">Cada conjunto de mistérios tem seus dias na semana. Veja qual rezar hoje e toque em um deles para abri-lo.</p>
+    <ul class="week" id="week"></ul>
+  </section>
+
   <section class="sec in" id="oracoes">
     <h2>Oração introdutória</h2>
     <p class="lead">Faça o sinal da cruz, reze o Credo e depois um Pai-Nosso, três Ave-Marias e um Glória ao Pai.</p>
@@ -251,11 +255,6 @@ Em nome do Pai, e do Filho, e do Espírito Santo. Amém.</p>
     <p class="lead">Escolha o conjunto do dia ou siga a contemplação que desejar.</p>
     <div class="tabs" role="tablist" aria-label="Conjuntos de mistérios" id="tabs"></div>
     <div id="panel" role="tabpanel" aria-live="polite"></div>
-    <div class="week-guide">
-      <h3>Guia semanal</h3>
-      <p class="small">Cada conjunto de mistérios tem seus dias na semana. Toque em um deles para abri-lo.</p>
-      <ul class="week" id="week"></ul>
-    </div>
   </section>
 
   <section class="sec in" id="concluir">
