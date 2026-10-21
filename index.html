@@ -137,6 +137,9 @@ figure.photo figcaption{font-size:.78rem;color:var(--muted);margin-top:.4rem}
 .readings li span:first-child{color:var(--muted)}
 .precept{border-left:3px solid var(--accent);background:var(--paper-2);padding:.75rem 1rem;margin:1.2rem 0 .4rem;max-width:36rem}
 .precept strong{color:var(--accent);font-weight:500}
+.read{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1.2rem;margin:.4rem 0 1rem}
+.read a.btn{text-decoration:none}
+.read a:not(.btn){font-size:.95rem;color:var(--muted)}
 
 /* orações em português e latim */
 .bi{display:grid;grid-template-columns:1fr 1fr;gap:.2rem 1.6rem;padding-bottom:1rem}
@@ -399,6 +402,7 @@ const SAINTS={
 const LITURGY={
  '2026-10-21':{
   title:'Quarta-feira da 29ª Semana do Tempo Comum',
+  link:'https://liturgia.cancaonova.com/pb/liturgia/29a-semana-tempo-comum-quarta-feira-8/?sDia=21&sMes=10&sAno=2026',
   color:'Verde',
   readings:[
    {l:'1ª Leitura',r:'Ef 3,2-12'},
@@ -474,15 +478,16 @@ function precept(d){
   $('lit-date').textContent=DAYS[dow]+', '+now.getDate()+' de '+MONTHS[now.getMonth()];
   const pre=p?'<p class="precept"><strong>Hoje é dia de preceito.</strong> '+esc(p)+'. Os católicos são chamados a participar da Santa Missa.</p>':'';
   const vn='https://www.vaticannews.va/pt/palavra-do-dia/'+y+'/'+mm+'/'+dd+'.html';
+  const read=u=>'<div class="read"><a class="btn" href="'+esc(u)+'" target="_blank" rel="noopener">Ler as leituras de hoje</a><a href="'+vn+'" target="_blank" rel="noopener">ou ouvir no Vatican News</a></div>';
   if(!entry){
-    $('lit-out').innerHTML=pre+'<p class="prose">As leituras de hoje ainda não foram cadastradas aqui. Você pode lê-las na <a href="https://liturgia.cancaonova.com/pb/" target="_blank" rel="noopener">Liturgia Diária da Canção Nova</a> ou na <a href="'+vn+'" target="_blank" rel="noopener">Palavra do dia do Vatican News</a>.</p>';
+    $('lit-out').innerHTML=pre+'<p class="prose">As referências de hoje ainda não foram cadastradas aqui, mas você já pode ler as leituras completas.</p>'+read('https://liturgia.cancaonova.com/pb/');
     return;
   }
   const dot=COLORS[(entry.color||'').toLowerCase()];
   $('lit-out').innerHTML=pre+
    '<div class="lit-head"><h3>'+esc(entry.title)+'</h3>'+(entry.color?'<span class="chip"><i style="--dot:'+(dot||'#888')+'"></i>Cor litúrgica: '+esc(entry.color)+'</span>':'')+'</div>'+
    '<ul class="readings">'+entry.readings.map(r=>'<li><span>'+esc(r.l)+'</span><span>'+esc(r.r)+'</span></li>').join('')+'</ul>'+
-   '<p class="small">Leia os textos completos nas fontes abaixo.</p>'+
+   read(entry.link||'https://liturgia.cancaonova.com/pb/')+
    '<div class="src">Fontes:<ul>'+entry.sources.map(s=>'<li><a href="'+esc(s.u)+'" target="_blank" rel="noopener">'+esc(s.l)+'</a></li>').join('')+'</ul></div>';
 })();
 
