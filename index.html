@@ -114,11 +114,16 @@ section[id]{scroll-margin-top:4.6rem}
 .steps{color:var(--muted);font-style:italic;margin-top:1.2rem}
 details.pr{border-top:1px solid var(--line);max-width:36rem}
 details.pr:last-of-type{border-bottom:1px solid var(--line)}
-details.pr summary{cursor:pointer;padding:.7rem 0;font-family:var(--display);font-weight:600;font-size:1.25rem;list-style:none}
+/* título de cada oração: continha dourada, nome em destaque e +/− num círculo; o texto fica recuado */
+details.pr summary{cursor:pointer;display:flex;align-items:center;gap:.65rem;padding:.85rem 0;font-family:var(--display);font-weight:600;font-size:1.45rem;line-height:1.2;list-style:none}
 details.pr summary::-webkit-details-marker{display:none}
-details.pr summary::after{content:"+";float:right;color:var(--accent)}
-details.pr[open] summary::after{content:"−"}
-details.pr p{margin:0 0 1rem}
+details.pr summary::before{content:"";flex:none;width:.45rem;height:.45rem;border-radius:50%;background:var(--gold)}
+details.pr summary::after{content:"+";flex:none;margin-left:auto;width:1.6rem;height:1.6rem;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;font-family:var(--text);font-weight:400;font-size:1rem;line-height:1;color:var(--accent)}
+details.pr summary:hover::after{border-color:var(--accent)}
+details.pr[open] summary{color:var(--accent);padding-bottom:.6rem}
+details.pr[open] summary::after{content:"−";border-color:var(--accent)}
+details.pr>:not(summary){padding-left:1.1rem}
+details.pr p{margin:0 0 1.1rem}
 
 /* santo do dia */
 /* santo do dia como um santinho: cartão com borda dourada dupla, imagem em arco, nome centralizado */
