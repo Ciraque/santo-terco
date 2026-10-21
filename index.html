@@ -192,6 +192,27 @@ figure.art figcaption{font-size:.78rem;color:var(--muted);margin-top:1.1rem;line
   -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 144 16'%3E%3Cpath d='M0 8h58M86 8h58' stroke='black' stroke-width='1'/%3E%3Cpath d='M70.5 1h3v5.5H79v3h-5.5V15h-3V9.5H65v-3h5.5z'/%3E%3Ccircle cx='62' cy='8' r='1.6'/%3E%3Ccircle cx='82' cy='8' r='1.6'/%3E%3C/svg%3E") center/contain no-repeat;
   mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 144 16'%3E%3Cpath d='M0 8h58M86 8h58' stroke='black' stroke-width='1'/%3E%3Cpath d='M70.5 1h3v5.5H79v3h-5.5V15h-3V9.5H65v-3h5.5z'/%3E%3Ccircle cx='62' cy='8' r='1.6'/%3E%3Ccircle cx='82' cy='8' r='1.6'/%3E%3C/svg%3E") center/contain no-repeat}
 
+/* intenções: escritas no início, relembradas na conclusão (guardadas só no aparelho) */
+.intent{border:1px solid var(--line);border-left:3px solid var(--gold);background:var(--paper-2);padding:1rem 1.1rem;margin:1.1rem 0 1.3rem;max-width:36rem}
+.intent label{display:block;font-family:var(--display);font-weight:600;font-size:1.25rem;margin-bottom:.2rem}
+.intent p{margin:0 0 .7rem;font-size:.95rem;color:var(--muted)}
+.intent textarea{display:block;width:100%;min-height:5.5rem;resize:vertical;font:inherit;font-size:1rem;line-height:1.5;color:var(--ink);background:var(--paper);border:1px solid var(--line);padding:.6rem .7rem}
+.intent textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+.intent-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.4rem 1rem;margin-top:.5rem;font-size:.8rem;color:var(--muted)}
+.intent-foot button{background:none;border:1px solid var(--line);border-radius:2rem;padding:.1rem .7rem;font-size:.8rem;color:var(--muted);cursor:pointer}
+.intent-recall{border-left:3px solid var(--gold);background:var(--paper-2);padding:.8rem 1.1rem;margin:0 0 1.2rem;max-width:36rem}
+.intent-recall p{margin:0}
+.intent-recall q{display:block;font-style:italic;margin-top:.3rem;white-space:pre-line}
+.intent-recall q::before,.intent-recall q::after{content:none}
+
+/* ladainha */
+.litany{max-width:36rem}
+.litany .open-lines p,.litany .close-lines p{margin:0 0 .35rem}
+.litany .resp{color:var(--muted)}
+.litany ul{columns:2;column-gap:1.6rem;margin:.8rem 0 1rem;padding:0;list-style:none}
+.litany li{break-inside:avoid;padding:.12rem 0}
+.litany .note{font-size:.9rem;color:var(--muted);font-style:italic;margin:.8rem 0 0}
+
 /* divisor entre o terço e o dia a dia */
 .divider{padding-block:3rem 0;text-align:center}
 .divider .rule{display:block;height:1px;background:var(--line);margin-bottom:2.2rem;position:relative}
@@ -234,6 +255,7 @@ details.pr.wide{max-width:none}
 
 @media (max-width:640px){
   body{font-size:18px}
+  .litany ul{columns:1}
   .holy{padding:1.6rem 1rem 1.3rem}
   .holy .photo,.holy .frame{width:9.5rem}
   figure.art{padding:.9rem .9rem .7rem}
@@ -296,6 +318,12 @@ details.pr.wide{max-width:none}
       <p class="prayer">Pelo sinal da Santa Cruz, livrai-nos, Deus, nosso Senhor, dos nossos inimigos.
 Em nome do Pai, e do Filho, e do Espírito Santo. Amém.</p>
     </details>
+    <div class="intent">
+      <label for="intent">Intenções</label>
+      <p>Ofereça este terço a Deus. Por quem ou pelo que você vai rezar hoje? Apresente seus pedidos, agradecimentos e as pessoas que leva no coração.</p>
+      <textarea id="intent" placeholder="Ex.: pela saúde da minha mãe, pelas almas do purgatório, em ação de graças por…"></textarea>
+      <div class="intent-foot"><span id="intent-info">Fica guardado só neste aparelho. Ninguém mais vê.</span><button type="button" id="intent-clear">Limpar</button></div>
+    </div>
     <details class="pr" open>
       <summary>Credo</summary>
       <p>Creio em Deus Pai todo-poderoso, criador do céu e da terra; e em Jesus Cristo, seu único Filho, nosso Senhor, que foi concebido pelo poder do Espírito Santo, nasceu da Virgem Maria, padeceu sob Pôncio Pilatos, foi crucificado, morto e sepultado; desceu à mansão dos mortos; ressuscitou ao terceiro dia; subiu aos céus, está sentado à direita de Deus Pai todo-poderoso, donde há de vir a julgar os vivos e os mortos. Creio no Espírito Santo, na santa Igreja Católica, na comunhão dos santos, na remissão dos pecados, na ressurreição da carne, na vida eterna. Amém.</p>
@@ -329,9 +357,36 @@ Em nome do Pai, e do Filho, e do Espírito Santo. Amém.</p>
   <section class="sec in step" id="concluir">
     <p class="step-kicker">3º passo · Conclusão</p>
     <h2>Oração conclusiva</h2>
+    <div class="intent-recall" id="intent-recall" hidden><p>Entregue a Nossa Senhora as intenções que você ofereceu no início:</p><q id="intent-text"></q></div>
     <details class="pr" open>
       <summary>Salve-Rainha</summary>
       <p>Salve, Rainha, Mãe de misericórdia, vida, doçura e esperança nossa, salve! A vós bradamos, os degredados filhos de Eva. A vós suspiramos, gemendo e chorando neste vale de lágrimas. Eia, pois, advogada nossa, esses vossos olhos misericordiosos a nós volvei. E depois deste desterro, mostrai-nos Jesus, bendito fruto do vosso ventre, ó clemente, ó piedosa, ó doce sempre Virgem Maria. Rogai por nós, santa Mãe de Deus, para que sejamos dignos das promessas de Cristo. Amém.</p>
+    </details>
+    <details class="pr">
+      <summary>Ladainha de Nossa Senhora</summary>
+      <div class="litany">
+        <div class="open-lines">
+          <p>Senhor, tende piedade de nós. <span class="resp">Senhor, tende piedade de nós.</span></p>
+          <p>Jesus Cristo, tende piedade de nós. <span class="resp">Jesus Cristo, tende piedade de nós.</span></p>
+          <p>Senhor, tende piedade de nós. <span class="resp">Senhor, tende piedade de nós.</span></p>
+          <p>Jesus Cristo, ouvi-nos. <span class="resp">Jesus Cristo, ouvi-nos.</span></p>
+          <p>Jesus Cristo, atendei-nos. <span class="resp">Jesus Cristo, atendei-nos.</span></p>
+          <p>Deus, Pai do céu, <span class="resp">tende piedade de nós.</span></p>
+          <p>Deus Filho, Redentor do mundo, <span class="resp">tende piedade de nós.</span></p>
+          <p>Deus Espírito Santo, <span class="resp">tende piedade de nós.</span></p>
+          <p>Santíssima Trindade, que sois um só Deus, <span class="resp">tende piedade de nós.</span></p>
+        </div>
+        <p class="note">A cada invocação abaixo, responde-se: rogai por nós.</p>
+        <ul><li>Santa Maria</li><li>Santa Mãe de Deus</li><li>Santa Virgem das virgens</li><li>Mãe de Cristo</li><li>Mãe da Igreja</li><li>Mãe de misericórdia</li><li>Mãe da divina graça</li><li>Mãe da esperança</li><li>Mãe puríssima</li><li>Mãe castíssima</li><li>Mãe sempre virgem</li><li>Mãe imaculada</li><li>Mãe digna de amor</li><li>Mãe admirável</li><li>Mãe do bom conselho</li><li>Mãe do Criador</li><li>Mãe do Salvador</li><li>Virgem prudentíssima</li><li>Virgem venerável</li><li>Virgem louvável</li><li>Virgem poderosa</li><li>Virgem clemente</li><li>Virgem fiel</li><li>Espelho de perfeição</li><li>Sede da Sabedoria</li><li>Fonte de nossa alegria</li><li>Vaso espiritual</li><li>Tabernáculo da eterna glória</li><li>Moradia consagrada a Deus</li><li>Rosa mística</li><li>Torre de Davi</li><li>Torre de marfim</li><li>Casa de ouro</li><li>Arca da aliança</li><li>Porta do céu</li><li>Estrela da manhã</li><li>Saúde dos enfermos</li><li>Refúgio dos pecadores</li><li>Conforto dos migrantes</li><li>Consoladora dos aflitos</li><li>Auxílio dos cristãos</li><li>Rainha dos anjos</li><li>Rainha dos patriarcas</li><li>Rainha dos profetas</li><li>Rainha dos apóstolos</li><li>Rainha dos mártires</li><li>Rainha dos confessores da fé</li><li>Rainha das virgens</li><li>Rainha de todos os santos</li><li>Rainha concebida sem pecado original</li><li>Rainha assunta ao céu</li><li>Rainha do santo Rosário</li><li>Rainha da família</li><li>Rainha da paz</li></ul>
+        <div class="close-lines">
+          <p>Cordeiro de Deus, que tirais os pecados do mundo, <span class="resp">perdoai-nos, Senhor.</span></p>
+          <p>Cordeiro de Deus, que tirais os pecados do mundo, <span class="resp">ouvi-nos, Senhor.</span></p>
+          <p>Cordeiro de Deus, que tirais os pecados do mundo, <span class="resp">tende piedade de nós.</span></p>
+          <p>Rogai por nós, santa Mãe de Deus, <span class="resp">para que sejamos dignos das promessas de Cristo.</span></p>
+          <p><strong>Oremos.</strong> Senhor Deus, nós vos suplicamos que concedais a vossos servos lograr perpétua saúde de alma e corpo; e que, pela gloriosa intercessão da bem-aventurada sempre Virgem Maria, sejamos livres da presente tristeza e gozemos da eterna alegria. Por Cristo, nosso Senhor. Amém.</p>
+        </div>
+        <p class="note">Ladainha Lauretana, com as invocações “Mãe de misericórdia”, “Mãe da esperança” e “Conforto dos migrantes”, acrescentadas pelo Papa Francisco em 2020. Fontes: <a href="https://pt.wikipedia.org/wiki/Ladainha_Lauretana" target="_blank" rel="noopener">Wikipédia</a> e <a href="https://www.vaticannews.va/pt/vaticano/news/2020-06/papa-francisco-acrescenta-tres-invocacoes-ladainha-nossa-senhora.html" target="_blank" rel="noopener">Vatican News</a>.</p>
+      </div>
     </details>
     <details class="pr" open>
       <summary>Oração final</summary>
@@ -713,6 +768,29 @@ $('week').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(
 })();
 renderTabs();renderPanel();
 if(SETS.some(s=>s.id===(location.hash||'').slice(1))){setTimeout(()=>mys.scrollIntoView(),0);}
+
+/* ---------- intenções ---------- */
+/* Guardadas só no navegador da pessoa (localStorage); nada é enviado a lugar nenhum. */
+(function(){
+  const box=$('intent'),info=$('intent-info'),recall=$('intent-recall'),txt=$('intent-text');
+  const KEY='intencoes',base='Fica guardado só neste aparelho. Ninguém mais vê.';
+  const todayStr=now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
+  let saved=null;
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'null');}catch(e){}
+  if(saved&&saved.text){
+    box.value=saved.text;
+    if(saved.day&&saved.day!==todayStr&&saved.label)info.textContent='Escritas em '+saved.label+'. Atualize se quiser. '+base;
+  }
+  function show(){const v=box.value.trim();recall.hidden=!v;txt.textContent=v;}
+  function save(){
+    const v=box.value.trim();
+    try{v?localStorage.setItem(KEY,JSON.stringify({text:box.value,day:todayStr,label:now.getDate()+' de '+MONTHS[now.getMonth()]})):localStorage.removeItem(KEY);}catch(e){}
+    info.textContent=base;show();
+  }
+  box.addEventListener('input',save);
+  $('intent-clear').addEventListener('click',()=>{box.value='';save();box.focus();});
+  show();
+})();
 
 /* ---------- som ambiente ---------- */
 /* O navegador só deixa tocar som depois de um clique; o player do YouTube carrega só quando pedido. */
