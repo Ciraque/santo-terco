@@ -27,40 +27,35 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
 <style>
 /* Layout: coluna única e estreita, leitura de oração. Cabeçalho fixo, héroi alinhado à esquerda,
-   a cor de destaque muda conforme o conjunto de mistérios (do dia no topo, o escolhido na seção). */
+   paleta sóbria: tinta azul-escura, um único azul mariano de destaque e dourado nos detalhes. */
 :root{
   --paper:#f1f0f5; --paper-2:#e6e4ee; --ink:#1d2036; --muted:#575a73; --line:#cdcade;
-  --c-goz:#a8477a; --c-lum:#8a5f00; --c-dol:#7b2a3c; --c-glo:#2a6a8c;
   --s-verde:#2f6b3a; --s-roxo:#5b2a86; --s-branco:#8a6700; --s-vermelho:#a3202b; --s-rosa:#a8477a;
   --gold:#8f6f22;
   --on-accent:#ffffff;
+  --marian:#2b4377;
   --season:var(--s-verde);
-  --accent:var(--season);
+  --accent:var(--marian);
   --display:'Cormorant Garamond',Georgia,'Times New Roman',serif;
   --text:'Newsreader',Georgia,'Times New Roman',serif;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --paper:#14172a; --paper-2:#1c2038; --ink:#e9e7f2; --muted:#a3a6bd; --line:#2f3454;
-    --c-goz:#e48cbb; --c-lum:#e2b657; --c-dol:#e88d9f; --c-glo:#82c2e2; --on-accent:#14172a; color-scheme:dark;
-    --s-verde:#86c994; --s-roxo:#c0a2e8; --s-branco:#e2c35a; --s-vermelho:#f0959a; --s-rosa:#e48cbb; --gold:#d9b765;
+    --on-accent:#14172a; color-scheme:dark;
+    --s-verde:#86c994; --s-roxo:#c0a2e8; --s-branco:#e2c35a; --s-vermelho:#f0959a; --s-rosa:#e48cbb; --gold:#d9b765; --marian:#a3b6e6;
   }
 }
 :root[data-theme="dark"]{
   --paper:#14172a; --paper-2:#1c2038; --ink:#e9e7f2; --muted:#a3a6bd; --line:#2f3454;
-  --c-goz:#e48cbb; --c-lum:#e2b657; --c-dol:#e88d9f; --c-glo:#82c2e2; --on-accent:#14172a; color-scheme:dark;
-    --s-verde:#86c994; --s-roxo:#c0a2e8; --s-branco:#e2c35a; --s-vermelho:#f0959a; --s-rosa:#e48cbb; --gold:#d9b765;
+  --on-accent:#14172a; color-scheme:dark;
+    --s-verde:#86c994; --s-roxo:#c0a2e8; --s-branco:#e2c35a; --s-vermelho:#f0959a; --s-rosa:#e48cbb; --gold:#d9b765; --marian:#a3b6e6;
 }
-/* cor do tempo litúrgico (definida pelo script conforme a data) */
+/* cor do tempo litúrgico: só a bolinha ao lado do nome do tempo, no topo (definida pelo script) */
 :root[data-season="roxo"]{--season:var(--s-roxo)}
 :root[data-season="branco"]{--season:var(--s-branco)}
 :root[data-season="vermelho"]{--season:var(--s-vermelho)}
 :root[data-season="rosa"]{--season:var(--s-rosa)}
-:root[data-season]{--accent:var(--season)}
-.set-gozosos{--accent:var(--c-goz)}
-.set-luminosos{--accent:var(--c-lum)}
-.set-dolorosos{--accent:var(--c-dol)}
-.set-gloriosos{--accent:var(--c-glo)}
 
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -102,7 +97,6 @@ section[id]{scroll-margin-top:4.6rem}
 .verse{margin:1.6rem 0 0;color:var(--muted);font-style:italic}
 .verse span{font-style:normal;font-size:.9rem}
 .beads{display:block;width:13.8rem;max-width:100%;height:auto;color:var(--accent);margin:2.4rem 0 .4rem}
-.today strong.set-gozosos,.today strong.set-luminosos,.today strong.set-dolorosos,.today strong.set-gloriosos{color:var(--accent)}
 
 /* seções */
 .sec{padding-block:2.6rem}
@@ -171,9 +165,9 @@ figure.art figcaption{font-size:.78rem;color:var(--muted);margin-top:1.1rem;line
 .next button{background:none;border:1px solid var(--accent);color:var(--ink);border-radius:2rem;padding:.5rem 1.1rem;cursor:pointer;font-size:.98rem}
 .next button:hover{background:var(--accent);color:var(--on-accent)}
 .week{display:grid;gap:.6rem;margin:1rem 0 0;padding:0;list-style:none}
-.week button{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:.3rem 1rem;width:100%;text-align:left;background:none;border:1px solid var(--line);border-left:4px solid var(--accent);padding:.75rem 1rem;cursor:pointer}
+.week button{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:.3rem 1rem;width:100%;text-align:left;background:none;border:1px solid var(--line);border-left:3px solid var(--line);padding:.75rem 1rem;cursor:pointer}
 .week button:hover{background:var(--paper-2)}
-.week .is-today button{background:var(--paper-2);border-color:var(--accent)}
+.week .is-today button{background:var(--paper-2);border-color:var(--accent);border-left-color:var(--accent)}
 .week strong{font-family:var(--display);font-weight:600;font-size:1.3rem;line-height:1.2}
 .week .tag{font-family:var(--text);font-size:.72rem;color:var(--accent);margin-left:.5rem;vertical-align:middle;font-weight:500}
 .week .theme-line{grid-column:1;color:var(--muted);font-size:.88rem;line-height:1.35}
