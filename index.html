@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Privacidade: proíbe qualquer envio de dados a servidores (connect-src 'none', form-action 'none')
+     e limita de onde a página carrega fontes, imagens e o player de música. Nenhum script externo é permitido. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://upload.wikimedia.org; frame-src https://www.youtube-nocookie.com; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'; media-src 'none'; worker-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Santo Terço</title>
 <meta name="description" content="Reze o terço com os mistérios do dia, a liturgia diária, o santo do dia e as principais orações em português e latim.">
@@ -303,6 +307,7 @@ details.pr.wide{max-width:none}
 .sound[aria-pressed="true"]{border-color:var(--accent);color:var(--ink)}
 .player{position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:6;background:var(--paper);border:1px solid var(--line);padding:.5rem;width:232px;box-shadow:0 6px 24px rgba(0,0,0,.18)}
 .player .yt{width:216px;height:122px;background:#000}
+#yt{width:100%;height:100%}
 .player .yt iframe{width:100%;height:100%;border:0;display:block}
 .player p{margin:.35rem 0 0;font-size:.75rem;color:var(--muted);line-height:1.35}
 .player-bar{display:flex;align-items:center;gap:.5rem;margin-top:.4rem;font-size:.8rem;color:var(--muted)}
@@ -703,7 +708,7 @@ const LITURGY={
 
 /* ---------- utilidades ---------- */
 const $=id=>document.getElementById(id);
-const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 const now=new Date();
 const dow=now.getDay();
 const todaySet=SETS.find(s=>s.days.includes(dow));
@@ -970,30 +975,30 @@ function parseIntentions(text){
 })();
 
 /* ---------- som ambiente ---------- */
-/* O navegador só deixa tocar som depois de um clique; o player do YouTube carrega só quando pedido. */
+/* O navegador só deixa tocar som depois de um clique. Por privacidade, nenhum script do YouTube roda nesta página:
+   o player é um iframe de outra origem (isolado, sem acesso aos dados do site) que só recebe comandos de tocar,
+   pausar e volume. Ele começa mudo e o volume baixo é aplicado em seguida, para não começar alto. */
 (function(){
-  const btn=$('sound'),box=$('player'),vol=$('vol');
-  let player=null,on=false;
+  const btn=$('sound'),box=$('player'),vol=$('vol'),YT='https://www.youtube-nocookie.com';
+  let frame=null,on=false;
+  function cmd(func,args){if(frame&&frame.contentWindow)frame.contentWindow.postMessage(JSON.stringify({event:'command',func:func,args:args||[]}),YT);}
+  function apply(){cmd('setVolume',[+vol.value]);cmd('unMute');if(on)cmd('playVideo');}
+  function build(){
+    frame=document.createElement('iframe');
+    frame.src=YT+'/embed/a_4Nay7YPbk?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=a_4Nay7YPbk&playsinline=1&rel=0';
+    frame.title='Música ambiente';frame.allow='autoplay; encrypted-media';
+    frame.addEventListener('load',()=>{
+      frame.contentWindow.postMessage(JSON.stringify({event:'listening',id:'som'}),YT);
+      [300,1200,2500].forEach(ms=>setTimeout(apply,ms));
+    });
+    $('yt').appendChild(frame);
+  }
   function setOn(v){
     on=v;btn.setAttribute('aria-pressed',String(v));box.hidden=!v;
-    if(player&&player.pauseVideo){v?player.playVideo():player.pauseVideo();}
+    if(v&&!frame)build();else cmd(v?'playVideo':'pauseVideo');
   }
-  function build(){
-    player=new YT.Player('yt',{
-      host:'https://www.youtube-nocookie.com',videoId:'a_4Nay7YPbk',
-      playerVars:{autoplay:1,loop:1,playlist:'a_4Nay7YPbk',controls:1,playsinline:1,rel:0},
-      events:{onReady:e=>{e.target.setVolume(+vol.value);if(on)e.target.playVideo();}}
-    });
-  }
-  btn.addEventListener('click',()=>{
-    setOn(!on);
-    if(on&&!player){
-      if(window.YT&&YT.Player){build();return;}
-      window.onYouTubeIframeAPIReady=build;
-      const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);
-    }
-  });
-  vol.addEventListener('input',()=>{if(player&&player.setVolume)player.setVolume(+vol.value);});
+  btn.addEventListener('click',()=>setOn(!on));
+  vol.addEventListener('input',()=>cmd('setVolume',[+vol.value]));
   $('player-close').addEventListener('click',()=>setOn(false));
 })();
 
