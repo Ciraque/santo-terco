@@ -215,8 +215,8 @@ figure.art figcaption{font-size:.78rem;color:var(--muted);margin-top:1.1rem;line
 .lit-group{margin:0 0 1.3rem}
 .lit-group h4{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin:0 0 .5rem;padding-bottom:.35rem;border-bottom:1px solid var(--gold);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;color:var(--gold)}
 .lit-group h4 span{font-family:var(--text);letter-spacing:0;text-transform:none;font-style:italic;font-size:.9rem;color:var(--muted)}
-.lit-group ul{columns:2;column-gap:1.6rem;margin:0;padding:0;list-style:none}
-.lit-group li{break-inside:avoid;position:relative;padding:.18rem 0 .18rem 1rem;line-height:1.4}
+.lit-group ul{margin:0;padding:0;list-style:none}
+.lit-group li{position:relative;padding:.2rem 0 .2rem 1rem;line-height:1.4}
 .lit-group li::before{content:"";position:absolute;left:0;top:.72em;width:.38rem;height:.38rem;border-radius:50%;background:var(--gold)}
 .oremos{border-left:2px solid var(--gold);padding:.2rem 0 .2rem 1.1rem;margin:1.4rem 0 0}
 .oremos strong{display:block;font-family:var(--display);font-size:1.15rem;margin-bottom:.2rem}
@@ -264,7 +264,6 @@ details.pr.wide{max-width:none}
 
 @media (max-width:640px){
   body{font-size:18px}
-  .lit-group ul{columns:1}
   .lit-pairs li{grid-template-columns:minmax(0,1fr)}
   .holy{padding:1.6rem 1rem 1.3rem}
   .holy .photo,.holy .frame{width:9.5rem}
